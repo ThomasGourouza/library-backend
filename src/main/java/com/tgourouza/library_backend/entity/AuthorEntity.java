@@ -9,6 +9,7 @@ import org.hibernate.annotations.GenericGenerator;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -28,8 +29,8 @@ public class AuthorEntity {
     @NotNull
     private String name;
     private String country;
-    private String birthDate;
-    private String deathDate;
+    private LocalDate birthDate;
+    private LocalDate deathDate;
     private String gender;
     private String description;
     private String wikipediaLink;
