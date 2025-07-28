@@ -36,13 +36,18 @@ public class BookEntity {
     @Max(100)
     private Integer popularityRussia;
     private Integer targetAge;
-    private String language;
-    private String literaryMovement;
-    private String literaryGenre;
-//    @Enumerated(EnumType.STRING)
-//    @Column(nullable = false)
-//    private Category category;
-    private String category;
+    @ManyToOne
+    @JoinColumn(name = "language_id")
+    private LanguageEntity language;
+    @ManyToOne
+    @JoinColumn(name = "literary_movement_id")
+    private LiteraryMovementEntity literaryMovement;
+    @ManyToOne
+    @JoinColumn(name = "literary_genre_id")
+    private LiteraryGenreEntity literaryGenre;
+    @ManyToOne
+    @JoinColumn(name = "category_id")
+    private CategoryEntity category;
     private String description;
     private String wikipediaLink;
 }

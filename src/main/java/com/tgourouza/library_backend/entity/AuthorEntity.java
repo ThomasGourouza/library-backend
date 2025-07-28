@@ -28,10 +28,14 @@ public class AuthorEntity {
     private String firstName;
     @NotNull
     private String name;
-    private String country;
+    @ManyToOne
+    @JoinColumn(name = "country_id")
+    private CountryEntity country;
     private LocalDate birthDate;
     private LocalDate deathDate;
-    private String gender;
+    @ManyToOne
+    @JoinColumn(name = "gender_id")
+    private GenderEntity gender;
     private String description;
     private String wikipediaLink;
 
