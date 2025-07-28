@@ -18,10 +18,22 @@ public class BookEntity {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
-
     @NotNull
-    private String title;
-
+    private String originalTitle;
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
     @NotNull
-    private String author;
+    private AuthorEntity author;
+
+    private String englishTitle;
+    private String publicationDate;
+    private String popularityEurope;
+    private String popularityRussia;
+    private String targetAge;
+    private String language;
+    private String literaryMovement;
+    private String literaryGenre;
+    private String category;
+    private String description;
+    private String wikipediaLink;
 }
