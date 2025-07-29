@@ -27,7 +27,7 @@ public class BookEntity {
     @NotNull
     private AuthorEntity author;
 
-    private String englishTitle;
+    private String frenchTitle;
     private String publicationDate;
     @Min(0)
     @Max(100)

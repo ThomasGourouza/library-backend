@@ -1,40 +1,35 @@
 package com.tgourouza.library_backend.dto;
 
+import com.tgourouza.library_backend.entity.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+
+import java.util.UUID;
 
 public class BookCreateRequest {
 
     @NotBlank(message = "Title is required")
     @Size(max = 255)
-    private String title;
+    private String originalTitle;
+
+    private String frenchTitle;
 
     @NotBlank(message = "Author is required")
     @Size(max = 255)
-    private String author;
+    private UUID authorId;
 
-    public BookCreateRequest() {
-    }
 
-    public BookCreateRequest(String title, String author) {
-        this.title = title;
-        this.author = author;
-    }
+    private String publicationDate;
+    private Integer popularityEurope;
+    private Integer popularityRussia;
+    private Integer targetAge;
+    private LanguageEntity language;
+    private LiteraryMovementEntity literaryMovement;
+    private LiteraryGenreEntity literaryGenre;
+    private CategoryEntity category;
+    private String description;
+    private String wikipediaLink;
 
-    public String getTitle() {
-        return title;
-    }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
 }
 
