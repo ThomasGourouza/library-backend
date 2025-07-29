@@ -16,11 +16,23 @@ public interface BookMapper {
     BookDTO toDTO(BookEntity entity);
 
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "author", source = "author")
-    @Mapping(target = "language", source = "language")
-    @Mapping(target = "literaryMovement", source = "literaryMovement")
-    @Mapping(target = "literaryGenre", source = "literaryGenre")
-    @Mapping(target = "category", source = "category")
+
+    // propriétés simples → depuis request
+    @Mapping(source = "request.originalTitle", target = "originalTitle")
+    @Mapping(source = "request.frenchTitle", target = "frenchTitle")
+    @Mapping(source = "request.publicationDate", target = "publicationDate")
+    @Mapping(source = "request.popularityEurope", target = "popularityEurope")
+    @Mapping(source = "request.popularityRussia", target = "popularityRussia")
+    @Mapping(source = "request.targetAge", target = "targetAge")
+    @Mapping(source = "request.description", target = "description")
+    @Mapping(source = "request.wikipediaLink", target = "wikipediaLink")
+
+    // relations → injectées
+    @Mapping(source = "author", target = "author")
+    @Mapping(source = "language", target = "language")
+    @Mapping(source = "literaryMovement", target = "literaryMovement")
+    @Mapping(source = "literaryGenre", target = "literaryGenre")
+    @Mapping(source = "category", target = "category")
     BookEntity toEntity(
             BookCreateRequest request,
             AuthorEntity author,
