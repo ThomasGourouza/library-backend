@@ -3,12 +3,10 @@ package com.tgourouza.library_backend.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "literary_genre")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class LiteraryGenreEntity {
     @Id

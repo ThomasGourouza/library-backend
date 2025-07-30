@@ -4,12 +4,10 @@ import com.tgourouza.library_backend.entity.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class BookCreateRequest {
 
@@ -35,11 +33,11 @@ public class BookCreateRequest {
 
     private Integer targetAge;
 
-    private UUID languageId;
-    private UUID literaryMovementId;
-    private UUID literaryGenreId;
-    private UUID categoryId;
-    private UUID statusId;
+    private Long languageId;
+    private Long literaryMovementId;
+    private Long literaryGenreId;
+    private Long categoryId;
+    private Long statusId;
 
     private String description;
     private String wikipediaLink;

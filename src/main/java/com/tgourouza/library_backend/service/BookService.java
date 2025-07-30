@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.service;
 
+import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.BookCreateRequest;
 import com.tgourouza.library_backend.dto.BookDTO;
 import com.tgourouza.library_backend.entity.*;
@@ -62,41 +63,41 @@ public class BookService {
     public BookDTO createBook(BookCreateRequest request) {
         BookEntity entity = bookMapper.toEntity(
                 request,
-                findByIdOrThrow(authorRepository, request.getAuthorId(), () -> new AuthorNotFoundException(request.getAuthorId())),
-                findByIdOrThrow(languageRepository, request.getLanguageId(), () -> new DataNotFoundException("Language not found")),
-                findByIdOrThrow(movementRepository, request.getLiteraryMovementId(), () -> new DataNotFoundException("Literary movement not found")),
-                findByIdOrThrow(genreRepository, request.getLiteraryGenreId(), () -> new DataNotFoundException("Literary genre not found")),
-                findByIdOrThrow(categoryRepository, request.getCategoryId(), () -> new DataNotFoundException("Category not found")),
-                findByIdOrThrow(statusRepository, request.getStatusId(), () -> new DataNotFoundException("Status not found"))
+                authorRepository.findById(request.getAuthorId()).orElseThrow(() -> new AuthorNotFoundException(request.getAuthorId())),
+                findByIdOrThrow(languageRepository, request.getLanguageId(), () -> new DataNotFoundException("Language")),
+                findByIdOrThrow(movementRepository, request.getLiteraryMovementId(), () -> new DataNotFoundException("Literary movement")),
+                findByIdOrThrow(genreRepository, request.getLiteraryGenreId(), () -> new DataNotFoundException("Literary genre")),
+                findByIdOrThrow(categoryRepository, request.getCategoryId(), () -> new DataNotFoundException("Category")),
+                findByIdOrThrow(statusRepository, request.getStatusId(), () -> new DataNotFoundException("Status"))
         );
 
         return bookMapper.toDTO(bookRepository.save(entity));
     }
 
     public BookDTO updateBook(UUID id, BookCreateRequest request) {
-        BookEntity existing = findByIdOrThrow(bookRepository, id, () -> new BookNotFoundException(id));
+        BookEntity existing = bookRepository.findById(id).orElseThrow(() -> new BookNotFoundException(id));
 
         existing.setOriginalTitle(request.getOriginalTitle());
         existing.setFrenchTitle(request.getFrenchTitle());
         existing.setPublicationDate(request.getPublicationDate());
         existing.setPopularityEurope(request.getPopularityEurope());
         existing.setAuthor(
-                findByIdOrThrow(authorRepository, request.getAuthorId(), () -> new AuthorNotFoundException(request.getAuthorId()))
+                authorRepository.findById(request.getAuthorId()).orElseThrow(() -> new AuthorNotFoundException(request.getAuthorId()))
         );
         existing.setLanguage(
-                findByIdOrThrow(languageRepository, request.getLanguageId(), () -> new DataNotFoundException("Language not found"))
+                findByIdOrThrow(languageRepository, request.getLanguageId(), () -> new DataNotFoundException("Language"))
         );
         existing.setLiteraryMovement(
-                findByIdOrThrow(movementRepository, request.getLiteraryMovementId(), () -> new DataNotFoundException("Literary movement not found"))
+                findByIdOrThrow(movementRepository, request.getLiteraryMovementId(), () -> new DataNotFoundException("Literary movement"))
         );
         existing.setLiteraryGenre(
-                findByIdOrThrow(genreRepository, request.getLiteraryGenreId(), () -> new DataNotFoundException("Literary genre not found"))
+                findByIdOrThrow(genreRepository, request.getLiteraryGenreId(), () -> new DataNotFoundException("Literary genre"))
         );
         existing.setCategory(
-                findByIdOrThrow(categoryRepository, request.getCategoryId(), () -> new DataNotFoundException("Category not found"))
+                findByIdOrThrow(categoryRepository, request.getCategoryId(), () -> new DataNotFoundException("Category"))
         );
         existing.setStatus(
-                findByIdOrThrow(statusRepository, request.getStatusId(), () -> new DataNotFoundException("Status not found"))
+                findByIdOrThrow(statusRepository, request.getStatusId(), () -> new DataNotFoundException("Status"))
         );
 
         return bookMapper.toDTO(bookRepository.save(existing));
@@ -109,19 +110,19 @@ public class BookService {
         bookRepository.deleteById(id);
     }
 
-    public BookDTO updatePopularity(UUID id, Integer popularityEurope) {
-        BookEntity book = bookRepository.findById(id)
-                .orElseThrow(() -> new BookNotFoundException(id));
+    public BookDTO updateStatus(UUID bookId, Long statusId) {
+        BookEntity book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new BookNotFoundException(bookId));
 
-        if (popularityEurope == null || popularityEurope < 0 || popularityEurope > 100) {
-            throw new InvalidBookDataException("Popularity must be between 0 and 100.");
-        }
+        StatusEntity status = statusRepository.findById(statusId)
+                .orElseThrow(() -> new DataNotFoundException("Status"));
 
-        book.setPopularityEurope(popularityEurope);
+        book.setStatus(status);
         return bookMapper.toDTO(bookRepository.save(book));
     }
 
-    private <T> T findByIdOrThrow(JpaRepository<T, UUID> repository, UUID id, Supplier<RuntimeException> exceptionSupplier) {
+
+    private <T> T findByIdOrThrow(JpaRepository<T, Long> repository, Long id, Supplier<RuntimeException> exceptionSupplier) {
         return repository.findById(id).orElseThrow(exceptionSupplier);
     }
 }

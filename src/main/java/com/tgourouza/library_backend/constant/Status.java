@@ -1,9 +1,9 @@
 package com.tgourouza.library_backend.constant;
 
 public enum Status {
-    CAT1("Cat 1"),
-    CAT2("Cat 2"),
-    CAT3("Cat 3");
+    STATUS1("Status 1"),
+    STATUS2("Status 2"),
+    STATUS3("Status 3");
 
     private String value;
 

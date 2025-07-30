@@ -2,9 +2,8 @@ package com.tgourouza.library_backend.controller;
 
 import com.tgourouza.library_backend.dto.BookDTO;
 import com.tgourouza.library_backend.dto.BookCreateRequest;
-import com.tgourouza.library_backend.dto.PopularityUpdateRequest;
+import com.tgourouza.library_backend.dto.StatusUpdateRequest;
 import com.tgourouza.library_backend.service.BookService;
-import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -53,11 +52,11 @@ public class BookController {
         return ResponseEntity.noContent().build(); // HTTP 204
     }
 
-    @PatchMapping("/{id}/popularity")
-    public ResponseEntity<BookDTO> updatePopularity(
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<BookDTO> updateStatus(
             @PathVariable UUID id,
-            @Valid @RequestBody PopularityUpdateRequest updateRequest
+            @Valid @RequestBody StatusUpdateRequest updateRequest
     ) {
-        return ResponseEntity.ok(bookService.updatePopularity(id, updateRequest.getPopularityEurope()));
+        return ResponseEntity.ok(bookService.updateStatus(id, updateRequest.getStatusId()));
     }
 }

@@ -17,7 +17,6 @@ import java.util.UUID;
 @Entity
 @Table(name = "author")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
 public class AuthorEntity {
     @Id
