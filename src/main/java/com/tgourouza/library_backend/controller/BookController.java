@@ -3,18 +3,14 @@ package com.tgourouza.library_backend.controller;
 import com.tgourouza.library_backend.dto.BookDTO;
 import com.tgourouza.library_backend.dto.BookCreateRequest;
 import com.tgourouza.library_backend.dto.PopularityUpdateRequest;
-import com.tgourouza.library_backend.entity.BookEntity;
 import com.tgourouza.library_backend.service.BookService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.net.URI;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -28,14 +24,12 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<List<BookDTO>> getBooks() {
-        List<BookDTO> books = bookService.getAllBooks();
-        return ResponseEntity.ok(books);
+        return ResponseEntity.ok(bookService.getAllBooks());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BookDTO> getBookById(@PathVariable UUID id) {
-        BookDTO book = bookService.getBookById(id);
-        return ResponseEntity.ok(book);
+        return ResponseEntity.ok(bookService.getBookById(id));
     }
 
     @PostMapping
@@ -55,12 +49,8 @@ public class BookController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable UUID id) {
-        try {
-            bookService.deleteBook(id);
-            return ResponseEntity.noContent().build(); // HTTP 204
-        } catch (EntityNotFoundException e) {
-            return ResponseEntity.notFound().build();  // HTTP 404
-        }
+        bookService.deleteBook(id);
+        return ResponseEntity.noContent().build(); // HTTP 204
     }
 
     @PatchMapping("/{id}/popularity")
@@ -68,8 +58,6 @@ public class BookController {
             @PathVariable UUID id,
             @Valid @RequestBody PopularityUpdateRequest updateRequest
     ) {
-        BookDTO updated = bookService.updatePopularity(id, updateRequest.getPopularityEurope());
-        return ResponseEntity.ok(updated);
+        return ResponseEntity.ok(bookService.updatePopularity(id, updateRequest.getPopularityEurope()));
     }
-
 }
