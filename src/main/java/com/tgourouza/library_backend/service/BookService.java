@@ -127,4 +127,19 @@ public class BookService {
         return bookMapper.toDTO(bookRepository.save(book));
     }
 
+    public BookDTO updateFavorite(UUID bookId, Boolean favorite) {
+        BookEntity book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new DataNotFoundException("Book", String.valueOf(bookId)));
+        book.setFavorite(favorite);
+        return bookMapper.toDTO(bookRepository.save(book));
+    }
+
+    public BookDTO updatePersonalNotes(UUID bookId, String notes) {
+        BookEntity book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new DataNotFoundException("Book", String.valueOf(bookId)));
+        book.setPersonalNotes(notes);
+        return bookMapper.toDTO(bookRepository.save(book));
+    }
+
+
 }

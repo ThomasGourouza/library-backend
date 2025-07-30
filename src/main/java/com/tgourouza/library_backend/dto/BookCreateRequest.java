@@ -1,14 +1,11 @@
 package com.tgourouza.library_backend.dto;
 
-import com.tgourouza.library_backend.entity.*;
 import jakarta.validation.constraints.*;
-import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Data
-@AllArgsConstructor
 public class BookCreateRequest {
 
     @NotBlank(message = "Title is required")

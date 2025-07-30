@@ -1,8 +1,6 @@
 package com.tgourouza.library_backend.controller;
 
-import com.tgourouza.library_backend.dto.BookDTO;
-import com.tgourouza.library_backend.dto.BookCreateRequest;
-import com.tgourouza.library_backend.dto.StatusUpdateRequest;
+import com.tgourouza.library_backend.dto.*;
 import com.tgourouza.library_backend.service.BookService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
@@ -59,4 +57,23 @@ public class BookController {
     ) {
         return ResponseEntity.ok(bookService.updateStatus(id, updateRequest.getStatusId()));
     }
+
+    @PatchMapping("/{id}/favorite")
+    public ResponseEntity<BookDTO> updateFavorite(
+            @PathVariable UUID id,
+            @Valid @RequestBody FavoriteUpdateRequest request
+    ) {
+        BookDTO dto = bookService.updateFavorite(id, request.getFavorite());
+        return ResponseEntity.ok(dto);
+    }
+
+    @PatchMapping("/{id}/personal-notes")
+    public ResponseEntity<BookDTO> updatePersonalNotes(
+            @PathVariable UUID id,
+            @Valid @RequestBody PersonalNotesUpdateRequest request
+    ) {
+        BookDTO dto = bookService.updatePersonalNotes(id, request.getPersonalNotes());
+        return ResponseEntity.ok(dto);
+    }
+
 }
