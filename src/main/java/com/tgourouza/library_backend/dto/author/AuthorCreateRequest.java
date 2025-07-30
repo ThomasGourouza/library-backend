@@ -21,6 +21,7 @@ public class AuthorCreateRequest {
     @NotNull(message = "Gender ID must not be null")
     private Long genderId;
 
-    private String description;
+    private String frenchDescription;
+    private String englishDescription;
     private String wikipediaLink;
 }

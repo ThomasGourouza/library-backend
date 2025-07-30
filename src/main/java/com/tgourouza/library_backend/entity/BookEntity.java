@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Entity
@@ -30,7 +31,8 @@ public class BookEntity {
     private AuthorEntity author;
 
     private String frenchTitle;
-    private String publicationDate;
+    private String englishTitle;
+    private LocalDate publicationDate;
     @Min(0)
     @Max(100)
     private Integer popularityEurope;
@@ -50,7 +52,8 @@ public class BookEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
-    private String description;
+    private String frenchDescription;
+    private String englishDescription;
     private String wikipediaLink;
     @ManyToOne
     @JoinColumn(name = "status_id")

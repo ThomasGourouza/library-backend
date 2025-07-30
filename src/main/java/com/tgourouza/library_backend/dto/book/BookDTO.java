@@ -6,6 +6,7 @@ import com.tgourouza.library_backend.entity.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -15,7 +16,8 @@ public class BookDTO {
     private String originalTitle;
     private AuthorWithoutBooksDTO author;
     private String frenchTitle;
-    private String publicationDate;
+    private String englishTitle;
+    private LocalDate publicationDate;
     private Integer popularityEurope;
     private Integer popularityRussia;
     private Integer targetAge;
@@ -23,7 +25,8 @@ public class BookDTO {
     private LiteraryMovement literaryMovement;
     private LiteraryGenre literaryGenre;
     private Category category;
-    private String description;
+    private String frenchDescription;
+    private String englishDescription;
     private String wikipediaLink;
     private Status status;
     private Boolean favorite;

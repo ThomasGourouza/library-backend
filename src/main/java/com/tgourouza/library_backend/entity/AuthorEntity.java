@@ -36,11 +36,11 @@ public class AuthorEntity {
     @ManyToOne
     @JoinColumn(name = "gender_id")
     private GenderEntity gender;
-    private String description;
+    private String frenchDescription;
+    private String englishDescription;
     private String wikipediaLink;
 
     @OneToMany(mappedBy = "author")
     @JsonManagedReference
     private List<BookEntity> books;
 }
-// auteur favoris = auteurs dont un des livres est dans les favoris de l'utilisateur

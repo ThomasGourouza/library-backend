@@ -20,7 +20,8 @@ public class AuthorDTO {
     private LocalDate birthDate;
     private LocalDate deathDate;
     private Gender gender;
-    private String description;
+    private String frenchDescription;
+    private String englishDescription;
     private String wikipediaLink;
     private List<BookWithoutAuthorDTO> books;
 }

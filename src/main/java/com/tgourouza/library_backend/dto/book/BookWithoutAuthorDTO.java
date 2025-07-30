@@ -4,6 +4,7 @@ import com.tgourouza.library_backend.constant.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -12,7 +13,8 @@ public class BookWithoutAuthorDTO {
     private UUID id;
     private String originalTitle;
     private String frenchTitle;
-    private String publicationDate;
+    private String englishTitle;
+    private LocalDate publicationDate;
     private Integer popularityEurope;
     private Integer popularityRussia;
     private Integer targetAge;
@@ -20,7 +22,8 @@ public class BookWithoutAuthorDTO {
     private LiteraryMovement literaryMovement;
     private LiteraryGenre literaryGenre;
     private Category category;
-    private String description;
+    private String frenchDescription;
+    private String englishDescription;
     private String wikipediaLink;
     private Status status;
     private Boolean favorite;

@@ -75,35 +75,24 @@ public class BookService {
     }
 
     public BookDTO updateBook(UUID id, BookCreateRequest request) {
-        BookEntity existing = bookRepository.findById(id).orElseThrow(() -> new DataNotFoundException("Book", String.valueOf(id)));
+        BookEntity existing = bookRepository.findById(id)
+                .orElseThrow(() -> new DataNotFoundException("Book", String.valueOf(id)));
 
-        existing.setOriginalTitle(request.getOriginalTitle());
-        existing.setFrenchTitle(request.getFrenchTitle());
-        existing.setPublicationDate(request.getPublicationDate());
-        existing.setPopularityEurope(request.getPopularityEurope());
-        existing.setAuthor(
-                authorRepository.findById(request.getAuthorId())
-                        .orElseThrow(() -> new DataNotFoundException("Author", String.valueOf(request.getAuthorId())))
-        );
-        existing.setLanguage(
-                languageRepository.findById(request.getLanguageId())
-                        .orElseThrow(() -> new DataNotFoundException("Language", String.valueOf(request.getLanguageId())))
-        );
-        existing.setLiteraryMovement(
-                movementRepository.findById(request.getLiteraryMovementId())
-                        .orElseThrow(() -> new DataNotFoundException("Literary movement", String.valueOf(request.getLiteraryMovementId())))
-        );
-        existing.setLiteraryGenre(
-                genreRepository.findById(request.getLiteraryGenreId())
-                        .orElseThrow(() -> new DataNotFoundException("Literary genre", String.valueOf(request.getLiteraryGenreId())))
-        );
-        existing.setCategory(
-                categoryRepository.findById(request.getCategoryId())
-                        .orElseThrow(() -> new DataNotFoundException("Category", String.valueOf(request.getCategoryId())))
-        );
-        existing.setStatus(
-                statusRepository.findById(request.getStatusId())
-                        .orElseThrow(() -> new DataNotFoundException("Status", String.valueOf(request.getStatusId())))
+        AuthorEntity author = authorRepository.findById(request.getAuthorId())
+                .orElseThrow(() -> new DataNotFoundException("Author", String.valueOf(request.getAuthorId())));
+        LanguageEntity language = languageRepository.findById(request.getLanguageId())
+                .orElseThrow(() -> new DataNotFoundException("Language", String.valueOf(request.getLanguageId())));
+        LiteraryMovementEntity movement = movementRepository.findById(request.getLiteraryMovementId())
+                .orElseThrow(() -> new DataNotFoundException("Literary movement", String.valueOf(request.getLiteraryMovementId())));
+        LiteraryGenreEntity genre = genreRepository.findById(request.getLiteraryGenreId())
+                .orElseThrow(() -> new DataNotFoundException("Literary genre", String.valueOf(request.getLiteraryGenreId())));
+        CategoryEntity category = categoryRepository.findById(request.getCategoryId())
+                .orElseThrow(() -> new DataNotFoundException("Category", String.valueOf(request.getCategoryId())));
+        StatusEntity status = statusRepository.findById(request.getStatusId())
+                .orElseThrow(() -> new DataNotFoundException("Status", String.valueOf(request.getStatusId())));
+
+        bookMapper.updateEntityFromRequest(
+                request, author, language, movement, genre, category, status, existing
         );
 
         return bookMapper.toDTO(bookRepository.save(existing));

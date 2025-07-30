@@ -68,17 +68,9 @@ public class AuthorService {
         GenderEntity gender = genderRepository.findById(request.getGenderId())
                 .orElseThrow(() -> new DataNotFoundException("Gender", String.valueOf(request.getGenderId())));
 
-        existing.setFirstName(request.getFirstName());
-        existing.setName(request.getName());
-        existing.setBirthDate(request.getBirthDate());
-        existing.setDeathDate(request.getDeathDate());
-        existing.setDescription(request.getDescription());
-        existing.setWikipediaLink(request.getWikipediaLink());
-        existing.setCountry(country);
-        existing.setGender(gender);
+        authorMapper.updateAuthorFromRequest(request, country, gender, existing);
 
-        AuthorEntity updated = authorRepository.save(existing);
-        return authorMapper.toDTO(updated);
+        return authorMapper.toDTO(authorRepository.save(existing));
     }
 
     public void delete(UUID id) {

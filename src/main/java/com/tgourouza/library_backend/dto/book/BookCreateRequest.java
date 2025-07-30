@@ -3,6 +3,7 @@ package com.tgourouza.library_backend.dto.book;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
+import java.time.LocalDate;
 import java.util.UUID;
 
 @Data
@@ -13,12 +14,13 @@ public class BookCreateRequest {
     private String originalTitle;
 
     private String frenchTitle;
+    private String englishTitle;
 
     @NotNull
     @Size(max = 255)
     private UUID authorId;
 
-    private String publicationDate;
+    private LocalDate publicationDate;
 
     @Min(0)
     @Max(100)
@@ -41,7 +43,8 @@ public class BookCreateRequest {
     @NotNull
     private Long statusId;
 
-    private String description;
+    private String frenchDescription;
+    private String englishDescription;
     private String wikipediaLink;
     private Boolean favorite;
     private String personalNotes;
