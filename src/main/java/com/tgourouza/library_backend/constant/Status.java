@@ -1,9 +1,10 @@
 package com.tgourouza.library_backend.constant;
 
 public enum Status {
-    STATUS1("Status 1"),
-    STATUS2("Status 2"),
-    STATUS3("Status 3");
+    UNREAD("Non lu"),
+    TO_READ("À lire"),
+    READING("En cours de lecture"),
+    READ("Lu");
 
     private String value;
 

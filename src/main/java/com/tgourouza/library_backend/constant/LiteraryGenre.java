@@ -1,9 +1,16 @@
 package com.tgourouza.library_backend.constant;
 
 public enum LiteraryGenre {
-    CAT1("Cat 1"),
-    CAT2("Cat 2"),
-    CAT3("Cat 3");
+    THEATER("Théâtre"),
+    NOVEL("Roman"),
+    POETRY("Poésie"),
+    ESSAY("Essai"),
+    COMICS("BD"),
+    SCIENCE_FICTION("Science-fiction"),
+    FANTASY("Fantasy"),
+    BIOGRAPHY("Biographie"),
+    HISTORY("Histoire"),
+    TALE("Conte");
 
     private String value;
 

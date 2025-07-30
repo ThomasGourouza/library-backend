@@ -1,9 +1,16 @@
 package com.tgourouza.library_backend.constant;
 
 public enum LiteraryMovement {
-    CAT1("Cat 1"),
-    CAT2("Cat 2"),
-    CAT3("Cat 3");
+    ENLIGHTENMENT("Lumières"),
+    ROMANTICISM("Romantisme"),
+    REALISM("Réalisme"),
+    NATURALISM("Naturalisme"),
+    SYMBOLISM("Symbolisme"),
+    IMPRESSIONISM("Impressionnisme"),
+    MODERNISM("Modernisme"),
+    POSTMODERNISM("Postmodernisme"),
+    SURREALISM("Surréalisme"),
+    EXISTENTIALISM("Existentialisme");
 
     private String value;
 
