@@ -33,10 +33,15 @@ public class BookCreateRequest {
 
     private Integer targetAge;
 
+    @NotNull
     private Long languageId;
+    @NotNull
     private Long literaryMovementId;
+    @NotNull
     private Long literaryGenreId;
+    @NotNull
     private Long categoryId;
+    @NotNull
     private Long statusId;
 
     private String description;
