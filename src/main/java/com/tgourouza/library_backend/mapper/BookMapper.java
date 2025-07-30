@@ -21,6 +21,8 @@ public interface BookMapper {
     @Mapping(source = "request.targetAge", target = "targetAge")
     @Mapping(source = "request.description", target = "description")
     @Mapping(source = "request.wikipediaLink", target = "wikipediaLink")
+    @Mapping(source = "request.favorite", target = "favorite")
+    @Mapping(source = "request.personalNotes", target = "personalNotes")
 
     // relations → injectées
     @Mapping(source = "author", target = "author")

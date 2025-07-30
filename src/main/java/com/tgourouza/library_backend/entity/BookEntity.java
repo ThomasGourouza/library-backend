@@ -52,4 +52,6 @@ public class BookEntity {
     @ManyToOne
     @JoinColumn(name = "status_id")
     private StatusEntity status;
+    private Boolean favorite;
+    private String personalNotes;
 }

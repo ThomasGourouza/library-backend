@@ -1,6 +1,7 @@
 package com.tgourouza.library_backend.constant;
 
 public enum Language {
+    UNKNOWN("Inconnu"),
     FR("Français"),
     EN("Anglais"),
     ES("Espagnol"),

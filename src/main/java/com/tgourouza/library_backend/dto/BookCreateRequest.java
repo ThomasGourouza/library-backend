@@ -46,5 +46,7 @@ public class BookCreateRequest {
 
     private String description;
     private String wikipediaLink;
+    private Boolean favorite;
+    private String personalNotes;
 }
 

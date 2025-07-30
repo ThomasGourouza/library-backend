@@ -1,6 +1,7 @@
 package com.tgourouza.library_backend.constant;
 
 public enum Gender {
+    UNKNOWN("Inconnu"),
     MAN("Homme"),
     WOMAN("Femme");
 

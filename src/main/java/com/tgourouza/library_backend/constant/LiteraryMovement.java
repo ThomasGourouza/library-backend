@@ -1,6 +1,7 @@
 package com.tgourouza.library_backend.constant;
 
 public enum LiteraryMovement {
+    UNKNOWN("Inconnu"),
     ENLIGHTENMENT("Lumières"),
     ROMANTICISM("Romantisme"),
     REALISM("Réalisme"),

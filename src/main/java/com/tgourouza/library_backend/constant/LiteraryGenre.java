@@ -1,6 +1,7 @@
 package com.tgourouza.library_backend.constant;
 
 public enum LiteraryGenre {
+    UNKNOWN("Inconnu"),
     THEATER("Théâtre"),
     NOVEL("Roman"),
     POETRY("Poésie"),
