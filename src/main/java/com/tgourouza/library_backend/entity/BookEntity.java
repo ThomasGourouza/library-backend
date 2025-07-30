@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -24,6 +25,7 @@ public class BookEntity {
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
     @NotNull
+    @JsonBackReference
     private AuthorEntity author;
 
     private String frenchTitle;

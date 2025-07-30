@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.entity;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -38,7 +39,8 @@ public class AuthorEntity {
     private String description;
     private String wikipediaLink;
 
-    @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<BookEntity> books = new ArrayList<>();
-
+    @OneToMany(mappedBy = "author")
+    @JsonManagedReference
+    private List<BookEntity> books;
 }
+// auteur favoris = auteurs dont un des livres est dans les favoris de l'utilisateur
