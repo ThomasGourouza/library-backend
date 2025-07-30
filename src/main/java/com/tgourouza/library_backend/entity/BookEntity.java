@@ -50,4 +50,7 @@ public class BookEntity {
     private CategoryEntity category;
     private String description;
     private String wikipediaLink;
+    @ManyToOne
+    @JoinColumn(name = "status_id")
+    private StatusEntity status;
 }

@@ -31,4 +31,5 @@ public class BookDTO {
     private CategoryEntity category;
     private String description;
     private String wikipediaLink;
+    private StatusEntity status;
 }

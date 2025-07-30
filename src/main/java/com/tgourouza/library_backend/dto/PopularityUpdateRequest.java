@@ -16,5 +16,4 @@ public class PopularityUpdateRequest {
     @Max(value = 100, message = "Popularity must be at most 100")
     private Integer popularityEurope;
 
-    // Getters and setters
 }

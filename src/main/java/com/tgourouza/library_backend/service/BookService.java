@@ -21,6 +21,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final CategoryRepository categoryRepository;
+    private final StatusRepository statusRepository;
     private final LanguageRepository languageRepository;
     private final LiteraryGenreRepository genreRepository;
     private final LiteraryMovementRepository movementRepository;
@@ -30,6 +31,7 @@ public class BookService {
             BookRepository repository,
             AuthorRepository authorRepository,
             CategoryRepository categoryRepository,
+            StatusRepository statusRepository,
             LanguageRepository languageRepository,
             LiteraryGenreRepository genreRepository,
             LiteraryMovementRepository movementRepository,
@@ -38,6 +40,7 @@ public class BookService {
         this.bookRepository = repository;
         this.authorRepository = authorRepository;
         this.categoryRepository = categoryRepository;
+        this.statusRepository = statusRepository;
         this.languageRepository = languageRepository;
         this.genreRepository = genreRepository;
         this.movementRepository = movementRepository;
@@ -63,7 +66,8 @@ public class BookService {
                 findByIdOrThrow(languageRepository, request.getLanguageId(), () -> new DataNotFoundException("Language not found")),
                 findByIdOrThrow(movementRepository, request.getLiteraryMovementId(), () -> new DataNotFoundException("Literary movement not found")),
                 findByIdOrThrow(genreRepository, request.getLiteraryGenreId(), () -> new DataNotFoundException("Literary genre not found")),
-                findByIdOrThrow(categoryRepository, request.getCategoryId(), () -> new DataNotFoundException("Category not found"))
+                findByIdOrThrow(categoryRepository, request.getCategoryId(), () -> new DataNotFoundException("Category not found")),
+                findByIdOrThrow(statusRepository, request.getStatusId(), () -> new DataNotFoundException("Status not found"))
         );
 
         return bookMapper.toDTO(bookRepository.save(entity));
@@ -90,6 +94,9 @@ public class BookService {
         );
         existing.setCategory(
                 findByIdOrThrow(categoryRepository, request.getCategoryId(), () -> new DataNotFoundException("Category not found"))
+        );
+        existing.setStatus(
+                findByIdOrThrow(statusRepository, request.getStatusId(), () -> new DataNotFoundException("Status not found"))
         );
 
         return bookMapper.toDTO(bookRepository.save(existing));

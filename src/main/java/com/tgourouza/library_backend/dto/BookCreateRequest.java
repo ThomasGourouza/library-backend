@@ -39,6 +39,7 @@ public class BookCreateRequest {
     private UUID literaryMovementId;
     private UUID literaryGenreId;
     private UUID categoryId;
+    private UUID statusId;
 
     private String description;
     private String wikipediaLink;
