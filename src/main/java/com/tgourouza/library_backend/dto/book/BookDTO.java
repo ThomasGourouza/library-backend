@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.dto;
+package com.tgourouza.library_backend.dto.book;
 
 import com.tgourouza.library_backend.entity.*;
 import lombok.AllArgsConstructor;

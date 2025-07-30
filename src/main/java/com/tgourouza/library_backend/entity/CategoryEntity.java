@@ -16,5 +16,5 @@ public class CategoryEntity {
 
     @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
-    private Category category;
+    private Category name;
 }

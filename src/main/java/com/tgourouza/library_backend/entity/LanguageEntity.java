@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.entity;
 
+import com.tgourouza.library_backend.constant.Language;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +15,6 @@ public class LanguageEntity {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private Language name;
 }

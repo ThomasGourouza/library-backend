@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.entity;
 
+import com.tgourouza.library_backend.constant.Country;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -14,5 +15,6 @@ public class CountryEntity {
     private Long id;
 
     @Column(unique = true, nullable = false)
-    private String name;
+    @Enumerated(EnumType.STRING)
+    private Country name;
 }

@@ -1,7 +1,7 @@
 package com.tgourouza.library_backend.mapper;
 
-import com.tgourouza.library_backend.dto.BookDTO;
-import com.tgourouza.library_backend.dto.BookCreateRequest;
+import com.tgourouza.library_backend.dto.book.BookDTO;
+import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.entity.*;
 import org.mapstruct.*;
 

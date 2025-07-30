@@ -1,6 +1,5 @@
-package com.tgourouza.library_backend.dto;
+package com.tgourouza.library_backend.dto.book;
 
-import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
 

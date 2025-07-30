@@ -1,6 +1,5 @@
 package com.tgourouza.library_backend.entity;
 
-import com.tgourouza.library_backend.constant.Category;
 import com.tgourouza.library_backend.constant.Status;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -17,5 +16,5 @@ public class StatusEntity {
 
     @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
-    private Status status;
+    private Status name;
 }
