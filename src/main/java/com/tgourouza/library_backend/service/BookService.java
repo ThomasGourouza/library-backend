@@ -6,12 +6,10 @@ import com.tgourouza.library_backend.entity.*;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
 import com.tgourouza.library_backend.mapper.BookMapper;
 import com.tgourouza.library_backend.repository.*;
-import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
-import java.util.function.Supplier;
 
 @Service
 public class BookService {
