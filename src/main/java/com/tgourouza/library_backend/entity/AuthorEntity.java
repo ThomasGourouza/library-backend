@@ -11,7 +11,6 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -19,6 +18,7 @@ import java.util.UUID;
 @Table(name = "author")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AuthorEntity {
     @Id
     @GeneratedValue(generator = "UUID")

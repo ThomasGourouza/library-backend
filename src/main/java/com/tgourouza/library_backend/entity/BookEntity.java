@@ -14,6 +14,7 @@ import java.util.UUID;
 @Table(name = "book")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class BookEntity {
     @Id
     @GeneratedValue(generator = "UUID")

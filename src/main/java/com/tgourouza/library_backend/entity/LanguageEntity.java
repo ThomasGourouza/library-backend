@@ -4,11 +4,13 @@ import com.tgourouza.library_backend.constant.Language;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "language")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class LanguageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
