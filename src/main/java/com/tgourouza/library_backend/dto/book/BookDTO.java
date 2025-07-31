@@ -14,7 +14,7 @@ import java.util.UUID;
 public class BookDTO {
     private UUID id;
     private String originalTitle;
-    private Multilingual translatedTitle;
+    private Multilingual title;
     private AuthorDTO author;
     private Integer authorAgeAtPublication;
     private LocalDate publicationDate;

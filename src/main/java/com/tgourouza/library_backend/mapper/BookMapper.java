@@ -76,7 +76,6 @@ public class BookMapper {
         if (request == null) return null;
 
         BookEntity entity = new BookEntity();
-        entity.setId(null); // Let JPA generate UUID
         entity.setOriginalTitle(request.getOriginalTitle());
         entity.setAuthor(author);
         entity.setPublicationDate(request.getPublicationDate());
@@ -89,8 +88,8 @@ public class BookMapper {
         entity.setFavorite(request.getFavorite());
         entity.setPersonalNotes(request.getPersonalNotes());
 
-        if (request.getTranslatedTitle() != null) {
-            multilingualUtil.applyMultilingualTitle(request.getTranslatedTitle(), entity);
+        if (request.getTitle() != null) {
+            multilingualUtil.applyMultilingualTitle(request.getTitle(), entity);
         }
 
         if (request.getDescription() != null) {
@@ -124,8 +123,8 @@ public class BookMapper {
         target.setFavorite(request.getFavorite());
         target.setPersonalNotes(request.getPersonalNotes());
 
-        if (request.getTranslatedTitle() != null) {
-            multilingualUtil.applyMultilingualTitle(request.getTranslatedTitle(), target);
+        if (request.getTitle() != null) {
+            multilingualUtil.applyMultilingualTitle(request.getTitle(), target);
         }
 
         if (request.getDescription() != null) {

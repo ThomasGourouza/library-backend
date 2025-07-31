@@ -14,7 +14,7 @@ public class BookCreateRequest {
     @Size(max = 255)
     private String originalTitle;
 
-    private Multilingual translatedTitle;
+    private Multilingual title;
 
     @NotNull
     @Size(max = 255)

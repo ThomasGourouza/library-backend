@@ -39,14 +39,14 @@ public class MultilingualMapperUtil {
     public Multilingual toMultilingualTitle(BookEntity book) {
         if (book == null) return null;
         return new Multilingual(
-                book.getTranslatedTitleFrench(),
-                book.getTranslatedTitleSpanish(),
-                book.getTranslatedTitleItalian(),
-                book.getTranslatedTitlePortuguese(),
-                book.getTranslatedTitleEnglish(),
-                book.getTranslatedTitleGerman(),
-                book.getTranslatedTitleRussian(),
-                book.getTranslatedTitleJapanese()
+                book.getTitleFrench(),
+                book.getTitleSpanish(),
+                book.getTitleItalian(),
+                book.getTitlePortuguese(),
+                book.getTitleEnglish(),
+                book.getTitleGerman(),
+                book.getTitleRussian(),
+                book.getTitleJapanese()
         );
     }
 
@@ -64,14 +64,14 @@ public class MultilingualMapperUtil {
 
     public void applyMultilingualTitle(Multilingual ml, BookEntity entity) {
         if (ml == null || entity == null) return;
-        entity.setTranslatedTitleFrench(ml.getFrench());
-        entity.setTranslatedTitleSpanish(ml.getSpanish());
-        entity.setTranslatedTitleItalian(ml.getItalian());
-        entity.setTranslatedTitlePortuguese(ml.getPortuguese());
-        entity.setTranslatedTitleEnglish(ml.getEnglish());
-        entity.setTranslatedTitleGerman(ml.getGerman());
-        entity.setTranslatedTitleRussian(ml.getRussian());
-        entity.setTranslatedTitleJapanese(ml.getJapanese());
+        entity.setTitleFrench(ml.getFrench());
+        entity.setTitleSpanish(ml.getSpanish());
+        entity.setTitleItalian(ml.getItalian());
+        entity.setTitlePortuguese(ml.getPortuguese());
+        entity.setTitleEnglish(ml.getEnglish());
+        entity.setTitleGerman(ml.getGerman());
+        entity.setTitleRussian(ml.getRussian());
+        entity.setTitleJapanese(ml.getJapanese());
     }
 
     public void applyMultilingualDescription(Multilingual ml, BookEntity entity) {

@@ -24,14 +24,14 @@ public class BookEntity {
     @NotNull
     private String originalTitle;
 
-    private String translatedTitleFrench;
-    private String translatedTitleSpanish;
-    private String translatedTitleItalian;
-    private String translatedTitlePortuguese;
-    private String translatedTitleEnglish;
-    private String translatedTitleGerman;
-    private String translatedTitleRussian;
-    private String translatedTitleJapanese;
+    private String titleFrench;
+    private String titleSpanish;
+    private String titleItalian;
+    private String titlePortuguese;
+    private String titleEnglish;
+    private String titleGerman;
+    private String titleRussian;
+    private String titleJapanese;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
