@@ -38,12 +38,12 @@ public class AuthorMapper {
         );
     }
 
-    public AuthorEntity toEntity(AuthorCreateRequest request) {
+    public AuthorEntity toEntity(AuthorCreateRequest request, CountryEntity country) {
         if (request == null) return null;
 
         AuthorEntity author = new AuthorEntity();
         author.setName(request.getName());
-        author.setCountry(new CountryEntity(request.getCountry()));
+        author.setCountry(country);
         if (request.getDate() != null) {
             author.setBirthDate(request.getDate().getBirth());
             author.setDeathDate(request.getDate().getDeath());
@@ -53,11 +53,11 @@ public class AuthorMapper {
         return author;
     }
 
-    public void updateEntity(AuthorEntity entity, AuthorCreateRequest request) {
+    public void updateEntity(AuthorEntity entity, AuthorCreateRequest request, CountryEntity country) {
         if (request == null || entity == null) return;
 
         entity.setName(request.getName());
-        entity.setCountry(new CountryEntity(request.getCountry()));
+        entity.setCountry(country);
         if (request.getDate() != null) {
             entity.setBirthDate(request.getDate().getBirth());
             entity.setDeathDate(request.getDate().getDeath());

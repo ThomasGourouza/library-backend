@@ -2,7 +2,7 @@ package com.tgourouza.library_backend.controller;
 
 import com.tgourouza.library_backend.dto.constant.CategoryCreateRequest;
 import com.tgourouza.library_backend.dto.constant.CategoryDTO;
-import com.tgourouza.library_backend.service.CategoryService;
+import com.tgourouza.library_backend.service.constant.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

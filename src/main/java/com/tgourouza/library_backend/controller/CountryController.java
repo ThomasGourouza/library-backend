@@ -2,7 +2,7 @@ package com.tgourouza.library_backend.controller;
 
 import com.tgourouza.library_backend.dto.constant.CountryCreateRequest;
 import com.tgourouza.library_backend.dto.constant.CountryDTO;
-import com.tgourouza.library_backend.service.CountryService;
+import com.tgourouza.library_backend.service.constant.CountryService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

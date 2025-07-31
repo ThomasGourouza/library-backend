@@ -1,7 +1,7 @@
 package com.tgourouza.library_backend.controller;
 
 import com.tgourouza.library_backend.dto.constant.StatusDTO;
-import com.tgourouza.library_backend.service.StatusService;
+import com.tgourouza.library_backend.service.constant.StatusService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

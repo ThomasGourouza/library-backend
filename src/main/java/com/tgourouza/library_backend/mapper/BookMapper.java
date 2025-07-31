@@ -7,6 +7,7 @@ import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.*;
 import com.tgourouza.library_backend.entity.constant.*;
 import org.mapstruct.MappingTarget;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
 import java.time.Period;
@@ -20,7 +21,10 @@ public class BookMapper {
     private final MultilingualMapperUtil multilingualUtil;
     private final AuthorMapper authorMapper;
 
-    public BookMapper(MultilingualMapperUtil multilingualUtil, AuthorMapper authorMapper) {
+    public BookMapper(
+            MultilingualMapperUtil multilingualUtil,
+            @Lazy AuthorMapper authorMapper
+    ) {
         this.multilingualUtil = multilingualUtil;
         this.authorMapper = authorMapper;
     }
@@ -99,15 +103,15 @@ public class BookMapper {
         return entity;
     }
 
-    public void updateEntityFromRequest(
+    public void updateEntity(
+            @MappingTarget BookEntity target,
             BookCreateRequest request,
             AuthorEntity author,
             LanguageEntity language,
             TypeEntity type,
             CategoryEntity category,
             AudienceEntity audience,
-            StatusEntity status,
-            @MappingTarget BookEntity target
+            StatusEntity status
     ) {
         if (request == null || target == null) return;
 

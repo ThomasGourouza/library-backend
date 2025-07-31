@@ -2,7 +2,7 @@ package com.tgourouza.library_backend.controller;
 
 import com.tgourouza.library_backend.dto.constant.AudienceCreateRequest;
 import com.tgourouza.library_backend.dto.constant.AudienceDTO;
-import com.tgourouza.library_backend.service.AudienceService;
+import com.tgourouza.library_backend.service.constant.AudienceService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

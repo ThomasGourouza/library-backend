@@ -2,7 +2,7 @@ package com.tgourouza.library_backend.controller;
 
 import com.tgourouza.library_backend.dto.constant.LanguageCreateRequest;
 import com.tgourouza.library_backend.dto.constant.LanguageDTO;
-import com.tgourouza.library_backend.service.LanguageService;
+import com.tgourouza.library_backend.service.constant.LanguageService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

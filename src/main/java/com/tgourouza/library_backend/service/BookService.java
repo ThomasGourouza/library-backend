@@ -3,10 +3,7 @@ package com.tgourouza.library_backend.service;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.*;
-import com.tgourouza.library_backend.entity.constant.CategoryEntity;
-import com.tgourouza.library_backend.entity.constant.LanguageEntity;
-import com.tgourouza.library_backend.entity.constant.StatusEntity;
-import com.tgourouza.library_backend.entity.constant.TypeEntity;
+import com.tgourouza.library_backend.entity.constant.*;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
 import com.tgourouza.library_backend.mapper.BookMapper;
 import com.tgourouza.library_backend.repository.*;
@@ -22,8 +19,8 @@ public class BookService {
     private final CategoryRepository categoryRepository;
     private final StatusRepository statusRepository;
     private final LanguageRepository languageRepository;
-    private final TypeRepository genreRepository;
-    private final LiteraryMovementRepository movementRepository;
+    private final TypeRepository typeRepository;
+    private final AudienceRepository audienceRepository;
     private final BookMapper bookMapper;
 
     public BookService(
@@ -32,8 +29,8 @@ public class BookService {
             CategoryRepository categoryRepository,
             StatusRepository statusRepository,
             LanguageRepository languageRepository,
-            TypeRepository genreRepository,
-            LiteraryMovementRepository movementRepository,
+            TypeRepository typeRepository,
+            AudienceRepository audienceRepository,
             BookMapper bookMapper
     ) {
         this.bookRepository = repository;
@@ -41,8 +38,8 @@ public class BookService {
         this.categoryRepository = categoryRepository;
         this.statusRepository = statusRepository;
         this.languageRepository = languageRepository;
-        this.genreRepository = genreRepository;
-        this.movementRepository = movementRepository;
+        this.typeRepository = typeRepository;
+        this.audienceRepository = audienceRepository;
         this.bookMapper = bookMapper;
     }
 
@@ -65,12 +62,12 @@ public class BookService {
                         .orElseThrow(() -> new DataNotFoundException("Author", String.valueOf(request.getAuthorId()))),
                 languageRepository.findById(request.getLanguageId())
                         .orElseThrow(() -> new DataNotFoundException("Language", String.valueOf(request.getLanguageId()))),
-                movementRepository.findById(request.getLiteraryMovementId())
-                        .orElseThrow(() -> new DataNotFoundException("Literary movement", String.valueOf(request.getLiteraryMovementId()))),
-                genreRepository.findById(request.getLiteraryGenreId())
-                        .orElseThrow(() -> new DataNotFoundException("Literary genre", String.valueOf(request.getLiteraryGenreId()))),
+                typeRepository.findById(request.getTypeId())
+                        .orElseThrow(() -> new DataNotFoundException("Type", String.valueOf(request.getTypeId()))),
                 categoryRepository.findById(request.getCategoryId())
                         .orElseThrow(() -> new DataNotFoundException("Category", String.valueOf(request.getCategoryId()))),
+                audienceRepository.findById(request.getAudienceId())
+                        .orElseThrow(() -> new DataNotFoundException("Audience", String.valueOf(request.getAudienceId()))),
                 statusRepository.findById(request.getStatusId())
                         .orElseThrow(() -> new DataNotFoundException("Status", String.valueOf(request.getStatusId())))
         );
@@ -86,17 +83,17 @@ public class BookService {
                 .orElseThrow(() -> new DataNotFoundException("Author", String.valueOf(request.getAuthorId())));
         LanguageEntity language = languageRepository.findById(request.getLanguageId())
                 .orElseThrow(() -> new DataNotFoundException("Language", String.valueOf(request.getLanguageId())));
-        LiteraryMovementEntity movement = movementRepository.findById(request.getLiteraryMovementId())
-                .orElseThrow(() -> new DataNotFoundException("Literary movement", String.valueOf(request.getLiteraryMovementId())));
-        TypeEntity genre = genreRepository.findById(request.getLiteraryGenreId())
-                .orElseThrow(() -> new DataNotFoundException("Literary genre", String.valueOf(request.getLiteraryGenreId())));
+        TypeEntity type = typeRepository.findById(request.getTypeId())
+                .orElseThrow(() -> new DataNotFoundException("Type", String.valueOf(request.getTypeId())));
         CategoryEntity category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new DataNotFoundException("Category", String.valueOf(request.getCategoryId())));
+        AudienceEntity audience = audienceRepository.findById(request.getAudienceId())
+                .orElseThrow(() -> new DataNotFoundException("Audience", String.valueOf(request.getAudienceId())));
         StatusEntity status = statusRepository.findById(request.getStatusId())
                 .orElseThrow(() -> new DataNotFoundException("Status", String.valueOf(request.getStatusId())));
 
         bookMapper.updateEntity(
-                existing, request, author, language, movement, genre, category, status
+                existing, request, author, language, type, category, audience, status
         );
 
         return bookMapper.toDTO(bookRepository.save(existing));
@@ -133,6 +130,4 @@ public class BookService {
         book.setPersonalNotes(notes);
         return bookMapper.toDTO(bookRepository.save(book));
     }
-
-
 }
