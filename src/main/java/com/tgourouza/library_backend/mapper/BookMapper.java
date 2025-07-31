@@ -1,8 +1,14 @@
-package com.tgourouza.library_backend.mapper;
+package com.tgourouza.library_backend.mapper.book;
 
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.entity.*;
+import com.tgourouza.library_backend.entity.constant.CategoryEntity;
+import com.tgourouza.library_backend.entity.constant.LanguageEntity;
+import com.tgourouza.library_backend.entity.constant.StatusEntity;
+import com.tgourouza.library_backend.entity.constant.TypeEntity;
+import com.tgourouza.library_backend.mapper.MultilingualMapperUtil;
+import com.tgourouza.library_backend.mapper.author.AuthorWithoutBooksMapper;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -22,8 +28,8 @@ public class BookMapper {
         return new BookDTO(
                 entity.getId(),
                 entity.getOriginalTitle(),
-                authorMapper.toDTO(entity.getAuthor()),
                 multilingualUtil.toMultilingualTitle(entity),
+                authorMapper.toDTO(entity.getAuthor()),
                 entity.getPublicationDate(),
                 entity.getPopularityEurope(),
                 entity.getPopularityRussia(),
@@ -45,7 +51,7 @@ public class BookMapper {
             AuthorEntity author,
             LanguageEntity language,
             LiteraryMovementEntity literaryMovement,
-            LiteraryGenreEntity literaryGenre,
+            TypeEntity literaryGenre,
             CategoryEntity category,
             StatusEntity status
     ) {
@@ -72,31 +78,31 @@ public class BookMapper {
     }
 
     public void updateEntity(
-            BookEntity target,
+            BookEntity entity,
             BookCreateRequest request,
             AuthorEntity author,
             LanguageEntity language,
             LiteraryMovementEntity literaryMovement,
-            LiteraryGenreEntity literaryGenre,
+            TypeEntity literaryGenre,
             CategoryEntity category,
             StatusEntity status
     ) {
-        target.setOriginalTitle(request.getOriginalTitle());
-        target.setAuthor(author);
-        target.setLanguage(language);
-        target.setLiteraryMovement(literaryMovement);
-        target.setLiteraryGenre(literaryGenre);
-        target.setCategory(category);
-        target.setStatus(status);
-        target.setPublicationDate(request.getPublicationDate());
-        target.setPopularityEurope(request.getPopularityEurope());
-        target.setPopularityRussia(request.getPopularityRussia());
-        target.setTargetAge(request.getTargetAge());
-        target.setWikipediaLink(request.getWikipediaLink());
-        target.setFavorite(request.getFavorite());
-        target.setPersonalNotes(request.getPersonalNotes());
+        entity.setOriginalTitle(request.getOriginalTitle());
+        entity.setAuthor(author);
+        entity.setLanguage(language);
+        entity.setLiteraryMovement(literaryMovement);
+        entity.setLiteraryGenre(literaryGenre);
+        entity.setCategory(category);
+        entity.setStatus(status);
+        entity.setPublicationDate(request.getPublicationDate());
+        entity.setPopularityEurope(request.getPopularityEurope());
+        entity.setPopularityRussia(request.getPopularityRussia());
+        entity.setTargetAge(request.getTargetAge());
+        entity.setWikipediaLink(request.getWikipediaLink());
+        entity.setFavorite(request.getFavorite());
+        entity.setPersonalNotes(request.getPersonalNotes());
 
-        multilingualUtil.applyMultilingualTitle(request.getTranslatedTitle(), target);
-        multilingualUtil.applyMultilingualDescription(request.getDescription(), target);
+        multilingualUtil.applyMultilingualTitle(request.getTranslatedTitle(), entity);
+        multilingualUtil.applyMultilingualDescription(request.getDescription(), entity);
     }
 }
