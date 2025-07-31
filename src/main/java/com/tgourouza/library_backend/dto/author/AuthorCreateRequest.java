@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.dto.author;
 
+import com.tgourouza.library_backend.dto.Multilingual;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
@@ -21,7 +22,6 @@ public class AuthorCreateRequest {
     @NotNull(message = "Gender ID must not be null")
     private Long genderId;
 
-    private String frenchDescription;
-    private String englishDescription;
+    private Multilingual description;
     private String wikipediaLink;
 }

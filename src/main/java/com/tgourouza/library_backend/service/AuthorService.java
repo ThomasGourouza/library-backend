@@ -68,7 +68,7 @@ public class AuthorService {
         GenderEntity gender = genderRepository.findById(request.getGenderId())
                 .orElseThrow(() -> new DataNotFoundException("Gender", String.valueOf(request.getGenderId())));
 
-        authorMapper.updateAuthorFromRequest(request, country, gender, existing);
+        authorMapper.updateEntity(existing, request, country, gender);
 
         return authorMapper.toDTO(authorRepository.save(existing));
     }

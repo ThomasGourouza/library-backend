@@ -2,19 +2,37 @@ package com.tgourouza.library_backend.mapper;
 
 import com.tgourouza.library_backend.dto.book.BookWithoutAuthorDTO;
 import com.tgourouza.library_backend.entity.BookEntity;
-import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 
-import java.util.List;
+@Component
+public class BookWithoutAuthorMapper {
 
-@Mapper(
-        componentModel = "spring",
-        nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL
-)
-public interface BookWithoutAuthorMapper {
-    @Mapping(source = "language.name", target = "language")
-    @Mapping(source = "literaryMovement.name", target = "literaryMovement")
-    @Mapping(source = "literaryGenre.name", target = "literaryGenre")
-    @Mapping(source = "category.name", target = "category")
-    @Mapping(source = "status.name", target = "status")
-    BookWithoutAuthorDTO toDTO(BookEntity book);
+    private final MultilingualMapperUtil multilingualUtil;
+
+    public BookWithoutAuthorMapper(MultilingualMapperUtil multilingualUtil) {
+        this.multilingualUtil = multilingualUtil;
+    }
+
+    public BookWithoutAuthorDTO toDTO(BookEntity book) {
+        if (book == null) return null;
+
+        return new BookWithoutAuthorDTO(
+                book.getId(),
+                book.getOriginalTitle(),
+                multilingualUtil.toMultilingualTitle(book),
+                book.getPublicationDate(),
+                book.getPopularityEurope(),
+                book.getPopularityRussia(),
+                book.getTargetAge(),
+                book.getLanguage() != null ? book.getLanguage().getName() : null,
+                book.getLiteraryMovement() != null ? book.getLiteraryMovement().getName() : null,
+                book.getLiteraryGenre() != null ? book.getLiteraryGenre().getName() : null,
+                book.getCategory() != null ? book.getCategory().getName() : null,
+                multilingualUtil.toMultilingualDescription(book),
+                book.getWikipediaLink(),
+                book.getStatus() != null ? book.getStatus().getName() : null,
+                book.getFavorite(),
+                book.getPersonalNotes()
+        );
+    }
 }

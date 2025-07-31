@@ -2,6 +2,7 @@ package com.tgourouza.library_backend.dto.author;
 
 import com.tgourouza.library_backend.constant.Country;
 import com.tgourouza.library_backend.constant.Gender;
+import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.book.BookWithoutAuthorDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -20,7 +21,6 @@ public class AuthorWithoutBooksDTO {
     private LocalDate birthDate;
     private LocalDate deathDate;
     private Gender gender;
-    private String frenchDescription;
-    private String englishDescription;
+    private Multilingual description;
     private String wikipediaLink;
 }

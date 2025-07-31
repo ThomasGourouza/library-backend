@@ -5,44 +5,72 @@ import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.CountryEntity;
 import com.tgourouza.library_backend.entity.GenderEntity;
-import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 
-@Mapper(
-        componentModel = "spring",
-        uses = { BookWithoutAuthorMapper.class },
-        nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL
-)
-public interface AuthorMapper {
-    @Mapping(source = "books", target = "books")
-    @Mapping(source = "country.name", target = "country")
-    @Mapping(source = "gender.name", target = "gender")
-    AuthorDTO toDTO(AuthorEntity author);
+import java.util.Collections;
+import java.util.stream.Collectors;
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(source = "request.name", target = "name")
-    @Mapping(source = "country", target = "country")
-    @Mapping(source = "gender", target = "gender")
-    @Mapping(target = "books", ignore = true)
-    AuthorEntity toEntity(
-            AuthorCreateRequest request,
-            CountryEntity country,
-            GenderEntity gender
-    );
+@Component
+public class AuthorMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(source = "request.firstName", target = "firstName")
-    @Mapping(source = "request.name", target = "name")
-    @Mapping(source = "request.birthDate", target = "birthDate")
-    @Mapping(source = "request.deathDate", target = "deathDate")
-    @Mapping(source = "request.frenchDescription", target = "frenchDescription")
-    @Mapping(source = "request.englishDescription", target = "englishDescription")
-    @Mapping(source = "request.wikipediaLink", target = "wikipediaLink")
-    @Mapping(source = "country", target = "country")
-    @Mapping(source = "gender", target = "gender")
-    void updateAuthorFromRequest(
-            AuthorCreateRequest request,
-            CountryEntity country,
-            GenderEntity gender,
-            @MappingTarget AuthorEntity author
-    );
+    private final BookWithoutAuthorMapper bookWithoutAuthorMapper;
+    private final MultilingualMapperUtil multilingualMapperUtil;
+
+    public AuthorMapper(
+            BookWithoutAuthorMapper bookWithoutAuthorMapper,
+            MultilingualMapperUtil multilingualMapperUtil
+    ) {
+        this.bookWithoutAuthorMapper = bookWithoutAuthorMapper;
+        this.multilingualMapperUtil = multilingualMapperUtil;
+    }
+
+    public AuthorDTO toDTO(AuthorEntity author) {
+        if (author == null) return null;
+
+        return new AuthorDTO(
+                author.getId(),
+                author.getFirstName(),
+                author.getName(),
+                author.getCountry() != null ? author.getCountry().getName() : null,
+                author.getBirthDate(),
+                author.getDeathDate(),
+                author.getGender() != null ? author.getGender().getName() : null,
+                multilingualMapperUtil.toMultilingualDescription(author),
+                author.getWikipediaLink(),
+                author.getBooks() != null
+                        ? author.getBooks().stream()
+                        .map(bookWithoutAuthorMapper::toDTO)
+                        .collect(Collectors.toList())
+                        : Collections.emptyList()
+        );
+    }
+
+    public AuthorEntity toEntity(AuthorCreateRequest request, CountryEntity country, GenderEntity gender) {
+        if (request == null) return null;
+
+        AuthorEntity entity = new AuthorEntity();
+        entity.setFirstName(request.getFirstName());
+        entity.setName(request.getName());
+        entity.setBirthDate(request.getBirthDate());
+        entity.setDeathDate(request.getDeathDate());
+        entity.setWikipediaLink(request.getWikipediaLink());
+        entity.setCountry(country);
+        entity.setGender(gender);
+        multilingualMapperUtil.applyMultilingualDescription(request.getDescription(), entity);
+
+        return entity;
+    }
+
+    public void updateEntity(AuthorEntity entity, AuthorCreateRequest request, CountryEntity country, GenderEntity gender) {
+        if (entity == null || request == null) return;
+
+        entity.setFirstName(request.getFirstName());
+        entity.setName(request.getName());
+        entity.setBirthDate(request.getBirthDate());
+        entity.setDeathDate(request.getDeathDate());
+        entity.setWikipediaLink(request.getWikipediaLink());
+        entity.setCountry(country);
+        entity.setGender(gender);
+        multilingualMapperUtil.applyMultilingualDescription(request.getDescription(), entity);
+    }
 }

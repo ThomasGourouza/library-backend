@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.dto.book;
 
+import com.tgourouza.library_backend.dto.Multilingual;
 import jakarta.validation.constraints.*;
 import lombok.Data;
 
@@ -13,8 +14,7 @@ public class BookCreateRequest {
     @Size(max = 255)
     private String originalTitle;
 
-    private String frenchTitle;
-    private String englishTitle;
+    private Multilingual translatedTitle;
 
     @NotNull
     @Size(max = 255)
@@ -43,8 +43,7 @@ public class BookCreateRequest {
     @NotNull
     private Long statusId;
 
-    private String frenchDescription;
-    private String englishDescription;
+    private Multilingual description;
     private String wikipediaLink;
     private Boolean favorite;
     private String personalNotes;

@@ -3,33 +3,44 @@ package com.tgourouza.library_backend.mapper;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.entity.*;
-import org.mapstruct.*;
+import org.springframework.stereotype.Component;
 
-@Mapper(
-        componentModel = "spring",
-        uses = { AuthorWithoutBooksMapper.class },
-        nullValueMappingStrategy = NullValueMappingStrategy.RETURN_NULL
-)
-public interface BookMapper {
-    @Mapping(source = "author", target = "author")
-    @Mapping(source = "language.name", target = "language")
-    @Mapping(source = "literaryMovement.name", target = "literaryMovement")
-    @Mapping(source = "literaryGenre.name", target = "literaryGenre")
-    @Mapping(source = "category.name", target = "category")
-    @Mapping(source = "status.name", target = "status")
-    BookDTO toDTO(BookEntity entity);
+@Component
+public class BookMapper {
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(source = "request.frenchDescription", target = "frenchDescription")
-    @Mapping(source = "request.englishDescription", target = "englishDescription")
-    @Mapping(source = "request.wikipediaLink", target = "wikipediaLink")
-    @Mapping(source = "author", target = "author")
-    @Mapping(source = "language", target = "language")
-    @Mapping(source = "literaryMovement", target = "literaryMovement")
-    @Mapping(source = "literaryGenre", target = "literaryGenre")
-    @Mapping(source = "category", target = "category")
-    @Mapping(source = "status", target = "status")
-    BookEntity toEntity(
+    private final AuthorWithoutBooksMapper authorMapper;
+    private final MultilingualMapperUtil multilingualUtil;
+
+    public BookMapper(AuthorWithoutBooksMapper authorMapper, MultilingualMapperUtil multilingualUtil) {
+        this.authorMapper = authorMapper;
+        this.multilingualUtil = multilingualUtil;
+    }
+
+    public BookDTO toDTO(BookEntity entity) {
+        if (entity == null) return null;
+
+        return new BookDTO(
+                entity.getId(),
+                entity.getOriginalTitle(),
+                authorMapper.toDTO(entity.getAuthor()),
+                multilingualUtil.toMultilingualTitle(entity),
+                entity.getPublicationDate(),
+                entity.getPopularityEurope(),
+                entity.getPopularityRussia(),
+                entity.getTargetAge(),
+                entity.getLanguage() != null ? entity.getLanguage().getName() : null,
+                entity.getLiteraryMovement() != null ? entity.getLiteraryMovement().getName() : null,
+                entity.getLiteraryGenre() != null ? entity.getLiteraryGenre().getName() : null,
+                entity.getCategory() != null ? entity.getCategory().getName() : null,
+                multilingualUtil.toMultilingualDescription(entity),
+                entity.getWikipediaLink(),
+                entity.getStatus() != null ? entity.getStatus().getName() : null,
+                entity.getFavorite(),
+                entity.getPersonalNotes()
+        );
+    }
+
+    public BookEntity toEntity(
             BookCreateRequest request,
             AuthorEntity author,
             LanguageEntity language,
@@ -37,35 +48,55 @@ public interface BookMapper {
             LiteraryGenreEntity literaryGenre,
             CategoryEntity category,
             StatusEntity status
-    );
+    ) {
+        BookEntity entity = new BookEntity();
+        entity.setAuthor(author);
+        entity.setLanguage(language);
+        entity.setLiteraryMovement(literaryMovement);
+        entity.setLiteraryGenre(literaryGenre);
+        entity.setCategory(category);
+        entity.setStatus(status);
 
-    @Mapping(target = "id", ignore = true)
-    @Mapping(source = "request.originalTitle", target = "originalTitle")
-    @Mapping(source = "request.frenchTitle", target = "frenchTitle")
-    @Mapping(source = "request.englishTitle", target = "englishTitle")
-    @Mapping(source = "request.publicationDate", target = "publicationDate")
-    @Mapping(source = "request.popularityEurope", target = "popularityEurope")
-    @Mapping(source = "request.popularityRussia", target = "popularityRussia")
-    @Mapping(source = "request.targetAge", target = "targetAge")
-    @Mapping(source = "request.frenchDescription", target = "frenchDescription")
-    @Mapping(source = "request.englishDescription", target = "englishDescription")
-    @Mapping(source = "request.wikipediaLink", target = "wikipediaLink")
-    @Mapping(source = "request.favorite", target = "favorite")
-    @Mapping(source = "request.personalNotes", target = "personalNotes")
-    @Mapping(source = "author", target = "author")
-    @Mapping(source = "language", target = "language")
-    @Mapping(source = "literaryMovement", target = "literaryMovement")
-    @Mapping(source = "literaryGenre", target = "literaryGenre")
-    @Mapping(source = "category", target = "category")
-    @Mapping(source = "status", target = "status")
-    void updateEntityFromRequest(
+        entity.setOriginalTitle(request.getOriginalTitle());
+        entity.setPublicationDate(request.getPublicationDate());
+        entity.setPopularityEurope(request.getPopularityEurope());
+        entity.setPopularityRussia(request.getPopularityRussia());
+        entity.setTargetAge(request.getTargetAge());
+        entity.setWikipediaLink(request.getWikipediaLink());
+        entity.setFavorite(request.getFavorite());
+        entity.setPersonalNotes(request.getPersonalNotes());
+        multilingualUtil.applyMultilingualTitle(request.getTranslatedTitle(), entity);
+        multilingualUtil.applyMultilingualDescription(request.getDescription(), entity);
+
+        return entity;
+    }
+
+    public void updateEntity(
+            BookEntity target,
             BookCreateRequest request,
             AuthorEntity author,
             LanguageEntity language,
             LiteraryMovementEntity literaryMovement,
             LiteraryGenreEntity literaryGenre,
             CategoryEntity category,
-            StatusEntity status,
-            @MappingTarget BookEntity target
-    );
+            StatusEntity status
+    ) {
+        target.setOriginalTitle(request.getOriginalTitle());
+        target.setAuthor(author);
+        target.setLanguage(language);
+        target.setLiteraryMovement(literaryMovement);
+        target.setLiteraryGenre(literaryGenre);
+        target.setCategory(category);
+        target.setStatus(status);
+        target.setPublicationDate(request.getPublicationDate());
+        target.setPopularityEurope(request.getPopularityEurope());
+        target.setPopularityRussia(request.getPopularityRussia());
+        target.setTargetAge(request.getTargetAge());
+        target.setWikipediaLink(request.getWikipediaLink());
+        target.setFavorite(request.getFavorite());
+        target.setPersonalNotes(request.getPersonalNotes());
+
+        multilingualUtil.applyMultilingualTitle(request.getTranslatedTitle(), target);
+        multilingualUtil.applyMultilingualDescription(request.getDescription(), target);
+    }
 }

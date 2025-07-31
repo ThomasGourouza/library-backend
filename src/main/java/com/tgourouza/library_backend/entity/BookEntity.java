@@ -30,8 +30,20 @@ public class BookEntity {
     @JsonBackReference
     private AuthorEntity author;
 
-    private String frenchTitle;
-    private String englishTitle;
+    private String translatedTitleFrench;
+    private String translatedTitleSpanish;
+    private String translatedTitleItalian;
+    private String translatedTitlePortuguese;
+    private String translatedTitleEnglish;
+    private String translatedTitleGerman;
+    private String translatedTitleDanish;
+    private String translatedTitleSwedish;
+    private String translatedTitleNorwegian;
+    private String translatedTitleRussian;
+    private String translatedTitleJapanese;
+    private String translatedTitleKorean;
+    private String translatedTitleChinese;
+
     private LocalDate publicationDate;
     @Min(0)
     @Max(100)
@@ -52,8 +64,21 @@ public class BookEntity {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
-    private String frenchDescription;
-    private String englishDescription;
+
+    private String descriptionFrench;
+    private String descriptionSpanish;
+    private String descriptionItalian;
+    private String descriptionPortuguese;
+    private String descriptionEnglish;
+    private String descriptionGerman;
+    private String descriptionDanish;
+    private String descriptionSwedish;
+    private String descriptionNorwegian;
+    private String descriptionRussian;
+    private String descriptionJapanese;
+    private String descriptionKorean;
+    private String descriptionChinese;
+
     private String wikipediaLink;
     @ManyToOne
     @JoinColumn(name = "status_id")

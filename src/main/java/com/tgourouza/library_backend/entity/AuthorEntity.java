@@ -36,9 +36,21 @@ public class AuthorEntity {
     @ManyToOne
     @JoinColumn(name = "gender_id")
     private GenderEntity gender;
-    private String frenchDescription;
-    private String englishDescription;
     private String wikipediaLink;
+
+    private String descriptionFrench;
+    private String descriptionSpanish;
+    private String descriptionItalian;
+    private String descriptionPortuguese;
+    private String descriptionEnglish;
+    private String descriptionGerman;
+    private String descriptionDanish;
+    private String descriptionSwedish;
+    private String descriptionNorwegian;
+    private String descriptionRussian;
+    private String descriptionJapanese;
+    private String descriptionKorean;
+    private String descriptionChinese;
 
     @OneToMany(mappedBy = "author")
     @JsonManagedReference

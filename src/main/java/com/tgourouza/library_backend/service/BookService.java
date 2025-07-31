@@ -91,8 +91,8 @@ public class BookService {
         StatusEntity status = statusRepository.findById(request.getStatusId())
                 .orElseThrow(() -> new DataNotFoundException("Status", String.valueOf(request.getStatusId())));
 
-        bookMapper.updateEntityFromRequest(
-                request, author, language, movement, genre, category, status, existing
+        bookMapper.updateEntity(
+                existing, request, author, language, movement, genre, category, status
         );
 
         return bookMapper.toDTO(bookRepository.save(existing));

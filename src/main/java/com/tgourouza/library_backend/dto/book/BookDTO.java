@@ -1,6 +1,7 @@
 package com.tgourouza.library_backend.dto.book;
 
 import com.tgourouza.library_backend.constant.*;
+import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.author.AuthorWithoutBooksDTO;
 import com.tgourouza.library_backend.entity.*;
 import lombok.AllArgsConstructor;
@@ -15,8 +16,7 @@ public class BookDTO {
     private UUID id;
     private String originalTitle;
     private AuthorWithoutBooksDTO author;
-    private String frenchTitle;
-    private String englishTitle;
+    private Multilingual translatedTitle;
     private LocalDate publicationDate;
     private Integer popularityEurope;
     private Integer popularityRussia;
@@ -25,8 +25,7 @@ public class BookDTO {
     private LiteraryMovement literaryMovement;
     private LiteraryGenre literaryGenre;
     private Category category;
-    private String frenchDescription;
-    private String englishDescription;
+    private Multilingual description;
     private String wikipediaLink;
     private Status status;
     private Boolean favorite;
