@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-public class AuthorIdentity {
-    private LocalDate birthDate;
-    private LocalDate deathDate;
+public class AuthorDate {
+    private LocalDate birth;
+    private LocalDate death;
 }

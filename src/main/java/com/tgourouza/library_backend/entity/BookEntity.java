@@ -1,9 +1,8 @@
 package com.tgourouza.library_backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.tgourouza.library_backend.entity.constant.*;
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
-import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.GenericGenerator;
@@ -24,11 +23,6 @@ public class BookEntity {
     private UUID id;
     @NotNull
     private String originalTitle;
-    @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
-    @NotNull
-    @JsonBackReference
-    private AuthorEntity author;
 
     private String translatedTitleFrench;
     private String translatedTitleSpanish;
@@ -36,34 +30,29 @@ public class BookEntity {
     private String translatedTitlePortuguese;
     private String translatedTitleEnglish;
     private String translatedTitleGerman;
-    private String translatedTitleDanish;
-    private String translatedTitleSwedish;
-    private String translatedTitleNorwegian;
     private String translatedTitleRussian;
     private String translatedTitleJapanese;
-    private String translatedTitleKorean;
-    private String translatedTitleChinese;
+
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    @NotNull
+    @JsonBackReference
+    private AuthorEntity author;
 
     private LocalDate publicationDate;
-    @Min(0)
-    @Max(100)
-    private Integer popularityEurope;
-    @Min(0)
-    @Max(100)
-    private Integer popularityRussia;
-    private Integer targetAge;
+
     @ManyToOne
     @JoinColumn(name = "language_id")
     private LanguageEntity language;
     @ManyToOne
-    @JoinColumn(name = "literary_movement_id")
-    private LiteraryMovementEntity literaryMovement;
-    @ManyToOne
-    @JoinColumn(name = "literary_genre_id")
-    private LiteraryGenreEntity literaryGenre;
+    @JoinColumn(name = "type_id")
+    private TypeEntity type;
     @ManyToOne
     @JoinColumn(name = "category_id")
     private CategoryEntity category;
+    @ManyToOne
+    @JoinColumn(name = "audience_id")
+    private AudienceEntity audience;
 
     private String descriptionFrench;
     private String descriptionSpanish;
@@ -71,13 +60,8 @@ public class BookEntity {
     private String descriptionPortuguese;
     private String descriptionEnglish;
     private String descriptionGerman;
-    private String descriptionDanish;
-    private String descriptionSwedish;
-    private String descriptionNorwegian;
     private String descriptionRussian;
     private String descriptionJapanese;
-    private String descriptionKorean;
-    private String descriptionChinese;
 
     private String wikipediaLink;
     @ManyToOne

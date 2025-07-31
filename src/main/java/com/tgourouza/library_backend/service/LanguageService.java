@@ -2,10 +2,10 @@ package com.tgourouza.library_backend.service;
 
 import com.tgourouza.library_backend.dto.constant.LanguageCreateRequest;
 import com.tgourouza.library_backend.dto.constant.LanguageDTO;
-import com.tgourouza.library_backend.entity.LanguageEntity;
+import com.tgourouza.library_backend.entity.constant.LanguageEntity;
 import com.tgourouza.library_backend.exception.AlreadyExistsException;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
-import com.tgourouza.library_backend.mapper.LanguageMapper;
+import com.tgourouza.library_backend.mapper.constant.LanguageMapper;
 import com.tgourouza.library_backend.repository.LanguageRepository;
 import org.springframework.stereotype.Service;
 

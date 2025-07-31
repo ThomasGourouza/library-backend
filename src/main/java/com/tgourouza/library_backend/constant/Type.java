@@ -1,6 +1,6 @@
 package com.tgourouza.library_backend.constant;
 
-public enum LiteraryGenre {
+public enum Type {
     UNKNOWN,
     THEATER,
     NOVEL,

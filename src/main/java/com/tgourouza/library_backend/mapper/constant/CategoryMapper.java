@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.mapper;
+package com.tgourouza.library_backend.mapper.constant;
 
 import com.tgourouza.library_backend.dto.constant.CategoryCreateRequest;
 import com.tgourouza.library_backend.dto.constant.CategoryDTO;

@@ -1,8 +1,8 @@
 package com.tgourouza.library_backend.controller;
 
-import com.tgourouza.library_backend.dto.constant.LiteraryGenreCreateRequest;
-import com.tgourouza.library_backend.dto.constant.LiteraryGenreDTO;
-import com.tgourouza.library_backend.service.LiteraryGenreService;
+import com.tgourouza.library_backend.dto.constant.TypeCreateRequest;
+import com.tgourouza.library_backend.dto.constant.TypeDTO;
+import com.tgourouza.library_backend.service.TypeService;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -13,38 +13,38 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/literary_genres")
-public class LiteraryGenreController {
-    private final LiteraryGenreService literaryGenreService;
+public class TypeController {
+    private final TypeService typeService;
 
-    public LiteraryGenreController(LiteraryGenreService literaryGenreService) {
-        this.literaryGenreService = literaryGenreService;
+    public TypeController(TypeService typeService) {
+        this.typeService = typeService;
     }
 
     @GetMapping
-    public ResponseEntity<List<LiteraryGenreDTO>> getAll() {
-        return ResponseEntity.ok(literaryGenreService.getAll());
+    public ResponseEntity<List<TypeDTO>> getAll() {
+        return ResponseEntity.ok(typeService.getAll());
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<LiteraryGenreDTO> getById(@PathVariable Long id) {
-        return ResponseEntity.ok(literaryGenreService.getById(id));
+    public ResponseEntity<TypeDTO> getById(@PathVariable Long id) {
+        return ResponseEntity.ok(typeService.getById(id));
     }
 
     @PostMapping
-    public ResponseEntity<LiteraryGenreDTO> create(@Valid @RequestBody LiteraryGenreCreateRequest request) {
-        LiteraryGenreDTO created = literaryGenreService.save(request);
+    public ResponseEntity<TypeDTO> create(@Valid @RequestBody TypeCreateRequest request) {
+        TypeDTO created = typeService.save(request);
         URI location = URI.create("/literary_genres/" + created.getId());
         return ResponseEntity.created(location).body(created);
     }
 
     @PostMapping("/batch")
-    public ResponseEntity<List<LiteraryGenreDTO>> createBatch(@Valid @RequestBody List<LiteraryGenreCreateRequest> requests) {
-        return ResponseEntity.status(HttpStatus.CREATED).body(literaryGenreService.saveAll(requests));
+    public ResponseEntity<List<TypeDTO>> createBatch(@Valid @RequestBody List<TypeCreateRequest> requests) {
+        return ResponseEntity.status(HttpStatus.CREATED).body(typeService.saveAll(requests));
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteById(@PathVariable Long id) {
-        literaryGenreService.deleteById(id);
+        typeService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 }

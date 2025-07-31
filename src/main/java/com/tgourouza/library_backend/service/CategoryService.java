@@ -2,14 +2,13 @@ package com.tgourouza.library_backend.service;
 
 import com.tgourouza.library_backend.dto.constant.CategoryCreateRequest;
 import com.tgourouza.library_backend.dto.constant.CategoryDTO;
-import com.tgourouza.library_backend.entity.CategoryEntity;
+import com.tgourouza.library_backend.entity.constant.CategoryEntity;
 import com.tgourouza.library_backend.exception.AlreadyExistsException;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
-import com.tgourouza.library_backend.mapper.CategoryMapper;
+import com.tgourouza.library_backend.mapper.constant.CategoryMapper;
 import com.tgourouza.library_backend.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service

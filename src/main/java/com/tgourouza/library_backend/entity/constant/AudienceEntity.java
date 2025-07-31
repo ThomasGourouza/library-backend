@@ -1,22 +1,22 @@
 package com.tgourouza.library_backend.entity.constant;
 
-import com.tgourouza.library_backend.constant.Type;
+import com.tgourouza.library_backend.constant.Audience;
 import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
-@Table(name = "type")
+@Table(name = "audience")
 @Data
-public class TypeEntity {
+public class AudienceEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
-    private Type name;
+    private Audience name;
 
-    public TypeEntity(Type name) {
+    public AudienceEntity(Audience name) {
         this.name = name;
     }
 }

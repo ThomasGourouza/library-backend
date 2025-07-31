@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.entity;
+package com.tgourouza.library_backend.entity.constant;
 
 import com.tgourouza.library_backend.constant.Country;
 import jakarta.persistence.*;
@@ -9,8 +9,6 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "country")
 @Data
-@AllArgsConstructor
-@NoArgsConstructor
 public class CountryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,4 +17,8 @@ public class CountryEntity {
     @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     private Country name;
+
+    public CountryEntity(Country name) {
+        this.name = name;
+    }
 }

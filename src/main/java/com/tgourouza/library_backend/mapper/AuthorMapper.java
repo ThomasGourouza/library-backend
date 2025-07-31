@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.mapper.author;
+package com.tgourouza.library_backend.mapper;
 
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
@@ -7,8 +7,6 @@ import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 import com.tgourouza.library_backend.entity.constant.CountryEntity;
-import com.tgourouza.library_backend.mapper.book.BookMapper;
-import com.tgourouza.library_backend.mapper.MultilingualMapperUtil;
 import org.springframework.stereotype.Component;
 
 import java.util.Collections;

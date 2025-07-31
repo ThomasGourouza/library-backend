@@ -22,29 +22,24 @@ public class BookCreateRequest {
 
     private LocalDate publicationDate;
 
-    @Min(0)
-    @Max(100)
-    private Integer popularityEurope;
-
-    @Min(0)
-    @Max(100)
-    private Integer popularityRussia;
-
-    private Integer targetAge;
-
     @NotNull
     private Long languageId;
+
     @NotNull
-    private Long literaryMovementId;
-    @NotNull
-    private Long literaryGenreId;
+    private Long typeId;
+
     @NotNull
     private Long categoryId;
+
     @NotNull
-    private Long statusId;
+    private Long AudienceId;
 
     private Multilingual description;
     private String wikipediaLink;
+
+    @NotNull
+    private Long statusId;
+
     private Boolean favorite;
     private String personalNotes;
 }

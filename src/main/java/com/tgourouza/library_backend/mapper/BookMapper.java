@@ -1,43 +1,49 @@
-package com.tgourouza.library_backend.mapper.book;
+package com.tgourouza.library_backend.mapper;
 
-import com.tgourouza.library_backend.dto.book.BookDTO;
+import com.tgourouza.library_backend.dto.Multilingual;
+import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
+import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.*;
-import com.tgourouza.library_backend.entity.constant.CategoryEntity;
-import com.tgourouza.library_backend.entity.constant.LanguageEntity;
-import com.tgourouza.library_backend.entity.constant.StatusEntity;
-import com.tgourouza.library_backend.entity.constant.TypeEntity;
-import com.tgourouza.library_backend.mapper.MultilingualMapperUtil;
-import com.tgourouza.library_backend.mapper.author.AuthorWithoutBooksMapper;
+import com.tgourouza.library_backend.entity.constant.*;
+import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
+
+import java.time.Period;
+import java.util.Collections;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class BookMapper {
 
-    private final AuthorWithoutBooksMapper authorMapper;
     private final MultilingualMapperUtil multilingualUtil;
+    private final AuthorMapper authorMapper;
 
-    public BookMapper(AuthorWithoutBooksMapper authorMapper, MultilingualMapperUtil multilingualUtil) {
-        this.authorMapper = authorMapper;
+    public BookMapper(MultilingualMapperUtil multilingualUtil, AuthorMapper authorMapper) {
         this.multilingualUtil = multilingualUtil;
+        this.authorMapper = authorMapper;
     }
 
     public BookDTO toDTO(BookEntity entity) {
         if (entity == null) return null;
 
+        AuthorDTO authorDto = authorMapper.toDTO(entity.getAuthor());
+        if (authorDto != null) {
+            authorDto.setBooks(null);
+        }
+
         return new BookDTO(
                 entity.getId(),
                 entity.getOriginalTitle(),
                 multilingualUtil.toMultilingualTitle(entity),
-                authorMapper.toDTO(entity.getAuthor()),
+                authorDto,
+                calculateAuthorAgeAtPublication(entity),
                 entity.getPublicationDate(),
-                entity.getPopularityEurope(),
-                entity.getPopularityRussia(),
-                entity.getTargetAge(),
                 entity.getLanguage() != null ? entity.getLanguage().getName() : null,
-                entity.getLiteraryMovement() != null ? entity.getLiteraryMovement().getName() : null,
-                entity.getLiteraryGenre() != null ? entity.getLiteraryGenre().getName() : null,
+                entity.getType() != null ? entity.getType().getName() : null,
                 entity.getCategory() != null ? entity.getCategory().getName() : null,
+                entity.getAudience() != null ? entity.getAudience().getName() : null,
                 multilingualUtil.toMultilingualDescription(entity),
                 entity.getWikipediaLink(),
                 entity.getStatus() != null ? entity.getStatus().getName() : null,
@@ -46,63 +52,85 @@ public class BookMapper {
         );
     }
 
+    private Integer calculateAuthorAgeAtPublication(BookEntity book) {
+        if (book == null || book.getAuthor() == null || book.getAuthor().getBirthDate() == null || book.getPublicationDate() == null) {
+            return null;
+        }
+        return Period.between(book.getAuthor().getBirthDate(), book.getPublicationDate()).getYears();
+    }
+
+    public List<BookDTO> toDTOs(List<BookEntity> entities) {
+        if (entities == null) return Collections.emptyList();
+        return entities.stream().map(this::toDTO).collect(Collectors.toList());
+    }
+
     public BookEntity toEntity(
             BookCreateRequest request,
             AuthorEntity author,
             LanguageEntity language,
-            LiteraryMovementEntity literaryMovement,
-            TypeEntity literaryGenre,
+            TypeEntity type,
             CategoryEntity category,
+            AudienceEntity audience,
             StatusEntity status
     ) {
-        BookEntity entity = new BookEntity();
-        entity.setAuthor(author);
-        entity.setLanguage(language);
-        entity.setLiteraryMovement(literaryMovement);
-        entity.setLiteraryGenre(literaryGenre);
-        entity.setCategory(category);
-        entity.setStatus(status);
+        if (request == null) return null;
 
+        BookEntity entity = new BookEntity();
+        entity.setId(null); // Let JPA generate UUID
         entity.setOriginalTitle(request.getOriginalTitle());
+        entity.setAuthor(author);
         entity.setPublicationDate(request.getPublicationDate());
-        entity.setPopularityEurope(request.getPopularityEurope());
-        entity.setPopularityRussia(request.getPopularityRussia());
-        entity.setTargetAge(request.getTargetAge());
+        entity.setLanguage(language);
+        entity.setType(type);
+        entity.setCategory(category);
+        entity.setAudience(audience);
+        entity.setStatus(status);
         entity.setWikipediaLink(request.getWikipediaLink());
         entity.setFavorite(request.getFavorite());
         entity.setPersonalNotes(request.getPersonalNotes());
-        multilingualUtil.applyMultilingualTitle(request.getTranslatedTitle(), entity);
-        multilingualUtil.applyMultilingualDescription(request.getDescription(), entity);
+
+        if (request.getTranslatedTitle() != null) {
+            multilingualUtil.applyMultilingualTitle(request.getTranslatedTitle(), entity);
+        }
+
+        if (request.getDescription() != null) {
+            multilingualUtil.applyMultilingualDescription(request.getDescription(), entity);
+        }
 
         return entity;
     }
 
-    public void updateEntity(
-            BookEntity entity,
+    public void updateEntityFromRequest(
             BookCreateRequest request,
             AuthorEntity author,
             LanguageEntity language,
-            LiteraryMovementEntity literaryMovement,
-            TypeEntity literaryGenre,
+            TypeEntity type,
             CategoryEntity category,
-            StatusEntity status
+            AudienceEntity audience,
+            StatusEntity status,
+            @MappingTarget BookEntity target
     ) {
-        entity.setOriginalTitle(request.getOriginalTitle());
-        entity.setAuthor(author);
-        entity.setLanguage(language);
-        entity.setLiteraryMovement(literaryMovement);
-        entity.setLiteraryGenre(literaryGenre);
-        entity.setCategory(category);
-        entity.setStatus(status);
-        entity.setPublicationDate(request.getPublicationDate());
-        entity.setPopularityEurope(request.getPopularityEurope());
-        entity.setPopularityRussia(request.getPopularityRussia());
-        entity.setTargetAge(request.getTargetAge());
-        entity.setWikipediaLink(request.getWikipediaLink());
-        entity.setFavorite(request.getFavorite());
-        entity.setPersonalNotes(request.getPersonalNotes());
+        if (request == null || target == null) return;
 
-        multilingualUtil.applyMultilingualTitle(request.getTranslatedTitle(), entity);
-        multilingualUtil.applyMultilingualDescription(request.getDescription(), entity);
+        target.setOriginalTitle(request.getOriginalTitle());
+        target.setAuthor(author);
+        target.setPublicationDate(request.getPublicationDate());
+        target.setLanguage(language);
+        target.setType(type);
+        target.setCategory(category);
+        target.setAudience(audience);
+        target.setStatus(status);
+        target.setWikipediaLink(request.getWikipediaLink());
+        target.setFavorite(request.getFavorite());
+        target.setPersonalNotes(request.getPersonalNotes());
+
+        if (request.getTranslatedTitle() != null) {
+            multilingualUtil.applyMultilingualTitle(request.getTranslatedTitle(), target);
+        }
+
+        if (request.getDescription() != null) {
+            multilingualUtil.applyMultilingualDescription(request.getDescription(), target);
+        }
     }
+
 }

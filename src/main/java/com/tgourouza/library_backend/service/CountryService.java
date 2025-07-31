@@ -2,10 +2,10 @@ package com.tgourouza.library_backend.service;
 
 import com.tgourouza.library_backend.dto.constant.CountryCreateRequest;
 import com.tgourouza.library_backend.dto.constant.CountryDTO;
-import com.tgourouza.library_backend.entity.CountryEntity;
+import com.tgourouza.library_backend.entity.constant.CountryEntity;
 import com.tgourouza.library_backend.exception.AlreadyExistsException;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
-import com.tgourouza.library_backend.mapper.CountryMapper;
+import com.tgourouza.library_backend.mapper.constant.CountryMapper;
 import com.tgourouza.library_backend.repository.CountryRepository;
 import org.springframework.stereotype.Service;
 

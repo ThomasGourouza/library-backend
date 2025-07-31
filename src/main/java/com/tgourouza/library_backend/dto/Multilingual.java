@@ -14,11 +14,6 @@ public class Multilingual {
     private String portuguese;
     private String english;
     private String german;
-    private String danish;
-    private String swedish;
-    private String norwegian;
     private String russian;
     private String japanese;
-    private String korean;
-    private String chinese;
 }

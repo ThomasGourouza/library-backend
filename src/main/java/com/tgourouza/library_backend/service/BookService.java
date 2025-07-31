@@ -3,6 +3,10 @@ package com.tgourouza.library_backend.service;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.*;
+import com.tgourouza.library_backend.entity.constant.CategoryEntity;
+import com.tgourouza.library_backend.entity.constant.LanguageEntity;
+import com.tgourouza.library_backend.entity.constant.StatusEntity;
+import com.tgourouza.library_backend.entity.constant.TypeEntity;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
 import com.tgourouza.library_backend.mapper.BookMapper;
 import com.tgourouza.library_backend.repository.*;
@@ -18,7 +22,7 @@ public class BookService {
     private final CategoryRepository categoryRepository;
     private final StatusRepository statusRepository;
     private final LanguageRepository languageRepository;
-    private final LiteraryGenreRepository genreRepository;
+    private final TypeRepository genreRepository;
     private final LiteraryMovementRepository movementRepository;
     private final BookMapper bookMapper;
 
@@ -28,7 +32,7 @@ public class BookService {
             CategoryRepository categoryRepository,
             StatusRepository statusRepository,
             LanguageRepository languageRepository,
-            LiteraryGenreRepository genreRepository,
+            TypeRepository genreRepository,
             LiteraryMovementRepository movementRepository,
             BookMapper bookMapper
     ) {
@@ -84,7 +88,7 @@ public class BookService {
                 .orElseThrow(() -> new DataNotFoundException("Language", String.valueOf(request.getLanguageId())));
         LiteraryMovementEntity movement = movementRepository.findById(request.getLiteraryMovementId())
                 .orElseThrow(() -> new DataNotFoundException("Literary movement", String.valueOf(request.getLiteraryMovementId())));
-        LiteraryGenreEntity genre = genreRepository.findById(request.getLiteraryGenreId())
+        TypeEntity genre = genreRepository.findById(request.getLiteraryGenreId())
                 .orElseThrow(() -> new DataNotFoundException("Literary genre", String.valueOf(request.getLiteraryGenreId())));
         CategoryEntity category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> new DataNotFoundException("Category", String.valueOf(request.getCategoryId())));

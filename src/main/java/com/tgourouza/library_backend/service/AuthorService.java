@@ -3,7 +3,7 @@ package com.tgourouza.library_backend.service;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
-import com.tgourouza.library_backend.entity.CountryEntity;
+import com.tgourouza.library_backend.entity.constant.CountryEntity;
 import com.tgourouza.library_backend.entity.GenderEntity;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
 import com.tgourouza.library_backend.mapper.AuthorMapper;

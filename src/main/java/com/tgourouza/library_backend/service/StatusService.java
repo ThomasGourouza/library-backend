@@ -2,7 +2,7 @@ package com.tgourouza.library_backend.service;
 
 import com.tgourouza.library_backend.dto.constant.StatusDTO;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
-import com.tgourouza.library_backend.mapper.StatusMapper;
+import com.tgourouza.library_backend.mapper.constant.StatusMapper;
 import com.tgourouza.library_backend.repository.StatusRepository;
 import org.springframework.stereotype.Service;
 

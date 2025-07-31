@@ -1,6 +1,7 @@
 package com.tgourouza.library_backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.tgourouza.library_backend.entity.constant.CountryEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
@@ -25,7 +26,6 @@ public class AuthorEntity {
     @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
     @Column(columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
-    private String firstName;
     @NotNull
     private String name;
     @ManyToOne
@@ -33,10 +33,6 @@ public class AuthorEntity {
     private CountryEntity country;
     private LocalDate birthDate;
     private LocalDate deathDate;
-    @ManyToOne
-    @JoinColumn(name = "gender_id")
-    private GenderEntity gender;
-    private String wikipediaLink;
 
     private String descriptionFrench;
     private String descriptionSpanish;
@@ -44,13 +40,10 @@ public class AuthorEntity {
     private String descriptionPortuguese;
     private String descriptionEnglish;
     private String descriptionGerman;
-    private String descriptionDanish;
-    private String descriptionSwedish;
-    private String descriptionNorwegian;
     private String descriptionRussian;
     private String descriptionJapanese;
-    private String descriptionKorean;
-    private String descriptionChinese;
+
+    private String wikipediaLink;
 
     @OneToMany(mappedBy = "author")
     @JsonManagedReference

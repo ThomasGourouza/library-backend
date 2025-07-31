@@ -1,70 +1,70 @@
 package com.tgourouza.library_backend.service;
 
-import com.tgourouza.library_backend.dto.constant.LiteraryGenreCreateRequest;
-import com.tgourouza.library_backend.dto.constant.LiteraryGenreDTO;
-import com.tgourouza.library_backend.entity.LiteraryGenreEntity;
+import com.tgourouza.library_backend.dto.constant.TypeCreateRequest;
+import com.tgourouza.library_backend.dto.constant.TypeDTO;
+import com.tgourouza.library_backend.entity.constant.TypeEntity;
 import com.tgourouza.library_backend.exception.AlreadyExistsException;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
-import com.tgourouza.library_backend.mapper.LiteraryGenreMapper;
-import com.tgourouza.library_backend.repository.LiteraryGenreRepository;
+import com.tgourouza.library_backend.mapper.constant.TypeMapper;
+import com.tgourouza.library_backend.repository.TypeRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class LiteraryGenreService {
-    private final LiteraryGenreRepository literaryGenreRepository;
-    private final LiteraryGenreMapper literaryGenreMapper;
+public class TypeService {
+    private final TypeRepository typeRepository;
+    private final TypeMapper literaryGenreMapper;
 
-    public LiteraryGenreService(LiteraryGenreRepository literaryGenreRepository, LiteraryGenreMapper literaryGenreMapper) {
-        this.literaryGenreRepository = literaryGenreRepository;
+    public TypeService(TypeRepository typeRepository, TypeMapper literaryGenreMapper) {
+        this.typeRepository = typeRepository;
         this.literaryGenreMapper = literaryGenreMapper;
     }
 
-    public List<LiteraryGenreDTO> getAll() {
-        return literaryGenreRepository.findAll()
+    public List<TypeDTO> getAll() {
+        return typeRepository.findAll()
                 .stream()
                 .map(literaryGenreMapper::toDTO)
                 .toList();
     }
 
-    public LiteraryGenreDTO getById(Long id) {
-        return literaryGenreRepository.findById(id)
+    public TypeDTO getById(Long id) {
+        return typeRepository.findById(id)
                 .map(literaryGenreMapper::toDTO)
                 .orElseThrow(() -> new DataNotFoundException("LiteraryGenre", String.valueOf(id)));
     }
 
-    public LiteraryGenreDTO save(LiteraryGenreCreateRequest request) {
-        LiteraryGenreEntity entity = literaryGenreMapper.toEntity(request);
+    public TypeDTO save(TypeCreateRequest request) {
+        TypeEntity entity = literaryGenreMapper.toEntity(request);
 
-        if (literaryGenreRepository.existsByName(entity.getName())) {
+        if (typeRepository.existsByName(entity.getName())) {
             throw new AlreadyExistsException("LiteraryGenre", entity.getName().name());
         }
 
-        LiteraryGenreEntity saved = literaryGenreRepository.save(entity);
+        TypeEntity saved = typeRepository.save(entity);
         return literaryGenreMapper.toDTO(saved);
     }
 
-    public List<LiteraryGenreDTO> saveAll(List<LiteraryGenreCreateRequest> requests) {
-        List<LiteraryGenreEntity> entities = requests.stream()
+    public List<TypeDTO> saveAll(List<TypeCreateRequest> requests) {
+        List<TypeEntity> entities = requests.stream()
                 .map(literaryGenreMapper::toEntity)
                 .peek(entity -> {
-                    if (literaryGenreRepository.existsByName(entity.getName())) {
+                    if (typeRepository.existsByName(entity.getName())) {
                         throw new AlreadyExistsException("LiteraryGenre", entity.getName().name());
                     }
                 })
                 .toList();
 
-        return literaryGenreRepository.saveAll(entities)
+        return typeRepository.saveAll(entities)
                 .stream()
                 .map(literaryGenreMapper::toDTO)
                 .toList();
     }
 
     public void deleteById(Long id) {
-        if (!literaryGenreRepository.existsById(id)) {
+        if (!typeRepository.existsById(id)) {
             throw new DataNotFoundException("LiteraryGenre", String.valueOf(id));
         }
-        literaryGenreRepository.deleteById(id);
+        typeRepository.deleteById(id);
     }
 }
