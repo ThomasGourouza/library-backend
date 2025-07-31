@@ -13,13 +13,16 @@ import java.util.stream.Collectors;
 @Component
 public class AuthorMapper {
 
+    private final AuthorIdentityMapper identityMapper;
     private final BookWithoutAuthorMapper bookWithoutAuthorMapper;
     private final MultilingualMapperUtil multilingualMapperUtil;
 
     public AuthorMapper(
+            AuthorIdentityMapper identityMapper,
             BookWithoutAuthorMapper bookWithoutAuthorMapper,
             MultilingualMapperUtil multilingualMapperUtil
     ) {
+        this.identityMapper = identityMapper;
         this.bookWithoutAuthorMapper = bookWithoutAuthorMapper;
         this.multilingualMapperUtil = multilingualMapperUtil;
     }
@@ -29,18 +32,11 @@ public class AuthorMapper {
 
         return new AuthorDTO(
                 author.getId(),
-                author.getFirstName(),
-                author.getName(),
-                author.getCountry() != null ? author.getCountry().getName() : null,
-                author.getBirthDate(),
-                author.getDeathDate(),
-                author.getGender() != null ? author.getGender().getName() : null,
+                identityMapper.toDTO(author),
                 multilingualMapperUtil.toMultilingualDescription(author),
                 author.getWikipediaLink(),
                 author.getBooks() != null
-                        ? author.getBooks().stream()
-                        .map(bookWithoutAuthorMapper::toDTO)
-                        .collect(Collectors.toList())
+                        ? author.getBooks().stream().map(bookWithoutAuthorMapper::toDTO).collect(Collectors.toList())
                         : Collections.emptyList()
         );
     }
@@ -49,14 +45,9 @@ public class AuthorMapper {
         if (request == null) return null;
 
         AuthorEntity entity = new AuthorEntity();
-        entity.setFirstName(request.getFirstName());
-        entity.setName(request.getName());
-        entity.setBirthDate(request.getBirthDate());
-        entity.setDeathDate(request.getDeathDate());
-        entity.setWikipediaLink(request.getWikipediaLink());
-        entity.setCountry(country);
-        entity.setGender(gender);
+        identityMapper.applyToEntity(entity, request.getIdentity(), gender, country);
         multilingualMapperUtil.applyMultilingualDescription(request.getDescription(), entity);
+        entity.setWikipediaLink(request.getWikipediaLink());
 
         return entity;
     }
@@ -64,13 +55,8 @@ public class AuthorMapper {
     public void updateEntity(AuthorEntity entity, AuthorCreateRequest request, CountryEntity country, GenderEntity gender) {
         if (entity == null || request == null) return;
 
-        entity.setFirstName(request.getFirstName());
-        entity.setName(request.getName());
-        entity.setBirthDate(request.getBirthDate());
-        entity.setDeathDate(request.getDeathDate());
-        entity.setWikipediaLink(request.getWikipediaLink());
-        entity.setCountry(country);
-        entity.setGender(gender);
+        identityMapper.applyToEntity(entity, request.getIdentity(), gender, country);
         multilingualMapperUtil.applyMultilingualDescription(request.getDescription(), entity);
+        entity.setWikipediaLink(request.getWikipediaLink());
     }
 }

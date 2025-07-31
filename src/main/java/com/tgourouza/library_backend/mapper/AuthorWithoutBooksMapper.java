@@ -8,9 +8,11 @@ import org.springframework.stereotype.Component;
 public class AuthorWithoutBooksMapper {
 
     private final MultilingualMapperUtil multilingualMapperUtil;
+    private final AuthorIdentityMapper identityMapper;
 
-    public AuthorWithoutBooksMapper(MultilingualMapperUtil multilingualMapperUtil) {
+    public AuthorWithoutBooksMapper(MultilingualMapperUtil multilingualMapperUtil, AuthorIdentityMapper identityMapper) {
         this.multilingualMapperUtil = multilingualMapperUtil;
+        this.identityMapper = identityMapper;
     }
 
     public AuthorWithoutBooksDTO toDTO(AuthorEntity author) {
@@ -18,12 +20,7 @@ public class AuthorWithoutBooksMapper {
 
         return new AuthorWithoutBooksDTO(
                 author.getId(),
-                author.getFirstName(),
-                author.getName(),
-                author.getCountry() != null ? author.getCountry().getName() : null,
-                author.getBirthDate(),
-                author.getDeathDate(),
-                author.getGender() != null ? author.getGender().getName() : null,
+                identityMapper.toDTO(author),
                 multilingualMapperUtil.toMultilingualDescription(author),
                 author.getWikipediaLink()
         );
