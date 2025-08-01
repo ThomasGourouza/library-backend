@@ -23,10 +23,10 @@ public class BookCreateRequest {
     private String wikipediaLink;
     private String personalNotes;
     // Fields with default values
-    private Language language;
-    private Type type;
-    private Category category;
-    private Audience audience;
-    private Status status;
+    private String language;
+    private String type;
+    private String category;
+    private String audience;
+    private String status;
     private Boolean favorite;
 }

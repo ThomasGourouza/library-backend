@@ -58,13 +58,13 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(message);
     }
 
-    @ExceptionHandler(AlreadyExistsException.class)
-    public ResponseEntity<ErrorResponse> handleAlreadyExists(AlreadyExistsException ex) {
+    @ExceptionHandler(InvalidRequestException.class)
+    public ResponseEntity<ErrorResponse> handleInvalidRequest(InvalidRequestException ex) {
         ErrorResponse error = new ErrorResponse(
-                HttpStatus.CONFLICT.value(),
+                HttpStatus.BAD_REQUEST.value(),
                 ex.getMessage(),
                 LocalDateTime.now()
         );
-        return new ResponseEntity<>(error, HttpStatus.CONFLICT); // 409
+        return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
     }
 }

@@ -15,9 +15,7 @@ CREATE TABLE author (
     description_english TEXT,
     description_german TEXT,
     description_russian TEXT,
-    description_japanese TEXT,
-
-    CONSTRAINT fk_author_country FOREIGN KEY (country) REFERENCES country(name)
+    description_japanese TEXT
 );
 
 CREATE TABLE book (
@@ -53,12 +51,5 @@ CREATE TABLE book (
     description_english TEXT,
     description_german TEXT,
     description_russian TEXT,
-    description_japanese TEXT,
-
-    CONSTRAINT fk_book_author FOREIGN KEY (author_id) REFERENCES author(id),
-    CONSTRAINT fk_book_language FOREIGN KEY (language) REFERENCES language(name),
-    CONSTRAINT fk_book_type FOREIGN KEY (type) REFERENCES type(name),
-    CONSTRAINT fk_book_category FOREIGN KEY (category) REFERENCES category(name),
-    CONSTRAINT fk_book_audience FOREIGN KEY (audience) REFERENCES audience(name),
-    CONSTRAINT fk_book_status FOREIGN KEY (status) REFERENCES status(name)
+    description_japanese TEXT
 );

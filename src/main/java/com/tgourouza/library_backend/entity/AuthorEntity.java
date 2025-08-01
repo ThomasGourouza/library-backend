@@ -1,7 +1,7 @@
 package com.tgourouza.library_backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.tgourouza.library_backend.entity.constant.CountryEntity;
+import com.tgourouza.library_backend.constant.Country;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
@@ -27,11 +27,10 @@ public class AuthorEntity {
     private UUID id;
     @NotNull
     private String name;
-    @ManyToOne
-    @JoinColumn(name = "country")
-    private CountryEntity country;
+    private Country country;
     private LocalDate birthDate;
     private LocalDate deathDate;
+    private String wikipediaLink;
 
     private String descriptionFrench;
     private String descriptionSpanish;
@@ -41,8 +40,6 @@ public class AuthorEntity {
     private String descriptionGerman;
     private String descriptionRussian;
     private String descriptionJapanese;
-
-    private String wikipediaLink;
 
     @OneToMany(mappedBy = "author")
     @JsonManagedReference

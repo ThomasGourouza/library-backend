@@ -15,5 +15,5 @@ public class AuthorCreateRequest {
     private Multilingual description;
     private String wikipediaLink;
     // Field with default value
-    private Country country;
+    private String country;
 }

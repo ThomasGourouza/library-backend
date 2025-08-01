@@ -1,7 +1,7 @@
 package com.tgourouza.library_backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.tgourouza.library_backend.entity.constant.*;
+import com.tgourouza.library_backend.constant.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
@@ -24,6 +24,22 @@ public class BookEntity {
     @NotNull
     private String originalTitle;
 
+    @ManyToOne
+    @JoinColumn(name = "author_id", nullable = false)
+    @NotNull
+    @JsonBackReference
+    private AuthorEntity author;
+
+    private LocalDate publicationDate;
+    private String wikipediaLink;
+    private Language language;
+    private Type type;
+    private Category category;
+    private Audience audience;
+    private Status status;
+    private Boolean favorite;
+    private String personalNotes;
+
     private String titleFrench;
     private String titleSpanish;
     private String titleItalian;
@@ -33,27 +49,6 @@ public class BookEntity {
     private String titleRussian;
     private String titleJapanese;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id", nullable = false)
-    @NotNull
-    @JsonBackReference
-    private AuthorEntity author;
-
-    private LocalDate publicationDate;
-
-    @ManyToOne
-    @JoinColumn(name = "language")
-    private LanguageEntity language;
-    @ManyToOne
-    @JoinColumn(name = "type")
-    private TypeEntity type;
-    @ManyToOne
-    @JoinColumn(name = "category")
-    private CategoryEntity category;
-    @ManyToOne
-    @JoinColumn(name = "audience")
-    private AudienceEntity audience;
-
     private String descriptionFrench;
     private String descriptionSpanish;
     private String descriptionItalian;
@@ -62,11 +57,4 @@ public class BookEntity {
     private String descriptionGerman;
     private String descriptionRussian;
     private String descriptionJapanese;
-
-    private String wikipediaLink;
-    @ManyToOne
-    @JoinColumn(name = "status")
-    private StatusEntity status;
-    private Boolean favorite;
-    private String personalNotes;
 }

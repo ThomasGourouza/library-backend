@@ -21,19 +21,19 @@ public class utils {
 
     public static void applyDefaultValuesOnBookRequestIfNeeded(BookCreateRequest request) {
         if (request.getLanguage() == null) {
-            request.setLanguage(Language.UNKNOWN);
+            request.setLanguage(Language.UNKNOWN.toString());
         }
         if (request.getType() == null) {
-            request.setType(Type.UNKNOWN);
+            request.setType(Type.UNKNOWN.toString());
         }
         if (request.getCategory() == null) {
-            request.setCategory(Category.UNKNOWN);
+            request.setCategory(Category.UNKNOWN.toString());
         }
         if (request.getAudience() == null) {
-            request.setAudience(Audience.UNKNOWN);
+            request.setAudience(Audience.UNKNOWN.toString());
         }
         if (request.getStatus() == null) {
-            request.setStatus(Status.UNREAD);
+            request.setStatus(Status.UNREAD.toString());
         }
         if (request.getFavorite() == null) {
             request.setFavorite(false);
@@ -42,7 +42,7 @@ public class utils {
 
     public static void applyDefaultValuesOnAuthorRequestIfNeeded(AuthorCreateRequest request) {
         if (request.getCountry() == null) {
-            request.setCountry(Country.UNKNOWN);
+            request.setCountry(Country.UNKNOWN.toString());
         }
     }
 }
