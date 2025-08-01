@@ -2,11 +2,13 @@ package com.tgourouza.library_backend.entity.constant;
 
 import com.tgourouza.library_backend.constant.Status;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Entity
 @Table(name = "status")
 @Data
+@AllArgsConstructor
 public class StatusEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,8 +17,4 @@ public class StatusEntity {
     @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     private Status name;
-
-    public StatusEntity(Status name) {
-        this.name = name;
-    }
 }

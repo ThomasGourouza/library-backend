@@ -38,31 +38,28 @@ public class AuthorService {
                 .toList();
     }
 
-    public AuthorDTO getById(UUID id) {
-        AuthorEntity entity = authorRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("Author", String.valueOf(id)));
-        return authorMapper.toDTO(entity);
+    public AuthorDTO getById(UUID authorId) {
+        AuthorEntity author = findAuthor(authorId);
+        return authorMapper.toDTO(author);
     }
 
     public AuthorDTO create(AuthorCreateRequest request) {
+        AuthorEntity author = new AuthorEntity();
         CountryEntity country = resolveCountry(request.getCountry());
-
-        AuthorEntity entity = authorMapper.toEntity(request, country);
-        AuthorEntity saved = authorRepository.save(entity);
-
-        return authorMapper.toDTO(saved);
+        return updateEntityAndSave(request, author, country);
     }
 
-    public AuthorDTO update(UUID id, AuthorCreateRequest request) {
-        AuthorEntity existing = authorRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("Author", String.valueOf(id)));
-
+    public AuthorDTO update(UUID authorId, AuthorCreateRequest request) {
+        AuthorEntity author = findAuthor(authorId);
         CountryEntity country = resolveCountry(request.getCountry());
+        return updateEntityAndSave(request, author, country);
+    }
 
-        authorMapper.updateEntity(existing, request, country);
-        AuthorEntity updated = authorRepository.save(existing);
-
-        return authorMapper.toDTO(updated);
+    public void delete(UUID authorId) {
+        if (!authorRepository.existsById(authorId)) {
+            throw new DataNotFoundException("Author", String.valueOf(authorId));
+        }
+        authorRepository.deleteById(authorId);
     }
 
     private CountryEntity resolveCountry(Country countryEnum) {
@@ -70,10 +67,13 @@ public class AuthorService {
                 .orElseThrow(() -> new DataNotFoundException("Country", countryEnum.name()));
     }
 
-    public void delete(UUID id) {
-        if (!authorRepository.existsById(id)) {
-            throw new DataNotFoundException("Author", String.valueOf(id));
-        }
-        authorRepository.deleteById(id);
+    private AuthorDTO updateEntityAndSave(AuthorCreateRequest request, AuthorEntity author, CountryEntity country) {
+        authorMapper.updateEntity(author, request, country);
+        return authorMapper.toDTO(authorRepository.save(author));
+    }
+
+    private AuthorEntity findAuthor(UUID authorId) {
+        return authorRepository.findById(authorId)
+                .orElseThrow(() -> new DataNotFoundException("Author", String.valueOf(authorId)));
     }
 }

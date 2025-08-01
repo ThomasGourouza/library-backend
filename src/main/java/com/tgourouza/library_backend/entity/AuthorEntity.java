@@ -2,11 +2,9 @@ package com.tgourouza.library_backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.tgourouza.library_backend.entity.constant.CountryEntity;
-import jakarta.persistence.Column;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
-import org.hibernate.annotations.GenericGenerator;
 
 import jakarta.persistence.*;
 import lombok.*;
@@ -22,9 +20,10 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AuthorEntity {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    @GeneratedValue
+//    @GeneratedValue(generator = "UUID")
+//    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+//    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
     @NotNull
     private String name;

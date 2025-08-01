@@ -24,7 +24,7 @@ public class BookService {
     private final BookMapper bookMapper;
 
     public BookService(
-            BookRepository repository,
+            BookRepository bookRepository,
             AuthorRepository authorRepository,
             CategoryRepository categoryRepository,
             StatusRepository statusRepository,
@@ -33,7 +33,7 @@ public class BookService {
             AudienceRepository audienceRepository,
             BookMapper bookMapper
     ) {
-        this.bookRepository = repository;
+        this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.categoryRepository = categoryRepository;
         this.statusRepository = statusRepository;
@@ -49,14 +49,60 @@ public class BookService {
                 .toList();
     }
 
-    public BookDTO getBookById(UUID id) {
-        return bookRepository.findById(id)
-                .map(bookMapper::toDTO)
-                .orElseThrow(() -> new DataNotFoundException("Book", String.valueOf(id)));
+    public BookDTO getBookById(UUID bookId) {
+        BookEntity book = findBook(bookId);
+        return bookMapper.toDTO(book);
     }
 
     public BookDTO createBook(BookCreateRequest request) {
-        BookEntity entity = bookMapper.toEntity(
+        BookEntity book = new BookEntity();
+        return updateEntityAndSave(request, book);
+    }
+
+    public BookDTO updateBook(UUID bookId, BookCreateRequest request) {
+        BookEntity book = findBook(bookId);
+        return updateEntityAndSave(request, book);
+    }
+
+    public void deleteBook(UUID bookId) {
+        if (!bookRepository.existsById(bookId)) {
+            throw new DataNotFoundException("Book", String.valueOf(bookId));
+        }
+        bookRepository.deleteById(bookId);
+    }
+
+    public BookDTO updateStatus(UUID bookId, Long statusId) {
+        BookEntity book = findBook(bookId);
+        StatusEntity status = findStatus(statusId);
+        book.setStatus(status);
+        return bookMapper.toDTO(bookRepository.save(book));
+    }
+
+    public BookDTO updateFavorite(UUID bookId, Boolean favorite) {
+        BookEntity book = findBook(bookId);
+        book.setFavorite(favorite);
+        return bookMapper.toDTO(bookRepository.save(book));
+    }
+
+    public BookDTO updatePersonalNotes(UUID bookId, String notes) {
+        BookEntity book = findBook(bookId);
+        book.setPersonalNotes(notes);
+        return bookMapper.toDTO(bookRepository.save(book));
+    }
+
+    private BookEntity findBook(UUID bookId) {
+        return bookRepository.findById(bookId)
+                .orElseThrow(() -> new DataNotFoundException("Book", String.valueOf(bookId)));
+    }
+
+    private StatusEntity findStatus(Long statusId) {
+        return statusRepository.findById(statusId)
+                .orElseThrow(() -> new DataNotFoundException("Status", String.valueOf(statusId)));
+    }
+
+    private BookDTO updateEntityAndSave(BookCreateRequest request, BookEntity book) {
+        bookMapper.updateEntity(
+                book,
                 request,
                 authorRepository.findById(request.getAuthorId())
                         .orElseThrow(() -> new DataNotFoundException("Author", String.valueOf(request.getAuthorId()))),
@@ -68,66 +114,8 @@ public class BookService {
                         .orElseThrow(() -> new DataNotFoundException("Category", String.valueOf(request.getCategoryId()))),
                 audienceRepository.findById(request.getAudienceId())
                         .orElseThrow(() -> new DataNotFoundException("Audience", String.valueOf(request.getAudienceId()))),
-                statusRepository.findById(request.getStatusId())
-                        .orElseThrow(() -> new DataNotFoundException("Status", String.valueOf(request.getStatusId())))
+                findStatus(request.getStatusId())
         );
-
-        return bookMapper.toDTO(bookRepository.save(entity));
-    }
-
-    public BookDTO updateBook(UUID id, BookCreateRequest request) {
-        BookEntity existing = bookRepository.findById(id)
-                .orElseThrow(() -> new DataNotFoundException("Book", String.valueOf(id)));
-
-        AuthorEntity author = authorRepository.findById(request.getAuthorId())
-                .orElseThrow(() -> new DataNotFoundException("Author", String.valueOf(request.getAuthorId())));
-        LanguageEntity language = languageRepository.findById(request.getLanguageId())
-                .orElseThrow(() -> new DataNotFoundException("Language", String.valueOf(request.getLanguageId())));
-        TypeEntity type = typeRepository.findById(request.getTypeId())
-                .orElseThrow(() -> new DataNotFoundException("Type", String.valueOf(request.getTypeId())));
-        CategoryEntity category = categoryRepository.findById(request.getCategoryId())
-                .orElseThrow(() -> new DataNotFoundException("Category", String.valueOf(request.getCategoryId())));
-        AudienceEntity audience = audienceRepository.findById(request.getAudienceId())
-                .orElseThrow(() -> new DataNotFoundException("Audience", String.valueOf(request.getAudienceId())));
-        StatusEntity status = statusRepository.findById(request.getStatusId())
-                .orElseThrow(() -> new DataNotFoundException("Status", String.valueOf(request.getStatusId())));
-
-        bookMapper.updateEntity(
-                existing, request, author, language, type, category, audience, status
-        );
-
-        return bookMapper.toDTO(bookRepository.save(existing));
-    }
-
-    public void deleteBook(UUID id) {
-        if (!bookRepository.existsById(id)) {
-            throw new DataNotFoundException("Book", String.valueOf(id));
-        }
-        bookRepository.deleteById(id);
-    }
-
-    public BookDTO updateStatus(UUID bookId, Long statusId) {
-        BookEntity book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new DataNotFoundException("Book", String.valueOf(bookId)));
-
-        StatusEntity status = statusRepository.findById(statusId)
-                .orElseThrow(() -> new DataNotFoundException("Status", String.valueOf(statusId)));
-
-        book.setStatus(status);
-        return bookMapper.toDTO(bookRepository.save(book));
-    }
-
-    public BookDTO updateFavorite(UUID bookId, Boolean favorite) {
-        BookEntity book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new DataNotFoundException("Book", String.valueOf(bookId)));
-        book.setFavorite(favorite);
-        return bookMapper.toDTO(bookRepository.save(book));
-    }
-
-    public BookDTO updatePersonalNotes(UUID bookId, String notes) {
-        BookEntity book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new DataNotFoundException("Book", String.valueOf(bookId)));
-        book.setPersonalNotes(notes);
         return bookMapper.toDTO(bookRepository.save(book));
     }
 }

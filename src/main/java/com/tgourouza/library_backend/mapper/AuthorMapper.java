@@ -26,7 +26,6 @@ public class AuthorMapper {
 
     public AuthorDTO toDTO(AuthorEntity author) {
         if (author == null) return null;
-
         return new AuthorDTO(
                 author.getId(),
                 author.getName(),
@@ -38,10 +37,8 @@ public class AuthorMapper {
         );
     }
 
-    public AuthorEntity toEntity(AuthorCreateRequest request, CountryEntity country) {
-        if (request == null) return null;
-
-        AuthorEntity author = new AuthorEntity();
+    public void updateEntity(AuthorEntity author, AuthorCreateRequest request, CountryEntity country) {
+        if (request == null || author == null) return;
         author.setName(request.getName());
         author.setCountry(country);
         if (request.getDate() != null) {
@@ -50,20 +47,6 @@ public class AuthorMapper {
         }
         multilingualMapperUtil.applyMultilingualDescription(request.getDescription(), author);
         author.setWikipediaLink(request.getWikipediaLink());
-        return author;
-    }
-
-    public void updateEntity(AuthorEntity entity, AuthorCreateRequest request, CountryEntity country) {
-        if (request == null || entity == null) return;
-
-        entity.setName(request.getName());
-        entity.setCountry(country);
-        if (request.getDate() != null) {
-            entity.setBirthDate(request.getDate().getBirth());
-            entity.setDeathDate(request.getDate().getDeath());
-        }
-        multilingualMapperUtil.applyMultilingualDescription(request.getDescription(), entity);
-        entity.setWikipediaLink(request.getWikipediaLink());
     }
 
     private List<BookDTO> mapBooksWithoutAuthor(List<BookEntity> books) {

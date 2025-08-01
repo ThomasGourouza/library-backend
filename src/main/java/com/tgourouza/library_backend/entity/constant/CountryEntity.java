@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "country")
 @Data
+@AllArgsConstructor
 public class CountryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,8 +18,4 @@ public class CountryEntity {
     @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
     private Country name;
-
-    public CountryEntity(Country name) {
-        this.name = name;
-    }
 }
