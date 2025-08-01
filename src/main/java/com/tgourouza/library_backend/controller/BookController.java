@@ -55,7 +55,7 @@ public class BookController {
             @PathVariable UUID id,
             @Valid @RequestBody StatusUpdateRequest updateRequest
     ) {
-        return ResponseEntity.ok(bookService.updateStatus(id, updateRequest.getStatusId()));
+        return ResponseEntity.ok(bookService.updateStatus(id, updateRequest.getStatus()));
     }
 
     @PatchMapping("/{id}/favorite")

@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.dto.book;
 
+import com.tgourouza.library_backend.constant.*;
 import com.tgourouza.library_backend.dto.Multilingual;
 import jakarta.validation.constraints.*;
 import lombok.Data;
@@ -9,38 +10,24 @@ import java.util.UUID;
 
 @Data
 public class BookCreateRequest {
-
-    @NotBlank(message = "Title is required")
+    @NotBlank(message = "Original title is required")
     @Size(max = 255)
     private String originalTitle;
-
-    private Multilingual title;
 
     @NotNull
     @Size(max = 255)
     private UUID authorId;
 
     private LocalDate publicationDate;
-
-    @NotNull
-    private Long languageId;
-
-    @NotNull
-    private Long typeId;
-
-    @NotNull
-    private Long categoryId;
-
-    @NotNull
-    private Long AudienceId;
-
+    private Multilingual title;
     private Multilingual description;
     private String wikipediaLink;
-
-    @NotNull
-    private Long statusId;
-
-    private Boolean favorite;
     private String personalNotes;
+    // Fields with default values
+    private Language language;
+    private Type type;
+    private Category category;
+    private Audience audience;
+    private Status status;
+    private Boolean favorite;
 }
-

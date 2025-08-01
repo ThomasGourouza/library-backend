@@ -36,11 +36,9 @@ public class LanguageService {
 
     public LanguageDTO save(LanguageCreateRequest request) {
         LanguageEntity entity = languageMapper.toEntity(request);
-
         if (languageRepository.existsByName(entity.getName())) {
             throw new AlreadyExistsException("Language", entity.getName().name());
         }
-
         LanguageEntity saved = languageRepository.save(entity);
         return languageMapper.toDTO(saved);
     }
@@ -54,7 +52,6 @@ public class LanguageService {
                     }
                 })
                 .toList();
-
         return languageRepository.saveAll(entities)
                 .stream()
                 .map(languageMapper::toDTO)

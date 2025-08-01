@@ -1,14 +1,16 @@
-package com.tgourouza.library_backend.mapper;
+package com.tgourouza.library_backend.mapper.book;
 
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.*;
 import com.tgourouza.library_backend.entity.constant.*;
+import com.tgourouza.library_backend.mapper.MultilingualMapper;
+import com.tgourouza.library_backend.mapper.author.AuthorWithoutBooksMapper;
 import org.mapstruct.MappingTarget;
 import org.springframework.stereotype.Component;
 
-import static com.tgourouza.library_backend.util.BookUtils.calculateAuthorAgeAtPublication;
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
 
 @Component
 public class BookMapper {

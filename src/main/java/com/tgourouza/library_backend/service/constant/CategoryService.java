@@ -36,11 +36,9 @@ public class CategoryService {
 
     public CategoryDTO save(CategoryCreateRequest request) {
         CategoryEntity entity = categoryMapper.toEntity(request);
-
         if (categoryRepository.existsByName(entity.getName())) {
             throw new AlreadyExistsException("Category", entity.getName().name());
         }
-
         CategoryEntity saved = categoryRepository.save(entity);
         return categoryMapper.toDTO(saved);
     }
@@ -54,7 +52,6 @@ public class CategoryService {
                     }
                 })
                 .toList();
-
         return categoryRepository.saveAll(entities)
                 .stream()
                 .map(categoryMapper::toDTO)

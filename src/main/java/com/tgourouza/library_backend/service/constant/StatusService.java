@@ -1,6 +1,9 @@
 package com.tgourouza.library_backend.service.constant;
 
+import com.tgourouza.library_backend.dto.constant.StatusCreateRequest;
 import com.tgourouza.library_backend.dto.constant.StatusDTO;
+import com.tgourouza.library_backend.entity.constant.StatusEntity;
+import com.tgourouza.library_backend.exception.AlreadyExistsException;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
 import com.tgourouza.library_backend.mapper.constant.StatusMapper;
 import com.tgourouza.library_backend.repository.StatusRepository;
@@ -31,37 +34,34 @@ public class StatusService {
                 .orElseThrow(() -> new DataNotFoundException("Status", String.valueOf(id)));
     }
 
-//    public StatusDTO save(StatusCreateRequest request) {
-//        StatusEntity entity = statusMapper.toEntity(request);
-//
-//        if (statusRepository.existsByName(entity.getName())) {
-//            throw new AlreadyExistsException("Status", entity.getName().name());
-//        }
-//
-//        StatusEntity saved = statusRepository.save(entity);
-//        return statusMapper.toDTO(saved);
-//    }
-//
-//    public List<StatusDTO> saveAll(List<StatusCreateRequest> requests) {
-//        List<StatusEntity> entities = requests.stream()
-//                .map(statusMapper::toEntity)
-//                .peek(entity -> {
-//                    if (statusRepository.existsByName(entity.getName())) {
-//                        throw new AlreadyExistsException("Status", entity.getName().name());
-//                    }
-//                })
-//                .toList();
-//
-//        return statusRepository.saveAll(entities)
-//                .stream()
-//                .map(statusMapper::toDTO)
-//                .toList();
-//    }
-//
-//    public void deleteById(Long id) {
-//        if (!statusRepository.existsById(id)) {
-//            throw new DataNotFoundException("Status", String.valueOf(id));
-//        }
-//        statusRepository.deleteById(id);
-//    }
+    public StatusDTO save(StatusCreateRequest request) {
+        StatusEntity entity = statusMapper.toEntity(request);
+        if (statusRepository.existsByName(entity.getName())) {
+            throw new AlreadyExistsException("Status", entity.getName().name());
+        }
+        StatusEntity saved = statusRepository.save(entity);
+        return statusMapper.toDTO(saved);
+    }
+
+    public List<StatusDTO> saveAll(List<StatusCreateRequest> requests) {
+        List<StatusEntity> entities = requests.stream()
+                .map(statusMapper::toEntity)
+                .peek(entity -> {
+                    if (statusRepository.existsByName(entity.getName())) {
+                        throw new AlreadyExistsException("Status", entity.getName().name());
+                    }
+                })
+                .toList();
+        return statusRepository.saveAll(entities)
+                .stream()
+                .map(statusMapper::toDTO)
+                .toList();
+    }
+
+    public void deleteById(Long id) {
+        if (!statusRepository.existsById(id)) {
+            throw new DataNotFoundException("Status", String.valueOf(id));
+        }
+        statusRepository.deleteById(id);
+    }
 }

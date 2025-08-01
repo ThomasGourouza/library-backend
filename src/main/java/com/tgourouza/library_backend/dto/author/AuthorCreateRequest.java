@@ -11,8 +11,9 @@ public class AuthorCreateRequest {
     @NotBlank(message = "Name is required")
     @Size(max = 255)
     private String name;
-    private Country country;
     private AuthorDate date;
     private Multilingual description;
     private String wikipediaLink;
+    // Field with default value
+    private Country country;
 }

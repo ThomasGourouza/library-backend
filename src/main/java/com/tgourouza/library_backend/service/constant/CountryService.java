@@ -36,11 +36,9 @@ public class CountryService {
 
     public CountryDTO save(CountryCreateRequest request) {
         CountryEntity entity = countryMapper.toEntity(request);
-
         if (countryRepository.existsByName(entity.getName())) {
             throw new AlreadyExistsException("Country", entity.getName().name());
         }
-
         CountryEntity saved = countryRepository.save(entity);
         return countryMapper.toDTO(saved);
     }
@@ -54,7 +52,6 @@ public class CountryService {
                     }
                 })
                 .toList();
-
         return countryRepository.saveAll(entities)
                 .stream()
                 .map(countryMapper::toDTO)

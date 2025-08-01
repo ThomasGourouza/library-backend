@@ -5,7 +5,10 @@ import com.tgourouza.library_backend.entity.constant.StatusEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
 @Repository
 public interface StatusRepository extends JpaRepository<StatusEntity, Long> {
     boolean existsByName(Status name);
+    Optional<StatusEntity> findByName(Status name);
 }

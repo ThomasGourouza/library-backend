@@ -36,11 +36,9 @@ public class TypeService {
 
     public TypeDTO save(TypeCreateRequest request) {
         TypeEntity entity = literaryGenreMapper.toEntity(request);
-
         if (typeRepository.existsByName(entity.getName())) {
             throw new AlreadyExistsException("LiteraryGenre", entity.getName().name());
         }
-
         TypeEntity saved = typeRepository.save(entity);
         return literaryGenreMapper.toDTO(saved);
     }
@@ -54,7 +52,6 @@ public class TypeService {
                     }
                 })
                 .toList();
-
         return typeRepository.saveAll(entities)
                 .stream()
                 .map(literaryGenreMapper::toDTO)

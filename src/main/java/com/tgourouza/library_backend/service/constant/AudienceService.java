@@ -36,11 +36,9 @@ public class AudienceService {
 
     public AudienceDTO save(AudienceCreateRequest request) {
         AudienceEntity entity = audienceMapper.toEntity(request);
-
         if (audienceRepository.existsByName(entity.getName())) {
             throw new AlreadyExistsException("Audience", entity.getName().name());
         }
-
         AudienceEntity saved = audienceRepository.save(entity);
         return audienceMapper.toDTO(saved);
     }
@@ -54,7 +52,6 @@ public class AudienceService {
                     }
                 })
                 .toList();
-
         return audienceRepository.saveAll(entities)
                 .stream()
                 .map(audienceMapper::toDTO)

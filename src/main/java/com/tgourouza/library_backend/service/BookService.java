@@ -1,45 +1,32 @@
 package com.tgourouza.library_backend.service;
 
+import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.*;
-import com.tgourouza.library_backend.entity.constant.*;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
-import com.tgourouza.library_backend.mapper.BookMapper;
+import com.tgourouza.library_backend.mapper.book.BookMapper;
 import com.tgourouza.library_backend.repository.*;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.UUID;
 
+import static com.tgourouza.library_backend.util.utils.applyDefaultValuesOnBookRequestIfNeeded;
+
 @Service
 public class BookService {
     private final BookRepository bookRepository;
-    private final AuthorRepository authorRepository;
-    private final CategoryRepository categoryRepository;
-    private final StatusRepository statusRepository;
-    private final LanguageRepository languageRepository;
-    private final TypeRepository typeRepository;
-    private final AudienceRepository audienceRepository;
+    private final EntityResolver entityResolver;
     private final BookMapper bookMapper;
 
     public BookService(
             BookRepository bookRepository,
-            AuthorRepository authorRepository,
-            CategoryRepository categoryRepository,
-            StatusRepository statusRepository,
-            LanguageRepository languageRepository,
-            TypeRepository typeRepository,
-            AudienceRepository audienceRepository,
+            EntityResolver entityResolver,
             BookMapper bookMapper
     ) {
         this.bookRepository = bookRepository;
-        this.authorRepository = authorRepository;
-        this.categoryRepository = categoryRepository;
-        this.statusRepository = statusRepository;
-        this.languageRepository = languageRepository;
-        this.typeRepository = typeRepository;
-        this.audienceRepository = audienceRepository;
+        this.entityResolver = entityResolver;
         this.bookMapper = bookMapper;
     }
 
@@ -50,18 +37,16 @@ public class BookService {
     }
 
     public BookDTO getBookById(UUID bookId) {
-        BookEntity book = findBook(bookId);
-        return bookMapper.toDTO(book);
+        return bookMapper.toDTO(entityResolver.getBookEntity(bookId));
     }
 
     public BookDTO createBook(BookCreateRequest request) {
-        BookEntity book = new BookEntity();
-        return updateEntityAndSave(request, book);
+        applyDefaultValuesOnBookRequestIfNeeded(request);
+        return updateEntityAndSave(request, new BookEntity());
     }
 
     public BookDTO updateBook(UUID bookId, BookCreateRequest request) {
-        BookEntity book = findBook(bookId);
-        return updateEntityAndSave(request, book);
+        return updateEntityAndSave(request, entityResolver.getBookEntity(bookId));
     }
 
     public void deleteBook(UUID bookId) {
@@ -71,50 +56,34 @@ public class BookService {
         bookRepository.deleteById(bookId);
     }
 
-    public BookDTO updateStatus(UUID bookId, Long statusId) {
-        BookEntity book = findBook(bookId);
-        StatusEntity status = findStatus(statusId);
-        book.setStatus(status);
+    public BookDTO updateStatus(UUID bookId, Status status) {
+        BookEntity book = entityResolver.getBookEntity(bookId);
+        book.setStatus(entityResolver.getStatusEntity(status));
         return bookMapper.toDTO(bookRepository.save(book));
     }
 
     public BookDTO updateFavorite(UUID bookId, Boolean favorite) {
-        BookEntity book = findBook(bookId);
+        BookEntity book = entityResolver.getBookEntity(bookId);
         book.setFavorite(favorite);
         return bookMapper.toDTO(bookRepository.save(book));
     }
 
     public BookDTO updatePersonalNotes(UUID bookId, String notes) {
-        BookEntity book = findBook(bookId);
+        BookEntity book = entityResolver.getBookEntity(bookId);
         book.setPersonalNotes(notes);
         return bookMapper.toDTO(bookRepository.save(book));
-    }
-
-    private BookEntity findBook(UUID bookId) {
-        return bookRepository.findById(bookId)
-                .orElseThrow(() -> new DataNotFoundException("Book", String.valueOf(bookId)));
-    }
-
-    private StatusEntity findStatus(Long statusId) {
-        return statusRepository.findById(statusId)
-                .orElseThrow(() -> new DataNotFoundException("Status", String.valueOf(statusId)));
     }
 
     private BookDTO updateEntityAndSave(BookCreateRequest request, BookEntity book) {
         bookMapper.updateEntity(
                 book,
                 request,
-                authorRepository.findById(request.getAuthorId())
-                        .orElseThrow(() -> new DataNotFoundException("Author", String.valueOf(request.getAuthorId()))),
-                languageRepository.findById(request.getLanguageId())
-                        .orElseThrow(() -> new DataNotFoundException("Language", String.valueOf(request.getLanguageId()))),
-                typeRepository.findById(request.getTypeId())
-                        .orElseThrow(() -> new DataNotFoundException("Type", String.valueOf(request.getTypeId()))),
-                categoryRepository.findById(request.getCategoryId())
-                        .orElseThrow(() -> new DataNotFoundException("Category", String.valueOf(request.getCategoryId()))),
-                audienceRepository.findById(request.getAudienceId())
-                        .orElseThrow(() -> new DataNotFoundException("Audience", String.valueOf(request.getAudienceId()))),
-                findStatus(request.getStatusId())
+                entityResolver.getAuthorEntity(request.getAuthorId()),
+                entityResolver.getLanguageEntity(request.getLanguage()),
+                entityResolver.getTypeEntity(request.getType()),
+                entityResolver.getCategoryEntity(request.getCategory()),
+                entityResolver.getAudienceEntity(request.getAudience()),
+                entityResolver.getStatusEntity(request.getStatus())
         );
         return bookMapper.toDTO(bookRepository.save(book));
     }
