@@ -6,7 +6,7 @@ import com.tgourouza.library_backend.entity.BookEntity;
 import org.springframework.stereotype.Component;
 
 @Component
-public class MultilingualMapperUtil {
+public class MultilingualMapper {
 
     public Multilingual toMultilingualDescription(AuthorEntity author) {
         if (author == null) return null;

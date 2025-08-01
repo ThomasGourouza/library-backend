@@ -6,38 +6,31 @@ import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.*;
 import com.tgourouza.library_backend.entity.constant.*;
 import org.mapstruct.MappingTarget;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Component;
 
-import java.time.Period;
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
+import static com.tgourouza.library_backend.util.BookUtils.calculateAuthorAgeAtPublication;
 
 @Component
 public class BookMapper {
 
-    private final MultilingualMapperUtil multilingualUtil;
-    private final AuthorMapper authorMapper;
+    private final MultilingualMapper multilingualMapper;
+    private final AuthorWithoutBooksMapper authorWithoutBooksMapper;
 
     public BookMapper(
-            MultilingualMapperUtil multilingualUtil,
-            @Lazy AuthorMapper authorMapper
+            MultilingualMapper multilingualMapper,
+            AuthorWithoutBooksMapper authorWithoutBooksMapper
     ) {
-        this.multilingualUtil = multilingualUtil;
-        this.authorMapper = authorMapper;
+        this.multilingualMapper = multilingualMapper;
+        this.authorWithoutBooksMapper = authorWithoutBooksMapper;
     }
 
     public BookDTO toDTO(BookEntity book) {
         if (book == null) return null;
-        AuthorDTO authorDto = authorMapper.toDTO(book.getAuthor());
-        if (authorDto != null) {
-            authorDto.setBooks(null);
-        }
+        AuthorDTO authorDto = authorWithoutBooksMapper.toDTO(book.getAuthor());
         return new BookDTO(
                 book.getId(),
                 book.getOriginalTitle(),
-                multilingualUtil.toMultilingualTitle(book),
+                multilingualMapper.toMultilingualTitle(book),
                 authorDto,
                 calculateAuthorAgeAtPublication(book),
                 book.getPublicationDate(),
@@ -45,24 +38,12 @@ public class BookMapper {
                 book.getType() != null ? book.getType().getName() : null,
                 book.getCategory() != null ? book.getCategory().getName() : null,
                 book.getAudience() != null ? book.getAudience().getName() : null,
-                multilingualUtil.toMultilingualDescription(book),
+                multilingualMapper.toMultilingualDescription(book),
                 book.getWikipediaLink(),
                 book.getStatus() != null ? book.getStatus().getName() : null,
                 book.getFavorite(),
                 book.getPersonalNotes()
         );
-    }
-
-    private Integer calculateAuthorAgeAtPublication(BookEntity book) {
-        if (book == null || book.getAuthor() == null || book.getAuthor().getBirthDate() == null || book.getPublicationDate() == null) {
-            return null;
-        }
-        return Period.between(book.getAuthor().getBirthDate(), book.getPublicationDate()).getYears();
-    }
-
-    public List<BookDTO> toDTOs(List<BookEntity> books) {
-        if (books == null) return Collections.emptyList();
-        return books.stream().map(this::toDTO).collect(Collectors.toList());
     }
 
     public void updateEntity(
@@ -88,10 +69,10 @@ public class BookMapper {
         book.setFavorite(request.getFavorite());
         book.setPersonalNotes(request.getPersonalNotes());
         if (request.getTitle() != null) {
-            multilingualUtil.applyMultilingualTitle(request.getTitle(), book);
+            multilingualMapper.applyMultilingualTitle(request.getTitle(), book);
         }
         if (request.getDescription() != null) {
-            multilingualUtil.applyMultilingualDescription(request.getDescription(), book);
+            multilingualMapper.applyMultilingualDescription(request.getDescription(), book);
         }
     }
 }
