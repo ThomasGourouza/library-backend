@@ -4,17 +4,16 @@ import com.tgourouza.library_backend.constant.Audience;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "audience")
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class AudienceEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
-    @Column(unique = true, nullable = false)
     @Enumerated(EnumType.STRING)
+    @Column(unique = true, nullable = false)
     private Audience name;
 }

@@ -8,6 +8,7 @@ import jakarta.validation.constraints.NotNull;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -20,15 +21,14 @@ import java.util.UUID;
 @NoArgsConstructor
 public class AuthorEntity {
     @Id
-    @GeneratedValue
-//    @GeneratedValue(generator = "UUID")
-//    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-//    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
     @NotNull
     private String name;
     @ManyToOne
-    @JoinColumn(name = "country_id")
+    @JoinColumn(name = "country")
     private CountryEntity country;
     private LocalDate birthDate;
     private LocalDate deathDate;

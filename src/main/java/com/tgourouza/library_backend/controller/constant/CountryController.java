@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.controller;
+package com.tgourouza.library_backend.controller.constant;
 
 import com.tgourouza.library_backend.dto.constant.CountryCreateRequest;
 import com.tgourouza.library_backend.dto.constant.CountryDTO;

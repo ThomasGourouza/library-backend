@@ -1,0 +1,91 @@
+CREATE TABLE audience (
+    name VARCHAR(255) PRIMARY KEY
+);
+
+CREATE TABLE category (
+    name VARCHAR(255) PRIMARY KEY
+);
+
+CREATE TABLE country (
+    name VARCHAR(255) PRIMARY KEY
+);
+
+CREATE TABLE language (
+    name VARCHAR(255) PRIMARY KEY
+);
+
+CREATE TABLE status (
+    name VARCHAR(255) PRIMARY KEY
+);
+
+CREATE TABLE type (
+    name VARCHAR(255) PRIMARY KEY
+);
+
+INSERT INTO audience (name) VALUES
+('UNKNOWN'),
+('CHILDREN'),
+('YOUNG_ADULTS'),
+('ADULTS'),
+('GENERAL_AUDIENCE');
+
+INSERT INTO category (name) VALUES
+('UNKNOWN'),
+('HISTORY'),
+('GEOGRAPHY'),
+('ECONOMY'),
+('POLITICS'),
+('GEOPOLITICS'),
+('PHILOSOPHY'),
+('LITERATURE'),
+('RELIGION'),
+('PSYCHOLOGY'),
+('SOCIOLOGY'),
+('SCIENCE'),
+('MATHEMATICS'),
+('COMPUTER_SCIENCE'),
+('ART');
+
+INSERT INTO country (name) VALUES
+('UNKNOWN'),
+('FRANCE'),
+('GREAT_BRITAIN'),
+('SPAIN'),
+('GERMANY'),
+('ITALY'),
+('USA'),
+('CANADA'),
+('JAPAN'),
+('CHINA'),
+('RUSSIA'),
+('NETHERLANDS'),
+('DENMARK');
+
+INSERT INTO language (name) VALUES
+('UNKNOWN'),
+('FR'),
+('EN'),
+('ES'),
+('DE'),
+('IT'),
+('JA'),
+('ZH'),
+('RU'),
+('DA');
+
+INSERT INTO status (name) VALUES
+('UNREAD'),
+('TO_READ'),
+('READING'),
+('READ');
+
+INSERT INTO type (name) VALUES
+('UNKNOWN'),
+('THEATER'),
+('NOVEL'),
+('POETRY'),
+('ESSAY'),
+('COMICS'),
+('BIOGRAPHY'),
+('TALE'),
+('FABLE');

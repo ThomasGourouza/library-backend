@@ -5,6 +5,7 @@ import com.tgourouza.library_backend.entity.constant.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
+import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -16,10 +17,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BookEntity {
     @Id
-    @GeneratedValue
-//    @GeneratedValue(generator = "UUID")
-//    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-//    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    @GeneratedValue(generator = "UUID")
+    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
+    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
     private UUID id;
     @NotNull
     private String originalTitle;
@@ -42,16 +42,16 @@ public class BookEntity {
     private LocalDate publicationDate;
 
     @ManyToOne
-    @JoinColumn(name = "language_id")
+    @JoinColumn(name = "language")
     private LanguageEntity language;
     @ManyToOne
-    @JoinColumn(name = "type_id")
+    @JoinColumn(name = "type")
     private TypeEntity type;
     @ManyToOne
-    @JoinColumn(name = "category_id")
+    @JoinColumn(name = "category")
     private CategoryEntity category;
     @ManyToOne
-    @JoinColumn(name = "audience_id")
+    @JoinColumn(name = "audience")
     private AudienceEntity audience;
 
     private String descriptionFrench;
@@ -65,7 +65,7 @@ public class BookEntity {
 
     private String wikipediaLink;
     @ManyToOne
-    @JoinColumn(name = "status_id")
+    @JoinColumn(name = "status")
     private StatusEntity status;
     private Boolean favorite;
     private String personalNotes;
