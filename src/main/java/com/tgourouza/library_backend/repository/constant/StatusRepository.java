@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.repository;
+package com.tgourouza.library_backend.repository.constant;
 
 import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.entity.constant.StatusEntity;
@@ -9,6 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface StatusRepository extends JpaRepository<StatusEntity, Long> {
-    boolean existsByName(Status name);
     Optional<StatusEntity> findByName(Status name);
 }

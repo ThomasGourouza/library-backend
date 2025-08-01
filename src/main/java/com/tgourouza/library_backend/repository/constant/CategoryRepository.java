@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.repository;
+package com.tgourouza.library_backend.repository.constant;
 
 import com.tgourouza.library_backend.constant.Category;
 import com.tgourouza.library_backend.entity.constant.CategoryEntity;
@@ -9,6 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface CategoryRepository extends JpaRepository<CategoryEntity, Long> {
-    boolean existsByName(Category name);
     Optional<CategoryEntity> findByName(Category name);
 }

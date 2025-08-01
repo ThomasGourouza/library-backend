@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.repository;
+package com.tgourouza.library_backend.repository.constant;
 
 import com.tgourouza.library_backend.constant.Audience;
 import com.tgourouza.library_backend.entity.constant.AudienceEntity;
@@ -9,6 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface AudienceRepository extends JpaRepository<AudienceEntity, Long> {
-    boolean existsByName(Audience name);
     Optional<AudienceEntity> findByName(Audience name);
 }

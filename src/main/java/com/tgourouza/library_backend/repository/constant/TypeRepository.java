@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.repository;
+package com.tgourouza.library_backend.repository.constant;
 
 import com.tgourouza.library_backend.constant.Type;
 import com.tgourouza.library_backend.entity.constant.TypeEntity;
@@ -9,6 +9,5 @@ import java.util.Optional;
 
 @Repository
 public interface TypeRepository extends JpaRepository<TypeEntity, Long> {
-    boolean existsByName(Type name);
     Optional<TypeEntity> findByName(Type name);
 }
