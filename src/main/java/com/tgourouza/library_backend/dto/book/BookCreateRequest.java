@@ -15,7 +15,6 @@ public class BookCreateRequest {
     private String originalTitle;
 
     @NotNull
-    @Size(max = 255)
     private UUID authorId;
 
     private LocalDate publicationDate;
