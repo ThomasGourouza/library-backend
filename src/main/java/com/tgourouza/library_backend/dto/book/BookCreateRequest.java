@@ -1,6 +1,5 @@
 package com.tgourouza.library_backend.dto.book;
 
-import com.tgourouza.library_backend.constant.*;
 import com.tgourouza.library_backend.dto.Multilingual;
 import jakarta.validation.constraints.*;
 import lombok.Data;

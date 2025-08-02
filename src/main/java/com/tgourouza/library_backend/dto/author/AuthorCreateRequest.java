@@ -1,6 +1,5 @@
 package com.tgourouza.library_backend.dto.author;
 
-import com.tgourouza.library_backend.constant.Country;
 import com.tgourouza.library_backend.dto.Multilingual;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
