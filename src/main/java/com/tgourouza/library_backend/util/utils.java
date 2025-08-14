@@ -1,14 +1,18 @@
 package com.tgourouza.library_backend.util;
 
-import com.tgourouza.library_backend.constant.*;
+import java.time.Period;
+
+import com.tgourouza.library_backend.constant.Audience;
+import com.tgourouza.library_backend.constant.Category;
+import com.tgourouza.library_backend.constant.Country;
+import com.tgourouza.library_backend.constant.Language;
+import com.tgourouza.library_backend.constant.Status;
+import com.tgourouza.library_backend.constant.Type;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.entity.BookEntity;
-import java.time.Period;
 
 public class utils {
-
-    private utils() {}
 
     public static Integer calculateAuthorAgeAtPublication(BookEntity book) {
         if (book == null || book.getAuthor() == null
