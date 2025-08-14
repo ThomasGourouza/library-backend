@@ -1,12 +1,8 @@
 package com.tgourouza.library_backend.service;
 
-import static com.tgourouza.library_backend.util.openLibraryUtils.lastPathSegment;
 import static com.tgourouza.library_backend.util.openLibraryUtils.mapToOlLang;
-import static com.tgourouza.library_backend.util.openLibraryUtils.text;
 
-import java.util.HashSet;
 import java.util.Optional;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
@@ -16,19 +12,18 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tgourouza.library_backend.controller.OpenLibraryController.AuthorInfo;
 import com.tgourouza.library_backend.controller.OpenLibraryController.BookInfo;
-import com.tgourouza.library_backend.controller.OpenLibraryController.Titles;
 import com.tgourouza.library_backend.mapper.AuthorInfoMapper;
 import com.tgourouza.library_backend.mapper.BookInfoMapper;
 
 @Service
 public class OpenLibraryService {
-    private final RestClient ol; // https://openlibrary.org
+    private final RestClient openLibrary; // https://openlibrary.org
     private final BookInfoMapper bookInfoMapper;
     private final AuthorInfoMapper authorInfoMapper;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public OpenLibraryService(@Qualifier("openLibraryRestClient") RestClient ol, BookInfoMapper bookInfoMapper, AuthorInfoMapper authorInfoMapper) {
-        this.ol = ol;
+    public OpenLibraryService(@Qualifier("openLibraryRestClient") RestClient openLibrary, BookInfoMapper bookInfoMapper, AuthorInfoMapper authorInfoMapper) {
+        this.openLibrary = openLibrary;
         this.bookInfoMapper = bookInfoMapper;
         this.authorInfoMapper = authorInfoMapper;
     }
@@ -49,11 +44,8 @@ public class OpenLibraryService {
         // 2) Fetch work JSON
         JsonNode work = getJson("/works/" + workId + ".json");
 
-        // 3) Try to fetch FR/EN titles from editions (best effort)
-        Titles titles = fetchFrEnTitlesFromEditions(workId);
-
         // 4) Map to BookInfo and return
-        return bookInfoMapper.mapToBookInfo(doc, work, titles);
+        return bookInfoMapper.mapToBookInfo(doc, work);
     }
 
     public AuthorInfo getAuthorInfo(String authorKey) {
@@ -69,7 +61,7 @@ public class OpenLibraryService {
 
     private Optional<JsonNode> searchBestWorkDoc(String title, String author, String language) {
         // Build search.json query
-        String json = ol.get()
+        String json = openLibrary.get()
                 .uri(uri -> {
                     var b = uri.path("/search.json");
                     if (title != null && !title.isBlank())
@@ -105,46 +97,10 @@ public class OpenLibraryService {
         return Optional.of(docs.get(0));
     }
 
-    /*
-     * ============================== Editions (FR/EN titles)
-     * ==============================
-     */
-    private Titles fetchFrEnTitlesFromEditions(String workId) {
-        // Try first page of editions (limit 100) and look for titles by language
-        try {
-            JsonNode eds = getJson("/works/" + workId + "/editions.json?limit=100");
-            JsonNode entries = eds.path("entries");
-            if (entries.isArray()) {
-                String fr = null, en = null;
-                for (JsonNode e : entries) {
-                    String title = text(e, "title");
-                    if (title.isBlank())
-                        continue;
-                    Set<String> langs = new HashSet<>();
-                    JsonNode larr = e.path("languages");
-                    if (larr.isArray()) {
-                        for (JsonNode l : larr)
-                            langs.add(lastPathSegment(l.path("key").asText("")));
-                    }
-                    // Open Library may use "fre" or "fra" for French
-                    if (fr == null && (langs.contains("fre") || langs.contains("fra")))
-                        fr = title;
-                    if (en == null && langs.contains("eng"))
-                        en = title;
-                    if (fr != null && en != null)
-                        break;
-                }
-                return new Titles(fr, en);
-            }
-        } catch (Exception ignore) {
-        }
-        return new Titles(null, null);
-    }
-
     /* ============================== HTTP helpers ============================== */
 
     private JsonNode getJson(String pathAndQuery) {
-        String json = ol.get()
+        String json = openLibrary.get()
                 .uri(pathAndQuery)
                 .retrieve()
                 .body(String.class);

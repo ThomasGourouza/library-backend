@@ -13,12 +13,11 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.tgourouza.library_backend.controller.OpenLibraryController.BookInfo;
-import com.tgourouza.library_backend.controller.OpenLibraryController.Titles;
 
 @Component
 public class BookInfoMapper {
 
-    public BookInfo mapToBookInfo(JsonNode doc, JsonNode work, Titles titles) {
+    public BookInfo mapToBookInfo(JsonNode doc, JsonNode work) {
         String originalTitle = text(work, "title");
         if (originalTitle.isBlank())
             originalTitle = text(doc, "title");
@@ -94,7 +93,6 @@ public class BookInfoMapper {
 
         return new BookInfo(
                 originalTitle,
-                new Titles(titles.getFrench(), titles.getEnglish()),
                 coverUrl,
                 authorId,
                 publicationYear,

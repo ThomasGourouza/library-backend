@@ -44,11 +44,6 @@ public class OpenLibraryController {
         }
     }
 
-    /* =========================== AUTHOR INFO =========================== */
-
-    /**
-     * Fetch author details by Open Library author key (e.g. OL23919A).
-     */
     @GetMapping(value = "/author-info", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthorInfo> getAuthorInfo(@RequestParam("author_key") String authorKey) {
         try {
@@ -69,24 +64,16 @@ public class OpenLibraryController {
     @Data
     @AllArgsConstructor
     public static class BookInfo {
-        private String originalTitle;
-        private Titles title;
+        private String originalTitle; // -> title
         private String coverUrl;
-        private String authorId;
+        private String authorId; // -> authorKey
         private int publicationYear;
-        private String language; // original language (raw)
+        private String language; // remove
         private String type;
         private String category;
         private String audience;
         private String description; // EN-only (best-effort)
-        private String wikipediaLink;
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class Titles {
-        private String french;
-        private String english;
+        private String wikipediaLink; // -> build
     }
 
     @Data
