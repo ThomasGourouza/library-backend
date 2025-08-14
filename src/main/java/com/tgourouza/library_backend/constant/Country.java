@@ -3,7 +3,7 @@ package com.tgourouza.library_backend.constant;
 public enum Country {
     UNKNOWN,
     FRANCE,
-    GREAT_BRITAIN,
+    UK,
     SPAIN,
     GERMANY,
     ITALY,

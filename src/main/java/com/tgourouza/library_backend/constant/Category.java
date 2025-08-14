@@ -6,7 +6,6 @@ public enum Category {
     GEOGRAPHY,
     ECONOMY,
     POLITICS,
-    GEOPOLITICS,
     PHILOSOPHY,
     LITERATURE,
     RELIGION,
@@ -14,6 +13,5 @@ public enum Category {
     SOCIOLOGY,
     SCIENCE,
     MATHEMATICS,
-    COMPUTER_SCIENCE,
     ART;
 }
