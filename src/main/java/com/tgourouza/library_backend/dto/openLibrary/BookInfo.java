@@ -6,13 +6,12 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BookInfo {
-    private String originalTitle; // -> title
+    private Text originalTitle;
     private String authorId; // -> openLibraryKey
     private int publicationYear;
     private String coverUrl;
     // private int numberOfPages;
-    private String description; // EN-only (best-effort)
-    private String language; // remove
+    private Text description;
     private String type;
     private String category;
     private String audience;

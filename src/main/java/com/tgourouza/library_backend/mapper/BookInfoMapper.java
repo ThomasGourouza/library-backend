@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
+import com.tgourouza.library_backend.dto.openLibrary.Text;
 
 @Component
 public class BookInfoMapper {
@@ -21,6 +22,8 @@ public class BookInfoMapper {
         String originalTitle = text(work, "title");
         if (originalTitle.isBlank())
             originalTitle = text(doc, "title");
+
+        String originalTitleLanguage = getLanguage(originalTitle);
 
         // Cover
         String coverUrl = null;
@@ -57,8 +60,6 @@ public class BookInfoMapper {
             publicationYear = parseYear(fpd);
         }
 
-        String language = getLanguage(originalTitle);
-
         // Type (CSV) – use subject_facet if present; otherwise empty.
         String type = joinCsv(doc.path("subject_facet"));
 
@@ -76,15 +77,18 @@ public class BookInfoMapper {
 
         // Wikipedia link – from work.wikipedia or work.links[*].url containing
         // wikipedia.org
-        String wikipedia = readWikipediaLink(work);
+        String wikipedia = readWikipediaLink(work, originalTitle, originalTitleLanguage);
 
         return new BookInfo(
-                originalTitle,
+                new Text(
+                        originalTitle,
+                        originalTitleLanguage),
                 authorId,
                 publicationYear,
                 coverUrl,
-                description,
-                language,
+                new Text(
+                        description,
+                        getLanguage(description)),
                 type,
                 category,
                 audience,
