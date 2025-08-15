@@ -6,26 +6,10 @@ import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Locale;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
 public class openLibraryUtils {
-
-    public static String mapToOlLang(String language) {
-        if (language == null || language.isBlank())
-            return null;
-        String lang = language.trim().toLowerCase(Locale.ROOT);
-        // Map common 2-letter to Open Library's 3-letter codes (ISO639-2)
-        return switch (lang) {
-            case "en", "eng" -> "eng";
-            case "fr", "fra", "fre" -> "fre"; // OL accepts "fre"
-            case "de", "deu", "ger" -> "ger";
-            case "es", "spa" -> "spa";
-            case "it", "ita" -> "ita";
-            default -> null; // leave unfiltered
-        };
-    }
 
     public static String text(JsonNode node, String field) {
         if (node == null || node.isMissingNode())

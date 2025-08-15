@@ -28,18 +28,36 @@ public class OpenLibraryController {
     @GetMapping(value = "/book-info", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookInfo> getBookInfo(
             @RequestParam String title,
-            @RequestParam(required = false) String author,
-            @RequestParam(required = false) String language) {
+            @RequestParam(required = false) String author) {
         try {
-            BookInfo info = openLibraryService.getBookInfo(title, author, language);
+            BookInfo info = openLibraryService.getBookInfo(title, author);
             if (info == null) {
                 return ResponseEntity.notFound().build();
             }
             return ResponseEntity.ok(info);
 
         } catch (Exception e) {
-            log.error("OpenLibrary book-info failed (title='{}', author='{}', language='{}')",
-                    title, author, language, e);
+            log.error("OpenLibrary book-info failed (title='{}', author='{}')",
+                    title, author, e);
+            return ResponseEntity.status(502).build();
+        }
+    }
+
+    // TODO: remove
+    @GetMapping(value = "/book-info-full", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<BookFullInfo> getBookInfoFull(
+            @RequestParam String title,
+            @RequestParam(required = false) String author) {
+        try {
+            BookFullInfo info = openLibraryService.getBookFullInfo(title, author);
+            if (info == null) {
+                return ResponseEntity.notFound().build();
+            }
+            return ResponseEntity.ok(info);
+
+        } catch (Exception e) {
+            log.error("OpenLibrary book-info failed (title='{}', author='{}')",
+                    title, author, e);
             return ResponseEntity.status(502).build();
         }
     }
@@ -66,7 +84,22 @@ public class OpenLibraryController {
     public static class BookInfo {
         private String originalTitle; // -> title
         private String coverUrl;
-        private String authorId; // -> authorKey
+        private String authorId; // -> openLibraryKey
+        private int publicationYear;
+        private String language; // remove
+        private String type;
+        private String category;
+        private String audience;
+        private String description; // EN-only (best-effort)
+        private String wikipediaLink; // -> build
+    }
+
+    @Data
+    @AllArgsConstructor
+    public static class BookFullInfo {
+        private String originalTitle; // -> title
+        private String coverUrl;
+        private AuthorInfo author;
         private int publicationYear;
         private String language; // remove
         private String type;

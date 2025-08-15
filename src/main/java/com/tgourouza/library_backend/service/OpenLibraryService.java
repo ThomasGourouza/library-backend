@@ -1,7 +1,5 @@
 package com.tgourouza.library_backend.service;
 
-import static com.tgourouza.library_backend.util.openLibraryUtils.mapToOlLang;
-
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -11,6 +9,7 @@ import org.springframework.web.client.RestClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tgourouza.library_backend.controller.OpenLibraryController.AuthorInfo;
+import com.tgourouza.library_backend.controller.OpenLibraryController.BookFullInfo;
 import com.tgourouza.library_backend.controller.OpenLibraryController.BookInfo;
 import com.tgourouza.library_backend.mapper.AuthorInfoMapper;
 import com.tgourouza.library_backend.mapper.BookInfoMapper;
@@ -22,15 +21,16 @@ public class OpenLibraryService {
     private final AuthorInfoMapper authorInfoMapper;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public OpenLibraryService(@Qualifier("openLibraryRestClient") RestClient openLibrary, BookInfoMapper bookInfoMapper, AuthorInfoMapper authorInfoMapper) {
+    public OpenLibraryService(@Qualifier("openLibraryRestClient") RestClient openLibrary, BookInfoMapper bookInfoMapper,
+            AuthorInfoMapper authorInfoMapper) {
         this.openLibrary = openLibrary;
         this.bookInfoMapper = bookInfoMapper;
         this.authorInfoMapper = authorInfoMapper;
     }
 
-    public BookInfo getBookInfo(String title, String author, String language) {
+    public BookInfo getBookInfo(String title, String author) {
         // 1) Search works
-        Optional<JsonNode> bestDoc = searchBestWorkDoc(title, author, language);
+        Optional<JsonNode> bestDoc = searchBestWorkDoc(title, author);
         if (bestDoc.isEmpty())
             return null;
 
@@ -48,18 +48,44 @@ public class OpenLibraryService {
         return bookInfoMapper.mapToBookInfo(doc, work);
     }
 
+    public BookFullInfo getBookFullInfo(String title, String author) {
+        Optional<JsonNode> bestDoc = searchBestWorkDoc(title, author);
+        if (bestDoc.isEmpty())
+            return null;
+        JsonNode doc = bestDoc.get();
+        String workKey = doc.path("key").asText("");
+        if (workKey.isBlank() || !workKey.startsWith("/works/")) {
+            return null;
+        }
+        String workId = workKey.substring("/works/".length());
+        JsonNode work = getJson("/works/" + workId + ".json");
+        BookInfo info = bookInfoMapper.mapToBookInfo(doc, work);
+        return new BookFullInfo(
+            info.getOriginalTitle(),
+            info.getCoverUrl(),
+            getAuthorInfo(info.getAuthorId()),
+            info.getPublicationYear(),
+            info.getLanguage(),
+            info.getType(),
+            info.getCategory(),
+            info.getAudience(),
+            info.getDescription(),
+            info.getWikipediaLink()
+        );
+    }
+
     public AuthorInfo getAuthorInfo(String authorKey) {
         String safe = authorKey.startsWith("OL") ? authorKey : authorKey.trim();
-            JsonNode author = getJson("/authors/" + safe + ".json");
-            if (author == null || author.isMissingNode())
-                return null;
+        JsonNode author = getJson("/authors/" + safe + ".json");
+        if (author == null || author.isMissingNode())
+            return null;
 
-            return authorInfoMapper.mapToAuthorInfo(author, safe);
+        return authorInfoMapper.mapToAuthorInfo(author, safe);
     }
 
     /* ============================== Search ============================== */
 
-    private Optional<JsonNode> searchBestWorkDoc(String title, String author, String language) {
+    private Optional<JsonNode> searchBestWorkDoc(String title, String author) {
         // Build search.json query
         String json = openLibrary.get()
                 .uri(uri -> {
@@ -68,15 +94,12 @@ public class OpenLibraryService {
                         b = b.queryParam("title", title);
                     if (author != null && !author.isBlank())
                         b = b.queryParam("author", author);
-                    String olLang = mapToOlLang(language);
-                    if (olLang != null)
-                        b = b.queryParam("language", olLang);
                     b = b.queryParam("fields",
                             "key,title,author_key,cover_i,first_publish_year,language,subject,subject_facet,audience,audience_key");
                     return b.build();
                 })
                 .retrieve()
-                .body(String.class); // or .toEntity(String.class).getBody()
+                .body(String.class);
 
         if (json == null || json.isBlank())
             return Optional.empty();
