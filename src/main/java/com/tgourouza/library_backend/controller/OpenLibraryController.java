@@ -7,8 +7,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pemistahl.lingua.api.Language;
+import com.github.pemistahl.lingua.api.LanguageDetector;
+import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorInfo;
-import com.tgourouza.library_backend.dto.openLibrary.BookFullInfo;
 import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
 import com.tgourouza.library_backend.service.OpenLibraryService;
 
@@ -25,31 +27,19 @@ public class OpenLibraryController {
         this.openLibraryService = openLibraryService;
     }
 
+    @GetMapping("/test")
+    public ResponseEntity<Language> test(@RequestParam String text) {
+        LanguageDetector detector = LanguageDetectorBuilder.fromAllLanguages().build();
+        Language lang = detector.detectLanguageOf(text);
+        return ResponseEntity.ok(lang);
+    }
+
     @GetMapping(value = "/book-info", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookInfo> getBookInfo(
             @RequestParam String title,
             @RequestParam(required = false) String author) {
         try {
             BookInfo info = openLibraryService.getBookInfo(title, author);
-            if (info == null) {
-                return ResponseEntity.notFound().build();
-            }
-            return ResponseEntity.ok(info);
-
-        } catch (Exception e) {
-            log.error("OpenLibrary book-info failed (title='{}', author='{}')",
-                    title, author, e);
-            return ResponseEntity.status(502).build();
-        }
-    }
-
-    // TODO: remove
-    @GetMapping(value = "/book-info-full", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<BookFullInfo> getBookInfoFull(
-            @RequestParam String title,
-            @RequestParam(required = false) String author) {
-        try {
-            BookFullInfo info = openLibraryService.getBookFullInfo(title, author);
             if (info == null) {
                 return ResponseEntity.notFound().build();
             }

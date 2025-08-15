@@ -9,7 +9,6 @@ import org.springframework.web.client.RestClient;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorInfo;
-import com.tgourouza.library_backend.dto.openLibrary.BookFullInfo;
 import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
 import com.tgourouza.library_backend.mapper.AuthorInfoMapper;
 import com.tgourouza.library_backend.mapper.BookInfoMapper;
@@ -48,32 +47,6 @@ public class OpenLibraryService {
         return bookInfoMapper.mapToBookInfo(doc, work);
     }
 
-    public BookFullInfo getBookFullInfo(String title, String author) {
-        Optional<JsonNode> bestDoc = searchBestWorkDoc(title, author);
-        if (bestDoc.isEmpty())
-            return null;
-        JsonNode doc = bestDoc.get();
-        String workKey = doc.path("key").asText("");
-        if (workKey.isBlank() || !workKey.startsWith("/works/")) {
-            return null;
-        }
-        String workId = workKey.substring("/works/".length());
-        JsonNode work = getJson("/works/" + workId + ".json");
-        BookInfo info = bookInfoMapper.mapToBookInfo(doc, work);
-        return new BookFullInfo(
-            info.getOriginalTitle(),
-            info.getCoverUrl(),
-            getAuthorInfo(info.getAuthorId()),
-            info.getPublicationYear(),
-            info.getLanguage(),
-            info.getType(),
-            info.getCategory(),
-            info.getAudience(),
-            info.getDescription(),
-            info.getWikipediaLink()
-        );
-    }
-
     public AuthorInfo getAuthorInfo(String authorKey) {
         String safe = authorKey.startsWith("OL") ? authorKey : authorKey.trim();
         JsonNode author = getJson("/authors/" + safe + ".json");
@@ -93,7 +66,7 @@ public class OpenLibraryService {
                     if (author != null && !author.isBlank())
                         b = b.queryParam("author", author);
                     b = b.queryParam("fields",
-                            "key,title,author_key,cover_i,first_publish_year,language,subject,subject_facet,audience,audience_key");
+                            "key,title,author_key,cover_i,first_publish_year,subject,subject_facet,audience,audience_key");
                     return b.build();
                 })
                 .retrieve()

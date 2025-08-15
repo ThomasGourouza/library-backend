@@ -2,8 +2,8 @@ package com.tgourouza.library_backend.mapper;
 
 import static com.tgourouza.library_backend.util.openLibraryUtils.coverImage;
 import static com.tgourouza.library_backend.util.openLibraryUtils.firstNonEmpty;
+import static com.tgourouza.library_backend.util.openLibraryUtils.getLanguage;
 import static com.tgourouza.library_backend.util.openLibraryUtils.joinCsv;
-import static com.tgourouza.library_backend.util.openLibraryUtils.lastPathSegment;
 import static com.tgourouza.library_backend.util.openLibraryUtils.parseYear;
 import static com.tgourouza.library_backend.util.openLibraryUtils.readDescription;
 import static com.tgourouza.library_backend.util.openLibraryUtils.readWikipediaLink;
@@ -57,20 +57,7 @@ public class BookInfoMapper {
             publicationYear = parseYear(fpd);
         }
 
-        // Original language (raw)
-        String language = "";
-        // From work.languages[].key like "/languages/eng"
-        JsonNode langs = work.path("languages");
-        if (langs.isArray() && langs.size() > 0) {
-            String key = langs.get(0).path("key").asText("");
-            language = lastPathSegment(key); // "eng"
-        } else {
-            // fallback from search doc "language":[ "eng","fre",... ]
-            JsonNode langs2 = doc.path("language");
-            if (langs2.isArray() && langs2.size() > 0) {
-                language = langs2.get(0).asText("");
-            }
-        }
+        String language = getLanguage(originalTitle);
 
         // Type (CSV) – use subject_facet if present; otherwise empty.
         String type = joinCsv(doc.path("subject_facet"));
@@ -93,14 +80,14 @@ public class BookInfoMapper {
 
         return new BookInfo(
                 originalTitle,
-                coverUrl,
                 authorId,
                 publicationYear,
+                coverUrl,
+                description,
                 language,
                 type,
                 category,
                 audience,
-                description,
                 wikipedia);
     }
 }

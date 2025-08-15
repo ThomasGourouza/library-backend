@@ -8,6 +8,8 @@ import java.util.LinkedHashSet;
 import java.util.List;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.pemistahl.lingua.api.LanguageDetector;
+import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 
 public class openLibraryUtils {
 
@@ -94,6 +96,11 @@ public class openLibraryUtils {
     public static String coverImage(int id, char size) {
         // b/id/{id}-{S|M|L}.jpg
         return "https://covers.openlibrary.org/b/id/" + id + "-" + size + ".jpg";
+    }
+
+    public static String getLanguage(String text) {
+        LanguageDetector detector = LanguageDetectorBuilder.fromAllLanguages().build();
+        return detector.detectLanguageOf(text).toString();
     }
 
     /* ============================== Author utils ============================== */
