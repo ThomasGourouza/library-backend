@@ -12,7 +12,7 @@ import static com.tgourouza.library_backend.util.openLibraryUtils.text;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.tgourouza.library_backend.controller.OpenLibraryController.BookInfo;
+import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
 
 @Component
 public class BookInfoMapper {

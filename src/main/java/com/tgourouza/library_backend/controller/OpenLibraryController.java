@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tgourouza.library_backend.dto.author.AuthorDate;
+import com.tgourouza.library_backend.dto.openLibrary.AuthorInfo;
+import com.tgourouza.library_backend.dto.openLibrary.BookFullInfo;
+import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
 import com.tgourouza.library_backend.service.OpenLibraryService;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -75,49 +75,5 @@ public class OpenLibraryController {
             log.error("OpenLibrary author-info failed (author_key='{}')", authorKey, e);
             return ResponseEntity.status(502).build();
         }
-    }
-
-    /* ============================== DTOs ============================== */
-
-    @Data
-    @AllArgsConstructor
-    public static class BookInfo {
-        private String originalTitle; // -> title
-        private String coverUrl;
-        private String authorId; // -> openLibraryKey
-        private int publicationYear;
-        private String language; // remove
-        private String type;
-        private String category;
-        private String audience;
-        private String description; // EN-only (best-effort)
-        private String wikipediaLink; // -> build
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class BookFullInfo {
-        private String originalTitle; // -> title
-        private String coverUrl;
-        private AuthorInfo author;
-        private int publicationYear;
-        private String language; // remove
-        private String type;
-        private String category;
-        private String audience;
-        private String description; // EN-only (best-effort)
-        private String wikipediaLink; // -> build
-    }
-
-    @Data
-    @AllArgsConstructor
-    public static class AuthorInfo {
-        private String authorId;
-        private String name;
-        private String pictureUrl;
-        private String country;
-        private AuthorDate date;
-        private String description;
-        private String wikipediaLink;
     }
 }

@@ -8,9 +8,9 @@ import org.springframework.web.client.RestClient;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tgourouza.library_backend.controller.OpenLibraryController.AuthorInfo;
-import com.tgourouza.library_backend.controller.OpenLibraryController.BookFullInfo;
-import com.tgourouza.library_backend.controller.OpenLibraryController.BookInfo;
+import com.tgourouza.library_backend.dto.openLibrary.AuthorInfo;
+import com.tgourouza.library_backend.dto.openLibrary.BookFullInfo;
+import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
 import com.tgourouza.library_backend.mapper.AuthorInfoMapper;
 import com.tgourouza.library_backend.mapper.BookInfoMapper;
 
@@ -83,8 +83,6 @@ public class OpenLibraryService {
         return authorInfoMapper.mapToAuthorInfo(author, safe);
     }
 
-    /* ============================== Search ============================== */
-
     private Optional<JsonNode> searchBestWorkDoc(String title, String author) {
         // Build search.json query
         String json = openLibrary.get()
@@ -119,8 +117,6 @@ public class OpenLibraryService {
         // else return the first anyway
         return Optional.of(docs.get(0));
     }
-
-    /* ============================== HTTP helpers ============================== */
 
     private JsonNode getJson(String pathAndQuery) {
         String json = openLibrary.get()

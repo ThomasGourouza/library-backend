@@ -11,8 +11,8 @@ import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.tgourouza.library_backend.controller.OpenLibraryController.AuthorInfo;
 import com.tgourouza.library_backend.dto.author.AuthorDate;
+import com.tgourouza.library_backend.dto.openLibrary.AuthorInfo;
 
 @Component
 public class AuthorInfoMapper {
