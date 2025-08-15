@@ -26,10 +26,10 @@ public class WebConfig {
       @Override
       public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
-          .allowedOrigins("http://localhost:4200")
-          .allowedMethods("GET","POST","PUT","PATCH","DELETE","OPTIONS")
-          .allowedHeaders("*")
-          .allowCredentials(true);
+            .allowedOrigins("http://localhost:4200")
+            .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+            .allowedHeaders("*")
+            .allowCredentials(true);
       }
     };
   }
@@ -65,5 +65,14 @@ public class WebConfig {
       b = b.requestFactory(requestFactory);
 
     return b.build();
+  }
+
+  @Bean
+  RestClient nllbClient(RestClient.Builder builder,
+      @Value("${nllb.base-url}") String baseUrl) {
+    return builder
+        .baseUrl(baseUrl)
+        .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
+        .build();
   }
 }

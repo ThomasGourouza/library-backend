@@ -41,7 +41,7 @@ public class AuthorInfoMapper {
         String description = readBio(a);
 
         // Wikipedia link – from "wikipedia" or links[].url
-        String wikipedia = readWikipediaLink(a);
+        String wikipedia = readWikipediaLink(a, "", "");
 
         return new AuthorInfo(
                 authorKey,

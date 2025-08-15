@@ -1,15 +1,16 @@
 package com.tgourouza.library_backend.controller;
 
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClient;
 
-import com.github.pemistahl.lingua.api.Language;
-import com.github.pemistahl.lingua.api.LanguageDetector;
-import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
+import com.tgourouza.library_backend.dto.nllb.TranslateReq;
+import com.tgourouza.library_backend.dto.nllb.TranslateResp;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorInfo;
 import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
 import com.tgourouza.library_backend.service.OpenLibraryService;
@@ -22,16 +23,23 @@ import lombok.extern.slf4j.Slf4j;
 public class OpenLibraryController {
 
     private final OpenLibraryService openLibraryService;
+    private final RestClient nllbClient;
 
-    public OpenLibraryController(OpenLibraryService openLibraryService) {
+    public OpenLibraryController(OpenLibraryService openLibraryService,
+            @Qualifier("nllbClient") RestClient nllbClient) {
         this.openLibraryService = openLibraryService;
+        this.nllbClient = nllbClient;
     }
 
     @GetMapping("/test")
-    public ResponseEntity<Language> test(@RequestParam String text) {
-        LanguageDetector detector = LanguageDetectorBuilder.fromAllLanguages().build();
-        Language lang = detector.detectLanguageOf(text);
-        return ResponseEntity.ok(lang);
+    public ResponseEntity<TranslateResp> test(@RequestParam String text) {
+        TranslateResp resp = nllbClient.post()
+                .uri("/translate")
+                .body(new TranslateReq("The little prince", "eng_Latn", "fra_Latn"))
+                .retrieve()
+                .body(TranslateResp.class);
+
+        return ResponseEntity.ok(resp);
     }
 
     @GetMapping(value = "/book-info", produces = MediaType.APPLICATION_JSON_VALUE)

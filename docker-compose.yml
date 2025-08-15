@@ -14,5 +14,40 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
+  nllb:
+    build:
+      context: ./nllb-translate-server          # folder containing server.py and Dockerfile from earlier
+    container_name: nllb-translate
+    restart: unless-stopped
+    ports:
+      - "8000:8000"            # expose to host (optional; your app can reach it via service name)
+    environment:
+      HF_HOME: /models         # cache location for transformers
+    volumes:
+      - nllb-cache:/models
+    healthcheck:
+      test: ["CMD", "curl", "-fsS", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+
+  # (Optional) Your Spring app
+  # app:
+  #   build:
+  #     context: ./app           # your Spring Boot Docker context
+  #   container_name: app
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - postgres
+  #     - nllb
+  #   environment:
+  #     SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/library-db
+  #     SPRING_DATASOURCE_USERNAME: admin
+  #     SPRING_DATASOURCE_PASSWORD: admin123
+  #     NLLB_BASE_URL: http://nllb:8000   # <-- call NLLB by service name/port
+  #   ports:
+  #     - "8080:8080"
+
 volumes:
   pgdata:
+  nllb-cache:
