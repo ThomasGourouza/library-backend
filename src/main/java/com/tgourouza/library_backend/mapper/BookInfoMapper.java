@@ -1,13 +1,14 @@
 package com.tgourouza.library_backend.mapper;
 
 import static com.tgourouza.library_backend.util.openLibraryUtils.coverImage;
-import static com.tgourouza.library_backend.util.openLibraryUtils.firstNonEmpty;
 import static com.tgourouza.library_backend.util.openLibraryUtils.getLanguage;
-import static com.tgourouza.library_backend.util.openLibraryUtils.joinCsv;
+import static com.tgourouza.library_backend.util.openLibraryUtils.mergeJsonArraysToSet;
 import static com.tgourouza.library_backend.util.openLibraryUtils.parseYear;
 import static com.tgourouza.library_backend.util.openLibraryUtils.readDescription;
 import static com.tgourouza.library_backend.util.openLibraryUtils.readWikipediaLink;
 import static com.tgourouza.library_backend.util.openLibraryUtils.text;
+
+import java.util.HashSet;
 
 import org.springframework.stereotype.Component;
 
@@ -60,16 +61,10 @@ public class BookInfoMapper {
             publicationYear = parseYear(fpd);
         }
 
-        // Type (CSV) – use subject_facet if present; otherwise empty.
-        String type = joinCsv(doc.path("subject_facet"));
-
-        // Category (CSV) – use "subject" array from search doc or work.subjects
-        String category = joinCsv(doc.path("subject"));
-        if (category.isBlank())
-            category = joinCsv(work.path("subjects"));
-
-        // Audience (CSV) – from search doc audience/audience_key if present
-        String audience = firstNonEmpty(joinCsv(doc.path("audience")), joinCsv(doc.path("audience_key")));
+        HashSet<String> tags = mergeJsonArraysToSet(
+                doc.path("subject_facet"),
+                doc.path("subject"),
+                work.path("subjects"));
 
         // Description (EN-only desired; Open Library doesn’t tag lang reliably — just
         // use if present)
@@ -89,9 +84,7 @@ public class BookInfoMapper {
                 new Text(
                         description,
                         getLanguage(description)),
-                type,
-                category,
-                audience,
+                tags,
                 wikipedia);
     }
 }

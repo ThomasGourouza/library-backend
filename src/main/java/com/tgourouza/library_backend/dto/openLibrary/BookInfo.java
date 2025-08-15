@@ -1,5 +1,7 @@
 package com.tgourouza.library_backend.dto.openLibrary;
 
+import java.util.Set;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -12,8 +14,6 @@ public class BookInfo {
     private String coverUrl;
     // private int numberOfPages;
     private Text description;
-    private String type;
-    private String category;
-    private String audience;
-    private String wikipediaLink; // -> build
+    private Set<String> tags;
+    private String wikipediaLink;
 }

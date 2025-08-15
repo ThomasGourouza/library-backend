@@ -7,6 +7,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Locale;
@@ -31,24 +32,21 @@ public class openLibraryUtils {
         return val == null ? "" : val;
     }
 
-    public static String joinCsv(JsonNode arr) {
-        if (!arr.isArray() || arr.size() == 0)
-            return "";
-        List<String> list = new ArrayList<>();
-        for (JsonNode n : arr) {
-            String s = n.asText("");
-            if (s != null && !s.isBlank())
-                list.add(s.trim());
-        }
-        // de-dup but keep order
-        LinkedHashSet<String> set = new LinkedHashSet<>(list);
-        return String.join(",", set);
-    }
+    public static HashSet<String> mergeJsonArraysToSet(JsonNode... arrays) {
+        HashSet<String> out = new HashSet<>();
+        if (arrays == null)
+            return out;
 
-    public static String firstNonEmpty(String a, String b) {
-        if (a != null && !a.isBlank())
-            return a;
-        return b == null ? "" : b;
+        for (JsonNode arr : arrays) {
+            if (arr == null || !arr.isArray())
+                continue;
+            for (JsonNode n : arr) {
+                String s = n.asText("");
+                if (!s.isBlank())
+                    out.add(s.trim());
+            }
+        }
+        return out;
     }
 
     public static String lastPathSegment(String path) {
@@ -141,7 +139,9 @@ public class openLibraryUtils {
         return "https://covers.openlibrary.org/a/id/" + id + "-" + size + ".jpg";
     }
 
-    /* ============================== Wikipedia utils ============================== */
+    /*
+     * ============================== Wikipedia utils ==============================
+     */
 
     private static String resolveWikipediaLangCode(String language) {
         if (language == null || language.isBlank())
@@ -181,6 +181,7 @@ public class openLibraryUtils {
     private static Map<String, String> createWikipediaLangMap() {
         Map<String, String> m = new HashMap<>();
 
+        // TODO: check in Language enum from pemistahl.lingua
         m.put("english", "en");
         m.put("chinese", "zh");
         m.put("mandarin", "zh");
