@@ -10,3 +10,23 @@ keytool -importcert -noprompt \
   -storepass openlibrary123
 
 # put it under resources
+
+
+
+### nllb translation server
+
+#(Use --build only when you changed something in the build context (e.g., Dockerfile, server.py, requirements.txt, etc.))
+docker-compose up -d --build nllb
+
+#(If nothing or only docker-compose.yml changed)
+docker-compose up -d
+
+#Wait for healthy:
+docker ps --filter name=nllb-translate
+
+curl http://localhost:18000/health
+
+#Test translate:
+curl -H "Content-Type: application/json" \
+  -d '{"text":"Hello","source":"eng_Latn","target":"fra_Latn"}' \
+  http://localhost:18000/translate

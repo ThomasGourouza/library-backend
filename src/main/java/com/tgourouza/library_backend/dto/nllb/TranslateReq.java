@@ -1,3 +1,9 @@
 package com.tgourouza.library_backend.dto.nllb;
 
-public record TranslateReq(String text, String source, String target) {}
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record TranslateReq(
+    String text,
+    @JsonProperty("source") String sourceLang,
+    @JsonProperty("target") String targetLang
+) {}

@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestClient;
 
-import com.tgourouza.library_backend.dto.nllb.TranslateReq;
 import com.tgourouza.library_backend.dto.nllb.TranslateResp;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorInfo;
 import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
@@ -32,10 +31,16 @@ public class OpenLibraryController {
     }
 
     @GetMapping("/test")
-    public ResponseEntity<TranslateResp> test(@RequestParam String text) {
+    public ResponseEntity<TranslateResp> test(@RequestParam String text, @RequestParam String sourceLang,
+            @RequestParam String targetLang) {
+        var map = java.util.Map.of("text", text, "source", sourceLang, "target", targetLang);
+
         TranslateResp resp = nllbClient.post()
                 .uri("/translate")
-                .body(new TranslateReq("The little prince", "eng_Latn", "fra_Latn"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .accept(MediaType.APPLICATION_JSON)
+                .body(map)
+                // .body(new TranslateReq(text, sourceLang, targetLang))
                 .retrieve()
                 .body(TranslateResp.class);
 

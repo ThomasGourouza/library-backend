@@ -16,13 +16,20 @@ services:
 
   nllb:
     build:
-      context: ./nllb-translate-server          # folder containing server.py and Dockerfile from earlier
+      context: ./nllb-translate-server
     container_name: nllb-translate
     restart: unless-stopped
     ports:
-      - "8000:8000"            # expose to host (optional; your app can reach it via service name)
+      - "18000:8000"                # host:container
+    command: >
+      uvicorn server:app
+      --host 0.0.0.0
+      --port 8000
+      --workers 1
     environment:
-      HF_HOME: /models         # cache location for transformers
+      HF_HOME: /models
+      TRANSFORMERS_CACHE: /models
+      MODEL_ID: facebook/nllb-200-distilled-600M
     volumes:
       - nllb-cache:/models
     healthcheck:
