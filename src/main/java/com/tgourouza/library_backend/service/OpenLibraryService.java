@@ -15,14 +15,14 @@ import com.tgourouza.library_backend.mapper.BookInfoMapper;
 
 @Service
 public class OpenLibraryService {
-    private final RestClient openLibrary; // https://openlibrary.org
+    private final RestClient openLibraryClient; // https://openlibrary.org
     private final BookInfoMapper bookInfoMapper;
     private final AuthorInfoMapper authorInfoMapper;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public OpenLibraryService(@Qualifier("openLibraryRestClient") RestClient openLibrary, BookInfoMapper bookInfoMapper,
+    public OpenLibraryService(@Qualifier("openLibraryRestClient") RestClient openLibraryClient, BookInfoMapper bookInfoMapper,
             AuthorInfoMapper authorInfoMapper) {
-        this.openLibrary = openLibrary;
+        this.openLibraryClient = openLibraryClient;
         this.bookInfoMapper = bookInfoMapper;
         this.authorInfoMapper = authorInfoMapper;
     }
@@ -58,7 +58,7 @@ public class OpenLibraryService {
 
     private Optional<JsonNode> searchBestWorkDoc(String title, String author) {
         // Build search.json query
-        String json = openLibrary.get()
+        String json = openLibraryClient.get()
                 .uri(uri -> {
                     var b = uri.path("/search.json");
                     if (title != null && !title.isBlank())
@@ -92,7 +92,7 @@ public class OpenLibraryService {
     }
 
     private JsonNode getJson(String pathAndQuery) {
-        String json = openLibrary.get()
+        String json = openLibraryClient.get()
                 .uri(pathAndQuery)
                 .retrieve()
                 .body(String.class);
