@@ -1,7 +1,5 @@
 package com.tgourouza.library_backend.service;
 
-import java.util.Objects;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -10,10 +8,8 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tgourouza.library_backend.dto.mymemory.TranslateTitleResponse;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -42,7 +38,7 @@ public class MymemoryService {
             // return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
             // .body(TranslateResponse.error(title, sourceLanguage, targetLanguage,
             // "Empty body from MyMemory"));
-            return TranslateTitleResponse.error(title, sourceLanguage, targetLanguage, "Empty body from MyMemory");
+            return new TranslateTitleResponse().error(title, sourceLanguage, targetLanguage, "Empty body from MyMemory");
         }
 
         JsonNode root = mapper.readTree(body);
@@ -55,7 +51,7 @@ public class MymemoryService {
             // return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
             // .body(TranslateResponse.error(title, sourceLanguage, targetLanguage,
             // "MyMemory error " + status + (details.isBlank() ? "" : (": " + details))));
-            return TranslateTitleResponse.error(title, sourceLanguage, targetLanguage,
+            return new TranslateTitleResponse().error(title, sourceLanguage, targetLanguage,
                     "MyMemory error " + status + (details.isBlank() ? "" : (": " + details)));
         }
 
@@ -72,25 +68,5 @@ public class MymemoryService {
                 details);
         // return ResponseEntity.ok(resp);
         return resp;
-    }
-
-    /* ======================== DTO ======================== */
-
-    @Data
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class TranslateTitleResponse {
-        private String sourceText; // texte source
-        private String sourceLang; // en
-        private String targetLang; // fr
-        private String translatedText;
-        private double match; // score aproximatif
-        private String details; // éventuels détails/erreurs MyMemory
-
-        public static TranslateTitleResponse error(String sourceText, String src, String tgt, String details) {
-            return new TranslateTitleResponse(Objects.toString(sourceText, ""),
-                    Objects.toString(src, ""), Objects.toString(tgt, ""),
-                    "", 0.0, details);
-        }
     }
 }

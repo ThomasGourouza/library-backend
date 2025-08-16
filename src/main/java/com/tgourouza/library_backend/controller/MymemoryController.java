@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 
+import com.tgourouza.library_backend.dto.mymemory.TranslateTitleResponse;
 import com.tgourouza.library_backend.service.MymemoryService;
-import com.tgourouza.library_backend.service.MymemoryService.TranslateTitleResponse;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,12 +37,12 @@ public class MymemoryController {
         } catch (HttpClientErrorException e) {
             log.error("MyMemory client error: {} {}", e.getStatusCode(), e.getResponseBodyAsString());
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                    .body(TranslateTitleResponse.error(title, sourceLanguage, targetLanguage,
+                    .body(new TranslateTitleResponse().error(title, sourceLanguage, targetLanguage,
                             "Upstream client error: " + e.getStatusCode()));
         } catch (Exception e) {
             log.error("MyMemory call failed", e);
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                    .body(TranslateTitleResponse.error(title, sourceLanguage, targetLanguage,
+                    .body(new TranslateTitleResponse().error(title, sourceLanguage, targetLanguage,
                             "Call failed: " + e.getMessage()));
         }
     }
