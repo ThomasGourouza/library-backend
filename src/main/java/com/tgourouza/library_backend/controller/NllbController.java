@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tgourouza.library_backend.dto.nllb.TranslateResponse;
+import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.service.NllbService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -22,23 +22,21 @@ public class NllbController {
         this.nllbService = nllbService;
     }
 
-    @GetMapping("/translate-description")
-    public ResponseEntity<TranslateResponse> translateDescription(@RequestParam String text,
-            @RequestParam String sourceLanguage,
-            @RequestParam String targetLanguage) {
+    @GetMapping("/translate-text")
+    public ResponseEntity<String> translateText(@RequestParam String text, @RequestParam String targetLanguage) {
         try {
-            TranslateResponse resp = nllbService.translateDescription(text, sourceLanguage, targetLanguage);
-            return ResponseEntity.ok(resp);
+            String translation = nllbService.translateText(text, Language.valueOf(targetLanguage.toUpperCase()));
+            return ResponseEntity.ok(translation);
         } catch (Exception e) {
-            log.error("NLLB translate-description failed (text='{}', sourceLanguage='{}', targetLanguage='{}')",
-                    text, sourceLanguage, targetLanguage, e);
+            log.error("NLLB translate-text failed (text='{}', targetLanguage='{}')",
+                    text, targetLanguage, e);
             return ResponseEntity.status(502).build();
         }
     }
 
     // TODO: remove
-    // @GetMapping("/detect-language")
-    // public ResponseEntity<String> detectLanguage(@RequestParam String text) {
-    //     return ResponseEntity.ok(nllbService.detectLanguage(text).toString());
-    // }
+    @GetMapping("/detect-language")
+    public ResponseEntity<String> detectLanguage(@RequestParam String text) {
+        return ResponseEntity.ok(nllbService.detectLanguage(text).toString());
+    }
 }

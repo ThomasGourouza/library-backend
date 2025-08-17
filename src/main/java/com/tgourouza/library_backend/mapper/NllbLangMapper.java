@@ -60,6 +60,7 @@ public class NllbLangMapper {
         m.put(Language.KAZAKH, "kaz_Cyrl");
         m.put(Language.KOREAN, "kor_Hang");
         // Language.LATIN -> no NLLB code in the supplied list (unsupported)
+        m.put(Language.LATIN, "eng_Latn");
         m.put(Language.LATVIAN, "lvs_Latn");
         m.put(Language.LITHUANIAN, "lit_Latn");
         m.put(Language.MACEDONIAN, "mkd_Cyrl");
