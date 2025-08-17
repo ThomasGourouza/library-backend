@@ -10,6 +10,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class TranslateTitleResponse {
+    private int status;
     private String sourceText; // texte source
     private String sourceLang; // en
     private String targetLang; // fr
@@ -17,9 +18,10 @@ public class TranslateTitleResponse {
     private double match; // score aproximatif
     private String details; // éventuels détails/erreurs MyMemory
 
-    public TranslateTitleResponse error(String sourceText, String src, String tgt, String details) {
-        return new TranslateTitleResponse(Objects.toString(sourceText, ""),
-                Objects.toString(src, ""), Objects.toString(tgt, ""),
+    public TranslateTitleResponse error(int status, String sourceText, String sourceLang, String targetLang,
+            String details) {
+        return new TranslateTitleResponse(status, Objects.toString(sourceText, ""),
+                Objects.toString(sourceLang, ""), Objects.toString(targetLang, ""),
                 "", 0.0, details);
     }
 }

@@ -31,18 +31,29 @@ public class MymemoryController {
             @RequestParam(defaultValue = "en") String sourceLanguage,
             @RequestParam(defaultValue = "fr") String targetLanguage) {
         try {
-            TranslateTitleResponse resp = mymemoryService.getTranslation(title, sourceLanguage, targetLanguage);
-            return ResponseEntity.ok(resp);
+            String body = mymemoryService.getBody(title, sourceLanguage, targetLanguage);
+            if (body == null || body.isBlank()) {
+                return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                        .body(new TranslateTitleResponse().error(502, title, sourceLanguage, targetLanguage,
+                                "Empty body from MyMemory"));
+            }
+            TranslateTitleResponse response = mymemoryService.getTranslation(body, title, sourceLanguage,
+                    targetLanguage);
+            if (response.getStatus() != 200) {
+                return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                        .body(response);
+            }
+            return ResponseEntity.ok(response);
 
         } catch (HttpClientErrorException e) {
             log.error("MyMemory client error: {} {}", e.getStatusCode(), e.getResponseBodyAsString());
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                    .body(new TranslateTitleResponse().error(title, sourceLanguage, targetLanguage,
+                    .body(new TranslateTitleResponse().error(502, title, sourceLanguage, targetLanguage,
                             "Upstream client error: " + e.getStatusCode()));
         } catch (Exception e) {
             log.error("MyMemory call failed", e);
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
-                    .body(new TranslateTitleResponse().error(title, sourceLanguage, targetLanguage,
+                    .body(new TranslateTitleResponse().error(502, title, sourceLanguage, targetLanguage,
                             "Call failed: " + e.getMessage()));
         }
     }
