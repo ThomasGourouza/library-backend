@@ -40,11 +40,6 @@ public class NllbService {
         );
     }
 
-    // TODO: remove
-    public Language detectLanguage(String text) {
-        return detector.detectLanguageOf(text);
-    }
-
     private String translate(String text, Language source, Language target) {
         String src = NllbLangMapper.toNllb(source)
                 .orElseThrow(() -> new IllegalArgumentException("Unsupported source language: " + source));

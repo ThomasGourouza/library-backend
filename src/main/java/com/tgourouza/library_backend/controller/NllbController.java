@@ -34,10 +34,4 @@ public class NllbController {
             return ResponseEntity.status(502).build();
         }
     }
-
-    // TODO: remove
-    @GetMapping("/detect-language")
-    public ResponseEntity<String> detectLanguage(@RequestParam String text) {
-        return ResponseEntity.ok(nllbService.detectLanguage(text).toString());
-    }
 }
