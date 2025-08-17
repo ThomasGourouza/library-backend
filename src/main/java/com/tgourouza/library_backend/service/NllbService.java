@@ -9,6 +9,7 @@ import org.springframework.web.client.RestClient;
 
 import com.github.pemistahl.lingua.api.Language;
 import com.github.pemistahl.lingua.api.LanguageDetector;
+import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.nllb.TranslateResponse;
 import com.tgourouza.library_backend.mapper.NllbLangMapper;
 
@@ -22,12 +23,21 @@ public class NllbService {
         this.detector = detector;
     }
 
-    public String translateText(String text, Language target) {
+    public Multilingual translateText(String text) {
         Language detected = detector.detectLanguageOf(text);
         if (detected == Language.UNKNOWN) {
             throw new IllegalArgumentException("Could not detect source language");
         }
-        return translate(text, detected, target);
+        return new Multilingual(
+            translate(text, detected, Language.FRENCH),
+            translate(text, detected, Language.SPANISH),
+            translate(text, detected, Language.ITALIAN),
+            translate(text, detected, Language.PORTUGUESE),
+            translate(text, detected, Language.ENGLISH),
+            translate(text, detected, Language.GERMAN),
+            translate(text, detected, Language.RUSSIAN),
+            translate(text, detected, Language.JAPANESE)
+        );
     }
 
     // TODO: remove

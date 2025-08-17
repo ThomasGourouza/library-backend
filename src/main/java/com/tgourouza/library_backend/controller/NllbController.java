@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.github.pemistahl.lingua.api.Language;
+import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.service.NllbService;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,13 +24,13 @@ public class NllbController {
     }
 
     @GetMapping("/translate-text")
-    public ResponseEntity<String> translateText(@RequestParam String text, @RequestParam String targetLanguage) {
+    public ResponseEntity<Multilingual> translateText(@RequestParam String text) {
         try {
-            String translation = nllbService.translateText(text, Language.valueOf(targetLanguage.toUpperCase()));
+            Multilingual translation = nllbService.translateText(text);
             return ResponseEntity.ok(translation);
         } catch (Exception e) {
-            log.error("NLLB translate-text failed (text='{}', targetLanguage='{}')",
-                    text, targetLanguage, e);
+            log.error("NLLB translate-text failed (text='{}')",
+                    text, e);
             return ResponseEntity.status(502).build();
         }
     }
