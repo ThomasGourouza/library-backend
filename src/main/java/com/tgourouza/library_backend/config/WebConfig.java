@@ -19,6 +19,9 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
+import com.github.pemistahl.lingua.api.LanguageDetector;
+import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
+
 @Configuration
 public class WebConfig {
   @Bean
@@ -38,7 +41,6 @@ public class WebConfig {
   @Bean
   @Qualifier("openLibraryRestClient")
   public RestClient openLibraryRestClient(
-      RestClient.Builder builder,
       @Value("${openlibrary.base-url:https://openlibrary.org}") String baseUrl,
       @Value("${openlibrary.user-agent:YourApp/1.0 (contact@example.com)}") String userAgent,
       @Value("${openlibrary.truststore.path}") Resource tsResource,
@@ -57,7 +59,7 @@ public class WebConfig {
       requestFactory = new JdkClientHttpRequestFactory(HttpClient.newBuilder().sslContext(ssl).build());
     }
 
-    var b = builder
+    var b = RestClient.builder()
         .baseUrl(baseUrl)
         .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
         .defaultHeader(HttpHeaders.USER_AGENT, userAgent);
@@ -71,7 +73,6 @@ public class WebConfig {
   @Bean
   @Qualifier("mymemoryRestClient")
   public RestClient mymemoryRestClient(
-      RestClient.Builder builder,
       @Value("${mymemory.base-url}") String baseUrl,
       @Value("${mymemory.user-agent}") String userAgent,
       @Value("${mymemory.truststore.path}") Resource truststore,
@@ -90,7 +91,7 @@ public class WebConfig {
     HttpClient httpClient = HttpClient.newBuilder().sslContext(sslContext).build();
     var requestFactory = new JdkClientHttpRequestFactory(httpClient);
 
-    return builder
+    return RestClient.builder()
         .baseUrl(baseUrl)
         .requestFactory(requestFactory)
         .defaultHeader(HttpHeaders.USER_AGENT, userAgent)
@@ -98,11 +99,15 @@ public class WebConfig {
   }
 
   @Bean
-  RestClient nllbClient(RestClient.Builder builder,
-      @Value("${nllb.base-url}") String baseUrl) {
-    return builder
+  RestClient nllbClient(@Value("${nllb.base-url}") String baseUrl) {
+    return RestClient.builder()
         .baseUrl(baseUrl)
         .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
         .build();
+  }
+
+  @Bean
+  LanguageDetector linguaDetector() {
+    return LanguageDetectorBuilder.fromAllLanguages().build();
   }
 }
