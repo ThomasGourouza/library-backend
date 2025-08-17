@@ -6,8 +6,8 @@ openssl s_client -showcerts -connect openlibrary.org:443 </dev/null 2>/dev/null 
 keytool -importcert -noprompt \
   -alias openlibrary-ca \
   -file openlibrary-chain.pem \
-  -keystore openlibrary-truststore.jks \
-  -storepass openlibrary123
+  -keystore src/main/resources/openlibrary-truststore.jks \
+  -storepass openlibrary123 -noprompt
 
 # put it under resources
 
