@@ -26,7 +26,10 @@ public class NllbController {
     @GetMapping("/translate")
     public ResponseEntity<Multilingual> translateText(@RequestParam String text) {
         try {
-            Multilingual translation = nllbService.translateText(text);
+            if (text == null || text.trim().isEmpty()) {
+                return ResponseEntity.ok(new Multilingual(null, null, null, null, null, null, null, null));
+            }
+            Multilingual translation = nllbService.translateText(text.trim());
             return ResponseEntity.ok(translation);
 
         } catch (Exception e) {

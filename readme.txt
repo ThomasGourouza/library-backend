@@ -1,10 +1,31 @@
+# one line
+rm src/main/resources/openlibrary-truststore.jks && \
+rm src/main/resources/mymemory-trust.jks && \
+openssl s_client -showcerts -connect openlibrary.org:443 </dev/null 2>/dev/null | \
+  awk '/BEGIN CERTIFICATE/,/END CERTIFICATE/ { print }' > openlibrary-chain.pem && \
+openssl s_client -connect api.mymemory.translated.net:443 -showcerts </dev/null | \
+  openssl x509 -outform PEM > corp-or-site-ca.pem && \
+keytool -importcert -alias openlibrary-ca \
+  -file openlibrary-chain.pem \
+  -keystore src/main/resources/openlibrary-truststore.jks \
+  -storepass openlibrary123 -noprompt && \
+keytool -importcert -alias mymemory-ca \
+  -file corp-or-site-ca.pem \
+  -keystore src/main/resources/mymemory-trust.jks \
+  -storepass mymemory123 -noprompt && \
+rm openlibrary-chain.pem && \
+rm corp-or-site-ca.pem
+
+
+---
+
+
 # get the server chain
 openssl s_client -showcerts -connect openlibrary.org:443 </dev/null 2>/dev/null | \
   awk '/BEGIN CERTIFICATE/,/END CERTIFICATE/ { print }' > openlibrary-chain.pem
 
 # import the *root or intermediate CA* you need (better: the root)
-keytool -importcert -noprompt \
-  -alias openlibrary-ca \
+keytool -importcert -alias openlibrary-ca \
   -file openlibrary-chain.pem \
   -keystore src/main/resources/openlibrary-truststore.jks \
   -storepass openlibrary123 -noprompt
@@ -13,8 +34,7 @@ keytool -importcert -noprompt \
 rm src/main/resources/openlibrary-truststore.jks && \
 openssl s_client -showcerts -connect openlibrary.org:443 </dev/null 2>/dev/null | \
   awk '/BEGIN CERTIFICATE/,/END CERTIFICATE/ { print }' > openlibrary-chain.pem && \
-keytool -importcert -noprompt \
-  -alias openlibrary-ca \
+keytool -importcert -alias openlibrary-ca \
   -file openlibrary-chain.pem \
   -keystore src/main/resources/openlibrary-truststore.jks \
   -storepass openlibrary123 -noprompt && \
