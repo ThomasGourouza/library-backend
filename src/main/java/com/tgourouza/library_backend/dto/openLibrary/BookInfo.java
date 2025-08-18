@@ -9,10 +9,10 @@ import lombok.Data;
 @AllArgsConstructor
 public class BookInfo {
     private Text originalTitle;
-    private String authorId; // -> openLibraryKey
+    private String authorOLKey;
     private int publicationYear;
     private String coverUrl;
-    // private int numberOfPages;
+    private int numberOfPages;
     private Text description;
     private Set<String> tags;
     private String wikipediaLink;

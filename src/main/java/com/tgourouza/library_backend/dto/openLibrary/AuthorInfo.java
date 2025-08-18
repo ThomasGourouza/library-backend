@@ -8,7 +8,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AuthorInfo {
-    private String authorId;
+    private String oLKey;
     private String name;
     private String pictureUrl;
     private String country;

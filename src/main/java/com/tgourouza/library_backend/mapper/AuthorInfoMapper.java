@@ -17,7 +17,7 @@ import com.tgourouza.library_backend.dto.openLibrary.AuthorInfo;
 @Component
 public class AuthorInfoMapper {
 
-    public AuthorInfo mapToAuthorInfo(JsonNode a, String authorKey) {
+    public AuthorInfo mapToAuthorInfo(JsonNode a, String authorOLKey) {
         String name = text(a, "name");
 
         // Picture (author photos use /a/id/{photoId}-L.jpg)
@@ -44,7 +44,7 @@ public class AuthorInfoMapper {
         String wikipedia = readWikipediaLink(a, "", "");
 
         return new AuthorInfo(
-                authorKey,
+                authorOLKey,
                 name,
                 pictureUrl,
                 country,

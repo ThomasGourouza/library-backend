@@ -20,7 +20,8 @@ public class OpenLibraryService {
     private final AuthorInfoMapper authorInfoMapper;
     private final ObjectMapper mapper = new ObjectMapper();
 
-    public OpenLibraryService(@Qualifier("openLibraryRestClient") RestClient openLibraryClient, BookInfoMapper bookInfoMapper,
+    public OpenLibraryService(@Qualifier("openLibraryRestClient") RestClient openLibraryClient,
+            BookInfoMapper bookInfoMapper,
             AuthorInfoMapper authorInfoMapper) {
         this.openLibraryClient = openLibraryClient;
         this.bookInfoMapper = bookInfoMapper;
@@ -66,7 +67,7 @@ public class OpenLibraryService {
                     if (author != null && !author.isBlank())
                         b = b.queryParam("author", author);
                     b = b.queryParam("fields",
-                            "key,title,author_key,cover_i,first_publish_year,subject,subject_facet,audience,audience_key");
+                            "key,title,author_key,cover_i,first_publish_year,subject,subject_facet,audience,audience_key,number_of_pages_median");
                     return b.build();
                 })
                 .retrieve()
