@@ -16,11 +16,14 @@ import com.tgourouza.library_backend.mapper.NllbLangMapper;
 @Service
 public class NllbService {
     private final RestClient nllbClient;
+    private final NllbLangMapper nllbLangMapper;
     private final LanguageDetector detector;
 
-    public NllbService(@Qualifier("nllbClient") RestClient nllbClient, LanguageDetector detector) {
+    public NllbService(@Qualifier("nllbClient") RestClient nllbClient, LanguageDetector detector,
+            NllbLangMapper nllbLangMapper) {
         this.nllbClient = nllbClient;
         this.detector = detector;
+        this.nllbLangMapper = nllbLangMapper;
     }
 
     public Multilingual translateText(String text) {
@@ -29,27 +32,25 @@ public class NllbService {
             throw new IllegalArgumentException("Could not detect source language");
         }
         return new Multilingual(
-            translate(text, detected, Language.FRENCH),
-            translate(text, detected, Language.SPANISH),
-            translate(text, detected, Language.ITALIAN),
-            translate(text, detected, Language.PORTUGUESE),
-            translate(text, detected, Language.ENGLISH),
-            translate(text, detected, Language.GERMAN),
-            translate(text, detected, Language.RUSSIAN),
-            translate(text, detected, Language.JAPANESE)
-        );
+                translate(text, detected, Language.FRENCH),
+                translate(text, detected, Language.SPANISH),
+                translate(text, detected, Language.ITALIAN),
+                translate(text, detected, Language.PORTUGUESE),
+                translate(text, detected, Language.ENGLISH),
+                translate(text, detected, Language.GERMAN),
+                translate(text, detected, Language.RUSSIAN),
+                translate(text, detected, Language.JAPANESE));
     }
 
     private String translate(String text, Language source, Language target) {
-        String src = NllbLangMapper.toNllb(source)
+        String src = nllbLangMapper.toNllb(source)
                 .orElseThrow(() -> new IllegalArgumentException("Unsupported source language: " + source));
-        String tgt = NllbLangMapper.toNllb(target)
+        String tgt = nllbLangMapper.toNllb(target)
                 .orElseThrow(() -> new IllegalArgumentException("Unsupported target language: " + target));
         if (src.equals(tgt)) {
             return text;
         }
         TranslateResponse resp = nllbTranslation(text, src, tgt);
-
         if (resp == null || resp.translation() == null)
             throw new IllegalStateException("Empty translation from NLLB server");
         return resp.translation();

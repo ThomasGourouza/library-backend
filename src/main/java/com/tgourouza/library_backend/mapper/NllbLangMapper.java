@@ -2,7 +2,6 @@ package com.tgourouza.library_backend.mapper;
 
 import java.util.Collections;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
@@ -14,11 +13,9 @@ import com.github.pemistahl.lingua.api.Language;
 public class NllbLangMapper {
 
     // Lingua -> NLLB
-    private static final Map<Language, String> L2N;
-    // NLLB -> Lingua
-    private static final Map<String, Language> N2L;
+    private final Map<Language, String> l2n;
 
-    static {
+    public NllbLangMapper() {
         EnumMap<Language, String> m = new EnumMap<>(Language.class);
 
         // Straightforward one-to-ones
@@ -100,38 +97,11 @@ public class NllbLangMapper {
         m.put(Language.ZULU, "zul_Latn");
         // UNKNOWN -> no mapping; handled by Optional.empty()
 
-        L2N = Collections.unmodifiableMap(m);
-
-        // Reverse map + a few useful aliases
-        Map<String, Language> r = new HashMap<>();
-        L2N.forEach((lang, code) -> {
-            if (code != null)
-                r.put(code, lang);
-        });
-
-        // Aliases / alternates commonly encountered with NLLB models:
-        r.put("zho_Hant", Language.CHINESE); // Traditional Chinese → map to CHINESE
-        r.put("prs_Arab", Language.PERSIAN); // Dari → PERSIAN bucket
-        r.put("azb_Arab", Language.AZERBAIJANI); // South Azerbaijani → AZERBAIJANI
-        r.put("srp_Latn", Language.SERBIAN); // if your model exposes Latin Serbian
-
-        N2L = Collections.unmodifiableMap(r);
+        this.l2n = Collections.unmodifiableMap(m);
     }
 
     /** Lingua → NLLB language code (e.g. ENGLISH → "eng_Latn"). */
-    public static Optional<String> toNllb(Language lingua) {
-        return Optional.ofNullable(L2N.get(lingua));
-    }
-
-    /** NLLB code → Lingua enum (e.g. "fra_Latn" → FRENCH). */
-    public static Optional<Language> toLingua(String nllbCode) {
-        if (nllbCode == null)
-            return Optional.empty();
-        return Optional.ofNullable(N2L.get(nllbCode));
-    }
-
-    /** True if we have a mapping for this Lingua language. */
-    public static boolean isSupported(Language lingua) {
-        return L2N.containsKey(lingua) && L2N.get(lingua) != null;
+    public Optional<String> toNllb(Language lingua) {
+        return Optional.ofNullable(l2n.get(lingua));
     }
 }

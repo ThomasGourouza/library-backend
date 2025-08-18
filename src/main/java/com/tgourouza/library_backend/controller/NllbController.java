@@ -23,14 +23,15 @@ public class NllbController {
         this.nllbService = nllbService;
     }
 
-    @GetMapping("/translate-text")
+    @GetMapping("/translate")
     public ResponseEntity<Multilingual> translateText(@RequestParam String text) {
         try {
             Multilingual translation = nllbService.translateText(text);
             return ResponseEntity.ok(translation);
+
         } catch (Exception e) {
-            log.error("NLLB translate-text failed (text='{}')",
-                    text, e);
+            log.error("NLLB translate failed (text='{}')",
+                    text, e.getMessage());
             return ResponseEntity.status(502).build();
         }
     }

@@ -49,4 +49,26 @@ public class utils {
             request.setCountry(Country.UNKNOWN.toString());
         }
     }
+
+    public static String cleanAndTitleCase(String input) {
+        if (input == null || input.isBlank()) {
+            return input;
+        }
+        String cleaned = input.replace("\"", "");
+        StringBuilder result = new StringBuilder();
+        String[] words = cleaned.split("\\s+");
+        for (int i = 0; i < words.length; i++) {
+            String word = words[i].toLowerCase();
+            if (!word.isEmpty()) {
+                result.append(Character.toUpperCase(word.charAt(0)));
+                if (word.length() > 1) {
+                    result.append(word.substring(1));
+                }
+            }
+            if (i < words.length - 1) {
+                result.append(" ");
+            }
+        }
+        return result.toString();
+    }
 }
