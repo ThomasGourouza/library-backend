@@ -1,17 +1,25 @@
 package com.tgourouza.library_backend.constant;
 
-public enum Category {
+public enum Category { // Subject
     UNKNOWN,
+    LITERATURE,
+    PHILOSOPHY,
+    RELIGION,
     HISTORY,
     GEOGRAPHY,
-    ECONOMY,
     POLITICS,
-    PHILOSOPHY,
-    LITERATURE,
-    RELIGION,
-    PSYCHOLOGY,
     SOCIOLOGY,
+    PSYCHOLOGY,
+    ECONOMICS,
     SCIENCE,
     MATHEMATICS,
-    ART;
+    TECHNOLOGY,
+    ART,
+    MUSIC,
+    EDUCATION,
+    LAW,
+    LANGUAGE,
+    MEDICINE,
+    ENVIRONMENT,
+    CULTURE
 }

@@ -1,13 +1,22 @@
 package com.tgourouza.library_backend.constant;
 
-public enum Type {
+public enum Type { //Genre
     UNKNOWN,
-    THEATER,
     NOVEL,
-    POETRY,
+    SHORT_STORY,
     ESSAY,
+    POETRY,
+    THEATER,
     COMICS,
     BIOGRAPHY,
+    AUTOBIOGRAPHY,
+    MEMOIR,
+    FABLE,
+    FAIRY_TALE,
     TALE,
-    FABLE;
+    GRAPHIC_NOVEL,
+    JOURNAL,
+    DIARY,
+    SATIRE,
+    PARABLE
 }
