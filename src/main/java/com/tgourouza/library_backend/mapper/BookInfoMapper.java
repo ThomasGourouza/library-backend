@@ -75,7 +75,9 @@ public class BookInfoMapper {
                 doc.path("subject"),
                 work.path("subjects"));
 
-        String description = readDescription(work);
+        String workDescription = readDescription(work);
+        String description = (workDescription != null && !workDescription.isBlank()) ? workDescription
+                : String.join(", ", tags);
 
         String wikipedia = readWikipediaLink(work, originalTitle, originalTitleLanguage);
 

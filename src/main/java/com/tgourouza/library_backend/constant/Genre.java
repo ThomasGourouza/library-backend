@@ -16,5 +16,7 @@ public enum Genre {
     RELIGIO,
     POLITIC,
     SOCIAL,
-    HISTOR;
+    HISTOR,
+    MYTH,
+    LEGEND;
 }

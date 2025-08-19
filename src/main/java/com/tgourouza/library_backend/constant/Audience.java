@@ -4,6 +4,7 @@ public enum Audience {
     UNKNOWN,
     CHILD,
     KID,
+    JUVENILE,
     YOUNG,
     ADULT;
 }
