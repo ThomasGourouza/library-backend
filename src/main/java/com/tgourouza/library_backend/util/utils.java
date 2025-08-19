@@ -3,11 +3,11 @@ package com.tgourouza.library_backend.util;
 import java.time.Period;
 
 import com.tgourouza.library_backend.constant.Audience;
-import com.tgourouza.library_backend.constant.Category;
+import com.tgourouza.library_backend.constant.Subject;
 import com.tgourouza.library_backend.constant.Country;
 import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.constant.Status;
-import com.tgourouza.library_backend.constant.Type;
+import com.tgourouza.library_backend.constant.Genre;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.entity.BookEntity;
@@ -27,11 +27,11 @@ public class utils {
         if (request.getLanguage() == null) {
             request.setLanguage(Language.UNKNOWN.toString());
         }
-        if (request.getType() == null) {
-            request.setType(Type.UNKNOWN.toString());
+        if (request.getGenre() == null) {
+            request.setGenre(Genre.UNKNOWN.toString());
         }
-        if (request.getCategory() == null) {
-            request.setCategory(Category.UNKNOWN.toString());
+        if (request.getSubject() == null) {
+            request.setSubject(Subject.UNKNOWN.toString());
         }
         if (request.getAudience() == null) {
             request.setAudience(Audience.UNKNOWN.toString());

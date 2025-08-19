@@ -26,8 +26,8 @@ CREATE TABLE book (
     publication_date DATE,
 
     language VARCHAR(255),
-    type VARCHAR(255),
-    category VARCHAR(255),
+    genre VARCHAR(255),
+    subject VARCHAR(255),
     audience VARCHAR(255),
 
     wikipedia_link TEXT,

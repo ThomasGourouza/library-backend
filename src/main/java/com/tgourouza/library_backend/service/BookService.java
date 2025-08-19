@@ -82,8 +82,8 @@ public class BookService {
                 request,
                 getAuthorEntity(request.getAuthorId()),
                 enumResolver.getLanguage(request.getLanguage()),
-                enumResolver.getType(request.getType()),
-                enumResolver.getCategory(request.getCategory()),
+                enumResolver.getGenre(request.getGenre()),
+                enumResolver.getSubject(request.getSubject()),
                 enumResolver.getAudience(request.getAudience()),
                 enumResolver.getStatus(request.getStatus())
         );

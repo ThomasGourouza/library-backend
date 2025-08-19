@@ -14,8 +14,8 @@ public class EnumResolver {
         return resolveEnum(Audience.class, "Audience", input);
     }
 
-    public Category getCategory(String input) {
-        return resolveEnum(Category.class, "Category", input);
+    public Subject getSubject(String input) {
+        return resolveEnum(Subject.class, "Subject", input);
     }
 
     public Country getCountry(String input) {
@@ -26,8 +26,8 @@ public class EnumResolver {
         return resolveEnum(Language.class, "Language", input);
     }
 
-    public Type getType(String input) {
-        return resolveEnum(Type.class, "Type", input);
+    public Genre getGenre(String input) {
+        return resolveEnum(Genre.class, "Genre", input);
     }
 
     private <E extends Enum<E>> E resolveEnum(Class<E> enumClass, String fieldName, String input) {

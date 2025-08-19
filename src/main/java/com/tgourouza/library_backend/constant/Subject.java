@@ -1,6 +1,6 @@
 package com.tgourouza.library_backend.constant;
 
-public enum Category { // Subject
+public enum Subject {
     UNKNOWN,
     LITERATURE,
     PHILOSOPHY,

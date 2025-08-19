@@ -32,8 +32,8 @@ public class BookMapper {
                 calculateAuthorAgeAtPublication(book),
                 book.getPublicationDate(),
                 book.getLanguage(),
-                book.getType(),
-                book.getCategory(),
+                book.getGenre(),
+                book.getSubject(),
                 book.getAudience(),
                 multilingualMapper.toMultilingualDescription(book),
                 book.getWikipediaLink(),
@@ -48,8 +48,8 @@ public class BookMapper {
             BookCreateRequest request,
             AuthorEntity author,
             Language language,
-            Type type,
-            Category category,
+            Genre genre,
+            Subject subject,
             Audience audience,
             Status status
     ) {
@@ -58,8 +58,8 @@ public class BookMapper {
         book.setAuthor(author);
         book.setPublicationDate(request.getPublicationDate());
         book.setLanguage(language);
-        book.setType(type);
-        book.setCategory(category);
+        book.setGenre(genre);
+        book.setSubject(subject);
         book.setAudience(audience);
         book.setStatus(status);
         book.setWikipediaLink(request.getWikipediaLink());

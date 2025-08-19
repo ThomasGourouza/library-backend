@@ -23,8 +23,8 @@ public class BookCreateRequest {
     // private int numberOfPages;
     private Multilingual description;
     private String language;
-    private String type; // default value
-    private String category; // default value
+    private String genre; // default value
+    private String subject; // default value
     private String audience; // default value
     private String wikipediaLink;
 
