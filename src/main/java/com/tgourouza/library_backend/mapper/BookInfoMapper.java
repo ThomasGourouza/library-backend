@@ -19,6 +19,12 @@ import static com.tgourouza.library_backend.util.openLibraryUtils.text;
 @Component
 public class BookInfoMapper {
 
+    private final CategoryMapper categoryMapper;
+
+    public BookInfoMapper(CategoryMapper categoryMapper) {
+        this.categoryMapper = categoryMapper;
+    }
+
     public BookInfo mapToBookInfo(JsonNode doc, JsonNode work) {
         String originalTitle = text(work, "title");
         if (originalTitle.isBlank())
@@ -71,8 +77,6 @@ public class BookInfoMapper {
 
         String description = readDescription(work);
 
-        // Wikipedia link – from work.wikipedia or work.links[*].url containing
-        // wikipedia.org
         String wikipedia = readWikipediaLink(work, originalTitle, originalTitleLanguage);
 
         return new BookInfo(
@@ -87,6 +91,7 @@ public class BookInfoMapper {
                         description,
                         getLanguage(description)),
                 tags,
+                categoryMapper.fromTags(tags),
                 wikipedia);
     }
 }

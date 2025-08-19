@@ -56,6 +56,12 @@ public class NllbService {
         return resp.translation();
     }
 
+    public String translateToEnglish(String text) {
+        Language source = detector.detectLanguageOf(text);
+        Language target = Language.ENGLISH;
+        return translate(text, source, target);
+    }
+
     private TranslateResponse nllbTranslation(String text, String sourceLanguage, String targetLanguage) {
         return nllbClient.post()
                 .uri("/translate")

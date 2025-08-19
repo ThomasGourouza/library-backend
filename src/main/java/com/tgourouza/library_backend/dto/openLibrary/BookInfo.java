@@ -2,6 +2,8 @@ package com.tgourouza.library_backend.dto.openLibrary;
 
 import java.util.Set;
 
+import com.tgourouza.library_backend.dto.Category;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -15,5 +17,6 @@ public class BookInfo {
     private int numberOfPages;
     private Text description;
     private Set<String> tags;
+    private Category category;
     private String wikipediaLink;
 }
