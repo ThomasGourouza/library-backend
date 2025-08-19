@@ -103,7 +103,7 @@ public class MymemoryService {
                 .uri(uri -> uri.path("/get")
                         .queryParam("q", title)
                         .queryParam("langpair", sourceLanguage + "|" + targetLanguage)
-                        // .queryParam("de", email)
+                        .queryParam("de", email)
                         .build())
                 .retrieve()
                 .body(String.class);

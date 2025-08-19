@@ -41,8 +41,8 @@ public class WebConfig {
   @Bean
   @Qualifier("openLibraryRestClient")
   public RestClient openLibraryRestClient(
-      @Value("${openlibrary.base-url:https://openlibrary.org}") String baseUrl,
-      @Value("${openlibrary.user-agent:YourApp/1.0 (contact@example.com)}") String userAgent,
+      @Value("${openlibrary.base-url}") String baseUrl,
+      @Value("${openlibrary.user-agent}") String userAgent,
       @Value("${openlibrary.truststore.path}") Resource tsResource,
       @Value("${openlibrary.truststore.password}") String tsPass) throws Exception {
 

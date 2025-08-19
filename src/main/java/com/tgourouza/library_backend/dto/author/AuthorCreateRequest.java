@@ -10,6 +10,7 @@ public class AuthorCreateRequest {
     @NotBlank(message = "Name is required")
     @Size(max = 255)
     private String name;
+    // private String oLKey;
     private AuthorDate date;
     private Multilingual description;
     private String wikipediaLink;
