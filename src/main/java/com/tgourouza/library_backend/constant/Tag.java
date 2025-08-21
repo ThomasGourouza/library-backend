@@ -1,7 +1,7 @@
 package com.tgourouza.library_backend.constant;
 
 public enum Tag {
-    UNKNOWN,
+    UNKNOWN, // TODO: remove?
     LITERATURE,
     PHILOSOPHY,
     RELIGION,

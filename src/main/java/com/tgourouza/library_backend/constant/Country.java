@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.constant;
 
+// TODO: remove?
 public enum Country {
     UNKNOWN,
     FRANCE,
