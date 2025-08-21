@@ -90,9 +90,7 @@ public class BookInfoMapper {
                 new Text(
                         description,
                         getLanguage(description)),
-                tags,
-                // tagsMapper.fromSet(tags),
-                null,
+                tagsMapper.fromSet(tags),
                 wikipedia);
     }
 }

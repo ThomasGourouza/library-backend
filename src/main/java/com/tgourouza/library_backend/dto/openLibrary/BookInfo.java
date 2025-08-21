@@ -2,7 +2,7 @@ package com.tgourouza.library_backend.dto.openLibrary;
 
 import java.util.Set;
 
-import com.tgourouza.library_backend.dto.Tags;
+import com.tgourouza.library_backend.constant.Tag;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -16,7 +16,6 @@ public class BookInfo {
     private String coverUrl;
     private int numberOfPages;
     private Text description;
-    private Set<String> tags;
-    private Tags category;
+    private Set<Tag> tags;
     private String wikipediaLink;
 }

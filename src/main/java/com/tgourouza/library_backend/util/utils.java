@@ -3,7 +3,7 @@ package com.tgourouza.library_backend.util;
 import java.time.Period;
 
 import com.tgourouza.library_backend.constant.Audience;
-import com.tgourouza.library_backend.constant.Subject;
+import com.tgourouza.library_backend.constant.Tag;
 import com.tgourouza.library_backend.constant.Country;
 import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.constant.Status;
@@ -26,8 +26,8 @@ public class utils {
         if (request.getLanguage() == null) {
             request.setLanguage(Language.UNKNOWN.toString());
         }
-        if (request.getSubject() == null) {
-            request.setSubject(Subject.UNKNOWN.toString());
+        if (request.getTag() == null) {
+            request.setTag(Tag.UNKNOWN.toString());
         }
         if (request.getAudience() == null) {
             request.setAudience(Audience.UNKNOWN.toString());

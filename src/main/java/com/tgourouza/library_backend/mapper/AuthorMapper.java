@@ -64,7 +64,7 @@ public class AuthorMapper {
                 calculateAuthorAgeAtPublication(book),
                 book.getPublicationDate(),
                 book.getLanguage(),
-                book.getSubject(),
+                book.getTag(),
                 book.getAudience(),
                 multilingualMapper.toMultilingualDescription(book),
                 book.getWikipediaLink(),

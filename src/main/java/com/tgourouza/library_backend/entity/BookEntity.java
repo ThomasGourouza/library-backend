@@ -31,7 +31,7 @@ public class BookEntity {
     private LocalDate publicationDate;
     private String wikipediaLink;
     private Language language;
-    private Subject subject;
+    private Tag tag;
     private Audience audience;
     private Status status;
     private Boolean favorite;

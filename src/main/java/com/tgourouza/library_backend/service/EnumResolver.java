@@ -15,12 +15,8 @@ public class EnumResolver {
         return resolveEnum(Audience.class, "Audience", input);
     }
 
-    public Subject getSubject(String input) {
-        return resolveEnum(Subject.class, "Subject", input);
-    }
-
-    public Form getForm(String input) {
-        return resolveEnum(Form.class, "Form", input);
+    public Tag getTag(String input) {
+        return resolveEnum(Tag.class, "Tag", input);
     }
 
     public Country getCountry(String input) {
