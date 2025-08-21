@@ -26,8 +26,7 @@ CREATE TABLE book (
     publication_date DATE,
 
     language VARCHAR(255),
-    tag VARCHAR(255),
-    audience VARCHAR(255),
+    tags VARCHAR(1000), -- Comma-separated values
 
     wikipedia_link TEXT,
     status VARCHAR(255),

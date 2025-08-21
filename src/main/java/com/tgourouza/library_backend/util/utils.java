@@ -1,8 +1,10 @@
 package com.tgourouza.library_backend.util;
 
 import java.time.Period;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
-import com.tgourouza.library_backend.constant.Audience;
 import com.tgourouza.library_backend.constant.Tag;
 import com.tgourouza.library_backend.constant.Country;
 import com.tgourouza.library_backend.constant.Language;
@@ -26,11 +28,8 @@ public class utils {
         if (request.getLanguage() == null) {
             request.setLanguage(Language.UNKNOWN.toString());
         }
-        if (request.getTag() == null) {
-            request.setTag(Tag.UNKNOWN.toString());
-        }
-        if (request.getAudience() == null) {
-            request.setAudience(Audience.UNKNOWN.toString());
+        if (request.getTags() == null) {
+            request.setTags(Set.of(Tag.UNKNOWN));
         }
         if (request.getStatus() == null) {
             request.setStatus(Status.UNREAD.toString());
@@ -66,5 +65,23 @@ public class utils {
             }
         }
         return result.toString();
+    }
+
+    public static Set<Tag> fromCsv(String csv) {
+        if (csv == null || csv.isBlank()) {
+            return Set.of(Tag.UNKNOWN);
+        }
+        return Arrays.stream(csv.split(","))
+                .map(String::trim)
+                .filter(s -> !s.isEmpty())
+                .map(String::toUpperCase)
+                .map(s -> {
+                    try {
+                        return Tag.valueOf(s);
+                    } catch (IllegalArgumentException e) {
+                        return Tag.UNKNOWN;
+                    }
+                })
+                .collect(Collectors.toSet());
     }
 }

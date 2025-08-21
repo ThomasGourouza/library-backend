@@ -29,5 +29,6 @@ public enum Tag {
     TALE,
     ENCYCLOPEDIA,
     SCIENCE_FICTION,
+    CHILDREN,
     CLASSIC;
 }

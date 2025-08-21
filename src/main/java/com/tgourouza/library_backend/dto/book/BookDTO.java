@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.util.Set;
 import java.util.UUID;
 
 @Data
@@ -19,8 +20,7 @@ public class BookDTO {
     private Integer authorAgeAtPublication;
     private LocalDate publicationDate;
     private Language language;
-    private Tag tag;
-    private Audience audience;
+    private Set<Tag> tags;
     private Multilingual description;
     private String wikipediaLink;
     // Editable fields

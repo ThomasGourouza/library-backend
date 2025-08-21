@@ -67,7 +67,7 @@ public class OpenLibraryService {
                     if (author != null && !author.isBlank())
                         b = b.queryParam("author", author);
                     b = b.queryParam("fields",
-                            "key,title,author_key,cover_i,first_publish_year,subject,subject_facet,audience,audience_key,number_of_pages_median");
+                            "key,title,author_key,cover_i,first_publish_year,subject,subject_facet,number_of_pages_median");
                     return b.build();
                 })
                 .retrieve()

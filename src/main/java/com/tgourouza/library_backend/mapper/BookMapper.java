@@ -10,6 +10,8 @@ import org.springframework.stereotype.Component;
 
 import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
 
+import java.util.Set;
+
 @Component
 public class BookMapper {
 
@@ -32,8 +34,7 @@ public class BookMapper {
                 calculateAuthorAgeAtPublication(book),
                 book.getPublicationDate(),
                 book.getLanguage(),
-                book.getTag(),
-                book.getAudience(),
+                book.getTags(),
                 multilingualMapper.toMultilingualDescription(book),
                 book.getWikipediaLink(),
                 book.getStatus(),
@@ -47,8 +48,7 @@ public class BookMapper {
             BookCreateRequest request,
             AuthorEntity author,
             Language language,
-            Tag tag,
-            Audience audience,
+            Set<Tag> tags,
             Status status
     ) {
         if (request == null || book == null) return;
@@ -56,8 +56,7 @@ public class BookMapper {
         book.setAuthor(author);
         book.setPublicationDate(request.getPublicationDate());
         book.setLanguage(language);
-        book.setTag(tag);
-        book.setAudience(audience);
+        book.setTags(tags);
         book.setStatus(status);
         book.setWikipediaLink(request.getWikipediaLink());
         book.setFavorite(request.getFavorite());

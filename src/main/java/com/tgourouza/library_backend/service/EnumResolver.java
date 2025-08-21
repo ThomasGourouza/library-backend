@@ -1,7 +1,11 @@
 package com.tgourouza.library_backend.service;
 
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import com.tgourouza.library_backend.constant.*;
 import com.tgourouza.library_backend.exception.InvalidRequestException;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -11,12 +15,8 @@ public class EnumResolver {
         return resolveEnum(Status.class, "Status", input);
     }
 
-    public Audience getAudience(String input) {
-        return resolveEnum(Audience.class, "Audience", input);
-    }
-
-    public Tag getTag(String input) {
-        return resolveEnum(Tag.class, "Tag", input);
+    public Set<Tag> getTags(Set<Tag> input) {
+        return resolveTagSet(input);
     }
 
     public Country getCountry(String input) {
@@ -33,5 +33,23 @@ public class EnumResolver {
         } catch (IllegalArgumentException | NullPointerException ex) {
             throw new InvalidRequestException(fieldName, input);
         }
+    }
+
+    private Set<Tag> resolveTagSet(Set<Tag> input) {
+        if (input == null || input.isEmpty()) {
+            return Set.of(Tag.UNKNOWN);
+        }
+        return input.stream()
+                .map(Tag::name)
+                .filter(s -> !s.isEmpty())
+                .map(String::toUpperCase)
+                .map(s -> {
+                    try {
+                        return Tag.valueOf(s);
+                    } catch (IllegalArgumentException e) {
+                        return Tag.UNKNOWN;
+                    }
+                })
+                .collect(Collectors.toSet());
     }
 }
