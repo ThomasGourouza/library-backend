@@ -5,7 +5,6 @@ import com.tgourouza.library_backend.constant.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import java.time.LocalDate;
 import java.util.UUID;
@@ -17,9 +16,8 @@ import java.util.UUID;
 @NoArgsConstructor
 public class BookEntity {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(name = "UUID", strategy = "org.hibernate.id.UUIDGenerator")
-    @Column(columnDefinition = "uuid", updatable = false, nullable = false)
+    @GeneratedValue(strategy = GenerationType.UUID)
+    @Column(updatable = false, nullable = false)
     private UUID id;
     @NotNull
     private String originalTitle;
@@ -33,7 +31,6 @@ public class BookEntity {
     private LocalDate publicationDate;
     private String wikipediaLink;
     private Language language;
-    private Genre genre;
     private Subject subject;
     private Audience audience;
     private Status status;

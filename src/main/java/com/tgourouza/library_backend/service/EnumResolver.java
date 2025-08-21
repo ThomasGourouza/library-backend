@@ -6,6 +6,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EnumResolver {
+    // TODO
     public Status getStatus(String input) {
         return resolveEnum(Status.class, "Status", input);
     }
@@ -18,16 +19,16 @@ public class EnumResolver {
         return resolveEnum(Subject.class, "Subject", input);
     }
 
+    public Form getForm(String input) {
+        return resolveEnum(Form.class, "Form", input);
+    }
+
     public Country getCountry(String input) {
         return resolveEnum(Country.class, "Country", input);
     }
 
     public Language getLanguage(String input) {
         return resolveEnum(Language.class, "Language", input);
-    }
-
-    public Genre getGenre(String input) {
-        return resolveEnum(Genre.class, "Genre", input);
     }
 
     private <E extends Enum<E>> E resolveEnum(Class<E> enumClass, String fieldName, String input) {

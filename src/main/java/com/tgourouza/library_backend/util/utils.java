@@ -7,7 +7,6 @@ import com.tgourouza.library_backend.constant.Subject;
 import com.tgourouza.library_backend.constant.Country;
 import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.constant.Status;
-import com.tgourouza.library_backend.constant.Genre;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.entity.BookEntity;
@@ -26,9 +25,6 @@ public class utils {
     public static void applyDefaultValuesOnBookRequestIfNeeded(BookCreateRequest request) {
         if (request.getLanguage() == null) {
             request.setLanguage(Language.UNKNOWN.toString());
-        }
-        if (request.getGenre() == null) {
-            request.setGenre(Genre.UNKNOWN.toString());
         }
         if (request.getSubject() == null) {
             request.setSubject(Subject.UNKNOWN.toString());

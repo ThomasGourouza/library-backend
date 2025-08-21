@@ -9,35 +9,26 @@ import org.springframework.stereotype.Component;
 
 import com.tgourouza.library_backend.constant.Audience;
 import com.tgourouza.library_backend.constant.Form;
-import com.tgourouza.library_backend.constant.Genre;
 import com.tgourouza.library_backend.constant.Subject;
-import com.tgourouza.library_backend.dto.Category;
-import com.tgourouza.library_backend.service.NllbService;
+import com.tgourouza.library_backend.dto.Tags;
 
 @Component
-public class CategoryMapper {
+public class TagsMapper {
 
-    private final NllbService nllbService;
-
-    public CategoryMapper(NllbService nllbService) {
-        this.nllbService = nllbService;
-    }
-
-    public Category fromTags(Set<String> tags) {
+    public Tags fromSet(Set<String> tags) {
         if (tags == null || tags.isEmpty()) {
-            return new Category(Set.of(), Set.of(), Set.of(), Set.of());
+            return new Tags(Set.of(), Set.of(), Set.of());
         }
 
         Set<String> normalized = tags.stream()
-                .map(t -> toEnglish(t.trim().toLowerCase()))
+                .map(t -> t.trim().toLowerCase())
                 .collect(Collectors.toSet());
 
         Set<Audience> audiences = matchEnums(normalized, Audience.values(), Audience.UNKNOWN);
-        Set<Genre> genres = matchEnums(normalized, Genre.values(), Genre.UNKNOWN);
         Set<Form> forms = matchEnums(normalized, Form.values(), Form.UNKNOWN);
         Set<Subject> subjects = matchEnums(normalized, Subject.values(), Subject.UNKNOWN);
 
-        return new Category(audiences, genres, subjects, forms);
+        return new Tags(audiences, subjects, forms);
     }
 
     private <E extends Enum<E>> Set<E> matchEnums(Set<String> normalizedTags, E[] values, E unknown) {
@@ -49,16 +40,5 @@ public class CategoryMapper {
                 })
                 .collect(Collectors.toSet());
         return set.isEmpty() ? Set.of(unknown) : set;
-    }
-
-    private String toEnglish(String text) {
-        try {
-            if (text == null || text.isBlank()) {
-                return text;
-            }
-            return nllbService.translateToEnglish(text).trim().toLowerCase();
-        } catch (Exception e) {
-            return text;
-        }
     }
 }

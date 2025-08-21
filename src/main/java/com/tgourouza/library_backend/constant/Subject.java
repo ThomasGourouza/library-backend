@@ -2,22 +2,45 @@ package com.tgourouza.library_backend.constant;
 
 public enum Subject {
     UNKNOWN,
+
     LITERATUR,
+
     PHILOSOPH,
+
     RELIGIO,
+
     HISTOR,
+
     GEOGRAPH,
-    POLITIC,
+
+    SOCIAL,
+
+    CULTUR,
+
     SOCIOLOG,
+
+    POLITIC,
+
+    MYTHOLOG,
+    LEGEND,
+
     PSYCHOLOG,
-    ECONOMIC,
+
+    // SCIENCE
     SCIEN,
     MATH,
     TECHNO,
+    COMPUTER,
+    PHYSICS,
+
+    ECONOMIC,
+
+    // ART
     ART,
+    ARTIST,
     MUSIC,
-    EDUCATI,
-    LAW,
-    MEDICIN,
-    CULTUR;
+    PAINTING,
+    PEINTURE,
+
+    EDUCATI;
 }

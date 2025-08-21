@@ -19,10 +19,10 @@ import static com.tgourouza.library_backend.util.openLibraryUtils.text;
 @Component
 public class BookInfoMapper {
 
-    private final CategoryMapper categoryMapper;
+    private final TagsMapper tagsMapper;
 
-    public BookInfoMapper(CategoryMapper categoryMapper) {
-        this.categoryMapper = categoryMapper;
+    public BookInfoMapper(TagsMapper tagsMapper) {
+        this.tagsMapper = tagsMapper;
     }
 
     public BookInfo mapToBookInfo(JsonNode doc, JsonNode work) {
@@ -75,9 +75,7 @@ public class BookInfoMapper {
                 doc.path("subject"),
                 work.path("subjects"));
 
-        String workDescription = readDescription(work);
-        String description = (workDescription != null && !workDescription.isBlank()) ? workDescription
-                : String.join(", ", tags);
+        String description = readDescription(work);
 
         String wikipedia = readWikipediaLink(work, originalTitle, originalTitleLanguage);
 
@@ -93,7 +91,8 @@ public class BookInfoMapper {
                         description,
                         getLanguage(description)),
                 tags,
-                categoryMapper.fromTags(tags),
+                // tagsMapper.fromSet(tags),
+                null,
                 wikipedia);
     }
 }

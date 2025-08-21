@@ -19,7 +19,6 @@ public class BookDTO {
     private Integer authorAgeAtPublication;
     private LocalDate publicationDate;
     private Language language;
-    private Genre genre;
     private Subject subject;
     private Audience audience;
     private Multilingual description;

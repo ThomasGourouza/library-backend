@@ -26,7 +26,6 @@ CREATE TABLE book (
     publication_date DATE,
 
     language VARCHAR(255),
-    genre VARCHAR(255),
     subject VARCHAR(255),
     audience VARCHAR(255),
 

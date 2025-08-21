@@ -4,12 +4,10 @@ import java.util.Set;
 
 import com.tgourouza.library_backend.constant.Audience;
 import com.tgourouza.library_backend.constant.Form;
-import com.tgourouza.library_backend.constant.Genre;
 import com.tgourouza.library_backend.constant.Subject;
 
-public record Category(
+public record Tags(
         Set<Audience> audiences,
-        Set<Genre> genres,
         Set<Subject> subjects,
         Set<Form> forms) {
 }

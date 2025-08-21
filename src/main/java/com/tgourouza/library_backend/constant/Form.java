@@ -2,23 +2,40 @@ package com.tgourouza.library_backend.constant;
 
 public enum Form {
     UNKNOWN,
+
+    // ROMAN
     NOVEL,
-    SHORT,
+    FICTION,
+
     ESSAY,
+
+    // POETRY
     POET,
+    POEM,
+    EPIC,
+
     THEATER,
-    COMICS,
-    GRAPHIC,
+
+    // BIOGRAPHY
     BIOGRAPH,
-    AUTOBIOGRAPH,
     MEMOIR,
     DIARY,
+    JOURNAL,
+
+    // LETTERS
+    CORRESP,
     LETTER,
+
+    // TALE
     FABLE,
     FAIRY_TALE,
     TALE,
+
+    // ENCYCLOPEDIA
     ENCYCLOPEDI,
     ATLAS,
     DICTIONARY,
-    JOURNAL;
+
+    // CLASSIC
+    CLASSI;
 }
