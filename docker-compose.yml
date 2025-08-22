@@ -10,12 +10,13 @@ services:
     environment:
       POSTGRES_USER: admin
       POSTGRES_PASSWORD: admin123
-      POSTGRES_DB: library-db
+      POSTGRES_DB: library_db
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U admin -d library-db -h 127.0.0.1 -p 5432"]
+      test: ["CMD-SHELL", "PGPASSWORD=$$POSTGRES_PASSWORD psql -U $$POSTGRES_USER -d $$POSTGRES_DB -h 127.0.0.1 -p 5432 -c 'SELECT 1' >/dev/null 2>&1"]
       interval: 10s
       timeout: 5s
       retries: 5
+      start_period: 30s
     volumes:
       - pgdata:/var/lib/postgresql/data
 
@@ -53,7 +54,7 @@ services:
   #     - postgres
   #     - nllb
   #   environment:
-  #     SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/library-db
+  #     SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/library_db
   #     SPRING_DATASOURCE_USERNAME: admin
   #     SPRING_DATASOURCE_PASSWORD: admin123
   #     NLLB_BASE_URL: http://nllb:8000   # <-- call NLLB by service name/port
