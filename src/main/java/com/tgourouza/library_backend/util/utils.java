@@ -6,8 +6,6 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.tgourouza.library_backend.constant.Tag;
-import com.tgourouza.library_backend.constant.Country;
-import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
@@ -25,23 +23,14 @@ public class utils {
     }
 
     public static void applyDefaultValuesOnBookRequestIfNeeded(BookCreateRequest request) {
-        if (request.getLanguage() == null) {
-            request.setLanguage(Language.UNKNOWN.toString());
-        }
         if (request.getTags() == null) {
-            request.setTags(Set.of(Tag.UNKNOWN));
+            request.setTags(Tag.UNKNOWN.toString());
         }
         if (request.getStatus() == null) {
             request.setStatus(Status.UNREAD.toString());
         }
         if (request.getFavorite() == null) {
             request.setFavorite(false);
-        }
-    }
-
-    public static void applyDefaultValuesOnAuthorRequestIfNeeded(AuthorCreateRequest request) {
-        if (request.getCountry() == null) {
-            request.setCountry(Country.UNKNOWN.toString());
         }
     }
 

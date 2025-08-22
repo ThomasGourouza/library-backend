@@ -91,6 +91,9 @@ public class BookInfoMapper {
                         description,
                         getLanguage(description)),
                 tagsMapper.fromSet(tags),
+                mergeJsonArraysToSet(work.path("subject_times")),
+                mergeJsonArraysToSet(work.path("subject_places")),
+                mergeJsonArraysToSet(work.path("subject_people")),
                 wikipedia);
     }
 }

@@ -1,6 +1,5 @@
 package com.tgourouza.library_backend.service;
 
-import com.tgourouza.library_backend.constant.Country;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
@@ -12,22 +11,18 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.UUID;
 
-import static com.tgourouza.library_backend.util.utils.applyDefaultValuesOnAuthorRequestIfNeeded;
-
 @Service
 public class AuthorService {
 
     private final AuthorRepository authorRepository;
     private final AuthorMapper authorMapper;
-    private final EnumResolver enumResolver;
 
     public AuthorService(
             AuthorRepository authorRepository,
-            AuthorMapper authorMapper, EnumResolver enumResolver
+            AuthorMapper authorMapper
     ) {
         this.authorRepository = authorRepository;
         this.authorMapper = authorMapper;
-        this.enumResolver = enumResolver;
     }
 
     public List<AuthorDTO> getAll() {
@@ -42,11 +37,10 @@ public class AuthorService {
     }
 
     public AuthorDTO create(AuthorCreateRequest request) {
-        applyDefaultValuesOnAuthorRequestIfNeeded(request);
         return updateEntityAndSave(
                 request,
                 new AuthorEntity(),
-                enumResolver.getCountry(request.getCountry())
+                request.getCountry()
         );
     }
 
@@ -54,7 +48,7 @@ public class AuthorService {
         return updateEntityAndSave(
                 request,
                 getAuthorEntity(authorId),
-                enumResolver.getCountry(request.getCountry())
+                request.getCountry()
         );
     }
 
@@ -65,7 +59,7 @@ public class AuthorService {
         authorRepository.deleteById(authorId);
     }
 
-    private AuthorDTO updateEntityAndSave(AuthorCreateRequest request, AuthorEntity author, Country country) {
+    private AuthorDTO updateEntityAndSave(AuthorCreateRequest request, AuthorEntity author, String country) {
         authorMapper.updateEntity(author, request, country);
         return authorMapper.toDTO(authorRepository.save(author));
     }

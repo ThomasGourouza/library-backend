@@ -1,5 +1,7 @@
 package com.tgourouza.library_backend.service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -28,9 +30,9 @@ public class OpenLibraryService {
         this.authorInfoMapper = authorInfoMapper;
     }
 
-    public BookInfo getBookInfo(String title, String author) {
+    public BookInfo getBookInfo(String title, String author, int resultNumber) {
         // 1) Search works
-        Optional<JsonNode> bestDoc = searchBestWorkDoc(title, author);
+        Optional<JsonNode> bestDoc = searchBestWorkDoc(title, author, resultNumber);
         if (bestDoc.isEmpty())
             return null;
 
@@ -57,7 +59,7 @@ public class OpenLibraryService {
         return authorInfoMapper.mapToAuthorInfo(author, safe);
     }
 
-    private Optional<JsonNode> searchBestWorkDoc(String title, String author) {
+    private Optional<JsonNode> searchBestWorkDoc(String title, String author, int resultNumber) {
         // Build search.json query
         String json = openLibraryClient.get()
                 .uri(uri -> {
@@ -81,15 +83,24 @@ public class OpenLibraryService {
         if (!docs.isArray() || docs.size() == 0)
             return Optional.empty();
 
-        // Heuristic: first doc with a work key
+        List<JsonNode> works = new ArrayList<>();
         for (JsonNode d : docs) {
             String key = d.path("key").asText("");
             if (key.startsWith("/works/")) {
-                return Optional.of(d);
+                works.add(d);
             }
         }
-        // else return the first anyway
-        return Optional.of(docs.get(0));
+
+        if (works.isEmpty()) {
+            return Optional.of(docs.get(0));
+        }
+
+        // 1-based -> 0-based index, wrap around if needed
+        // If resultNumber <= 0, treat it as 1
+        int size = works.size();
+        int idx = (Math.max(1, resultNumber) - 1) % size;
+
+        return Optional.of(works.get(idx));
     }
 
     private JsonNode getJson(String pathAndQuery) {

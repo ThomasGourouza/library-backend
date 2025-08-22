@@ -10,21 +10,13 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class EnumResolver {
-    // TODO
     public Status getStatus(String input) {
         return resolveEnum(Status.class, "Status", input);
     }
 
+    // TODO: unused
     public Set<Tag> getTags(Set<Tag> input) {
         return resolveTagSet(input);
-    }
-
-    public Country getCountry(String input) {
-        return resolveEnum(Country.class, "Country", input);
-    }
-
-    public Language getLanguage(String input) {
-        return resolveEnum(Language.class, "Language", input);
     }
 
     private <E extends Enum<E>> E resolveEnum(Class<E> enumClass, String fieldName, String input) {

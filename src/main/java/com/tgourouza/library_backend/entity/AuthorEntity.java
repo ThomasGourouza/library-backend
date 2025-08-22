@@ -1,7 +1,6 @@
 package com.tgourouza.library_backend.entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
-import com.tgourouza.library_backend.constant.Country;
 
 import jakarta.validation.constraints.NotNull;
 
@@ -24,7 +23,7 @@ public class AuthorEntity {
     private UUID id;
     @NotNull
     private String name;
-    private Country country;
+    private String country;
     private LocalDate birthDate;
     private LocalDate deathDate;
     private String wikipediaLink;

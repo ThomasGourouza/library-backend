@@ -6,11 +6,14 @@ import com.tgourouza.library_backend.dto.author.AuthorDate;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.*;
+
 import org.springframework.stereotype.Component;
 
 import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
 
 import java.util.Set;
+
+import static com.tgourouza.library_backend.util.utils.fromCsv;
 
 @Component
 public class BookMapper {
@@ -34,7 +37,7 @@ public class BookMapper {
                 calculateAuthorAgeAtPublication(book),
                 book.getPublicationDate(),
                 book.getLanguage(),
-                book.getTags(),
+                fromCsv(book.getTags()),
                 multilingualMapper.toMultilingualDescription(book),
                 book.getWikipediaLink(),
                 book.getStatus(),
@@ -47,8 +50,8 @@ public class BookMapper {
             BookEntity book,
             BookCreateRequest request,
             AuthorEntity author,
-            Language language,
-            Set<Tag> tags,
+            String language,
+            String tags,
             Status status
     ) {
         if (request == null || book == null) return;

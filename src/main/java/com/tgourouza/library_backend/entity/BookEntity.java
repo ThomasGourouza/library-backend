@@ -30,7 +30,7 @@ public class BookEntity {
 
     private LocalDate publicationDate;
     private String wikipediaLink;
-    private Language language;
+    private String language;
     private String tags; // Comma-separated values
     private Status status;
     private Boolean favorite;

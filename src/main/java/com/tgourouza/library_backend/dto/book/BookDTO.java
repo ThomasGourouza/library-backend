@@ -19,7 +19,7 @@ public class BookDTO {
     private AuthorDTO author;
     private Integer authorAgeAtPublication;
     private LocalDate publicationDate;
-    private Language language;
+    private String language;
     private Set<Tag> tags;
     private Multilingual description;
     private String wikipediaLink;

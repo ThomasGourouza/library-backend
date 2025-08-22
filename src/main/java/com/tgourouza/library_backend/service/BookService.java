@@ -81,8 +81,10 @@ public class BookService {
                 book,
                 request,
                 getAuthorEntity(request.getAuthorId()),
-                enumResolver.getLanguage(request.getLanguage()),
-                enumResolver.getTags(request.getTags()),
+                // TODO: no need since not an enum
+                request.getLanguage(),
+                // TODO: check Tags
+                request.getTags(),
                 enumResolver.getStatus(request.getStatus())
         );
         return bookMapper.toDTO(bookRepository.save(book));

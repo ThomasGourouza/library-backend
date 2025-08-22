@@ -359,7 +359,7 @@ public class TagsMapper {
                                 // English
                                 "novel", "novels", "novelistic", "novelist",
                                 // Français
-                                "roman", "romans", "romanesque", "romancière", "romancier", "fiction",
+                                "roman", "romans", "romanesque", "romancière", "romancier", "fiction", "nouvelle", "nouvelles",
                                 // Italiano
                                 "romanzo", "romanzi", "romanzesco", "romanzesca", "romanziere", "romanziera",
                                 "finzione",

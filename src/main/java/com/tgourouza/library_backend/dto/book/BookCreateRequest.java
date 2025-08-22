@@ -1,10 +1,8 @@
 package com.tgourouza.library_backend.dto.book;
 
 import java.time.LocalDate;
-import java.util.Set;
 import java.util.UUID;
 
-import com.tgourouza.library_backend.constant.Tag;
 import com.tgourouza.library_backend.dto.Multilingual;
 
 import jakarta.validation.constraints.NotBlank;
@@ -25,7 +23,7 @@ public class BookCreateRequest {
     // private int numberOfPages;
     private Multilingual description;
     private String language;
-    private Set<Tag> tags; // default value
+    private String tags; // default value
     private String wikipediaLink;
 
     private String personalNotes; // can be empty

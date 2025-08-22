@@ -27,9 +27,10 @@ public class OpenLibraryController {
     @GetMapping(value = "/book-info", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<BookInfo> getBookInfo(
             @RequestParam String title,
-            @RequestParam(required = false) String author) {
+            @RequestParam(required = false) String author,
+            @RequestParam(required = false, defaultValue = "1") int resultNumber) {
         try {
-            BookInfo info = openLibraryService.getBookInfo(title, author);
+            BookInfo info = openLibraryService.getBookInfo(title, author, resultNumber);
             if (info == null) {
                 return ResponseEntity.notFound().build();
             }

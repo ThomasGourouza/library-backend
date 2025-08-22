@@ -1,6 +1,5 @@
 package com.tgourouza.library_backend.mapper;
 
-import com.tgourouza.library_backend.constant.Country;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.dto.author.AuthorDate;
@@ -39,7 +38,7 @@ public class AuthorMapper {
         );
     }
 
-    public void updateEntity(AuthorEntity author, AuthorCreateRequest request, Country country) {
+    public void updateEntity(AuthorEntity author, AuthorCreateRequest request, String country) {
         if (request == null || author == null) return;
         author.setName(request.getName());
         author.setCountry(country);
