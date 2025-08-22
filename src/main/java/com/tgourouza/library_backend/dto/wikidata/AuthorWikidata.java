@@ -19,5 +19,11 @@ public record AuthorWikidata(
         List<String> languages,
         Map<String, String> identifiers, // VIAF, ISNI, GND
         String wikipediaEn,
-        String wikipediaFr
+        String wikipediaFr,
+        String wikipediaEs,
+        String wikipediaDe,
+        String wikipediaRu,
+        String wikipediaIt,
+        String wikipediaPt,
+        String wikipediaJa
 ) {}

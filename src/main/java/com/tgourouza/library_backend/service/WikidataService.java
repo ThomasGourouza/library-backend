@@ -56,7 +56,7 @@ public class WikidataService {
             String label = null, description = null;
             LocalDate birthDate = null, deathDate = null;
             String birthPlace = null, birthCountry = null, deathPlace = null, deathCountry = null;
-            String wikipediaEn = null, wikipediaFr = null;
+            String wikipediaEn = null, wikipediaFr = null, wikipediaEs = null, wikipediaDe = null, wikipediaRu = null, wikipediaIt = null, wikipediaPt = null, wikipediaJa = null;
             Set<String> citizenships = new LinkedHashSet<>();
             Set<String> occupations = new LinkedHashSet<>();
             Set<String> languages = new LinkedHashSet<>();
@@ -83,6 +83,12 @@ public class WikidataService {
 
                 wikipediaEn = firstNonNull(wikipediaEn, uri(b, "enwiki"));
                 wikipediaFr = firstNonNull(wikipediaFr, uri(b, "frwiki"));
+                wikipediaEs = firstNonNull(wikipediaEs, uri(b, "eswiki"));
+                wikipediaDe = firstNonNull(wikipediaDe, uri(b, "dewiki"));
+                wikipediaRu = firstNonNull(wikipediaRu, uri(b, "ruwiki"));
+                wikipediaIt = firstNonNull(wikipediaIt, uri(b, "itwiki"));
+                wikipediaPt = firstNonNull(wikipediaPt, uri(b, "ptwiki"));
+                wikipediaJa = firstNonNull(wikipediaJa, uri(b, "jawiki"));
 
                 identifiers.computeIfPresent("VIAF", (k, v) -> v != null ? v : val(b, "viaf"));
                 identifiers.computeIfPresent("ISNI", (k, v) -> v != null ? v : val(b, "isni"));
@@ -107,7 +113,14 @@ public class WikidataService {
                     List.copyOf(languages),
                     Map.copyOf(identifiers),
                     wikipediaEn,
-                    wikipediaFr);
+                    wikipediaFr,
+                    wikipediaEs,
+                    wikipediaDe,
+                    wikipediaRu,
+                    wikipediaIt,
+                    wikipediaPt,
+                    wikipediaJa
+            );
 
             return Optional.of(info);
         } catch (Exception e) {
@@ -125,7 +138,7 @@ public class WikidataService {
                        ?deathCountry ?deathCountryLabel
                        ?citizenshipLabel ?occupationLabel ?languageLabel
                        ?viaf ?isni ?gnd
-                       ?enwiki ?frwiki
+                       ?enwiki ?frwiki ?eswiki ?dewiki ?ruwiki ?itwiki ?ptwiki ?jawiki
                 WHERE {
                   VALUES ?person { wd:%s }
 
@@ -150,14 +163,14 @@ public class WikidataService {
                   OPTIONAL { ?person wdt:P213 ?isni. }   # ISNI
                   OPTIONAL { ?person wdt:P227 ?gnd. }    # GND
 
-                  OPTIONAL {
-                    ?enwiki schema:about ?person ;
-                            schema:isPartOf <https://en.wikipedia.org/> .
-                  }
-                  OPTIONAL {
-                    ?frwiki schema:about ?person ;
-                            schema:isPartOf <https://fr.wikipedia.org/> .
-                  }
+                  OPTIONAL { ?frwiki schema:about ?person ; schema:isPartOf <https://fr.wikipedia.org/> . }
+                  OPTIONAL { ?enwiki schema:about ?person ; schema:isPartOf <https://en.wikipedia.org/> . }
+                  OPTIONAL { ?eswiki schema:about ?person ; schema:isPartOf <https://es.wikipedia.org/> . }
+                  OPTIONAL { ?dewiki schema:about ?person ; schema:isPartOf <https://de.wikipedia.org/> . }
+                  OPTIONAL { ?ruwiki schema:about ?person ; schema:isPartOf <https://ru.wikipedia.org/> . }
+                  OPTIONAL { ?itwiki schema:about ?person ; schema:isPartOf <https://it.wikipedia.org/> . }
+                  OPTIONAL { ?ptwiki schema:about ?person ; schema:isPartOf <https://pt.wikipedia.org/> . }
+                  OPTIONAL { ?jawiki schema:about ?person ; schema:isPartOf <https://ja.wikipedia.org/> . }
 
                   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en,fr". }
                 }
