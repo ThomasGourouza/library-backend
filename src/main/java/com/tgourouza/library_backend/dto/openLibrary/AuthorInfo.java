@@ -9,6 +9,7 @@ import lombok.Data;
 @AllArgsConstructor
 public class AuthorInfo {
     private String oLKey;
+    private String wikidataId;
     private String name;
     private String pictureUrl;
     private String country;

@@ -17,8 +17,5 @@ public class BookInfo {
     private int numberOfPages;
     private Text description;
     private Set<Tag> tags;
-    private Set<String> subjectTimes;
-    private Set<String> subjectPlaces;
-    private Set<String> subjectPeople;
     private String wikipediaLink;
 }

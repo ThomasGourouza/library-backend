@@ -11,6 +11,7 @@ import java.time.LocalDate;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.dto.author.AuthorDate;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorInfo;
 
@@ -19,6 +20,7 @@ public class AuthorInfoMapper {
 
     public AuthorInfo mapToAuthorInfo(JsonNode a, String authorOLKey) {
         String name = text(a, "name");
+        String wikidataId = text(a.path("remote_ids"), "wikidata");
 
         // Picture (author photos use /a/id/{photoId}-L.jpg)
         String pictureUrl = null;
@@ -41,10 +43,12 @@ public class AuthorInfoMapper {
         String description = readBio(a);
 
         // Wikipedia link – from "wikipedia" or links[].url
-        String wikipedia = readWikipediaLink(a, "", "");
+        // TODO: use wikidata language
+        String wikipedia = readWikipediaLink(a, name, Language.ENGLISH.toString());
 
         return new AuthorInfo(
                 authorOLKey,
+                wikidataId,
                 name,
                 pictureUrl,
                 country,
