@@ -18,7 +18,27 @@ rm corp-or-site-ca.pem
 
 
 ---
+rm -f src/main/resources/wikidata-truststore.jks && \
+openssl s_client -showcerts -connect query.wikidata.org:443 </dev/null 2>/dev/null \
+  | awk '/BEGIN CERTIFICATE/,/END CERTIFICATE/ { print }' > wikidata-chain.pem && \
+awk '
+  /BEGIN CERTIFICATE/ { n++; fn=sprintf("cert-%02d.pem", n) }
+  { print > fn }
+  /END CERTIFICATE/ { close(fn) }
+' wikidata-chain.pem && \
+i=0
+for cert in cert-*.pem; do
+  alias="wikidata-ca-$i"
+  keytool -importcert \
+    -alias "$alias" \
+    -file "$cert" \
+    -keystore src/main/resources/wikidata-truststore.jks \
+    -storepass wikidata123 -noprompt
+  i=$((i+1))
+done && \
+rm -f wikidata-chain.pem cert-*.pem
 
+---
 
 # get the server chain
 openssl s_client -showcerts -connect openlibrary.org:443 </dev/null 2>/dev/null | \

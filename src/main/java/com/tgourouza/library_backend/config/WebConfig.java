@@ -9,6 +9,8 @@ import javax.net.ssl.TrustManagerFactory;
 
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.ssl.SslBundle;
+import org.springframework.boot.ssl.SslBundles;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
@@ -110,4 +112,43 @@ public class WebConfig {
   LanguageDetector linguaDetector() {
     return LanguageDetectorBuilder.fromAllLanguages().build();
   }
+
+  @Bean
+  @Qualifier("wikidataRestClient")
+  public RestClient wikidataRestClient(
+      @Value("${wikidata.base-url}") String baseUrl,
+      @Value("${wikidata.user-agent}") String userAgent,
+      @Value("${wikidata.truststore.path}") Resource truststore,
+      @Value("${wikidata.truststore.password}") String truststorePassword) throws Exception {
+
+    // Load truststore (JKS by default)
+    KeyStore ts = KeyStore.getInstance(KeyStore.getDefaultType());
+    try (InputStream is = truststore.getInputStream()) {
+      ts.load(is, truststorePassword.toCharArray());
+    }
+
+    // Init TMF from truststore
+    TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+    tmf.init(ts);
+
+    // Build SSLContext
+    SSLContext sslContext = SSLContext.getInstance("TLS");
+    sslContext.init(null, tmf.getTrustManagers(), null);
+
+    // JDK HttpClient with our SSL
+    HttpClient httpClient = HttpClient.newBuilder()
+        .sslContext(sslContext)
+        .build();
+
+    var requestFactory = new JdkClientHttpRequestFactory(httpClient);
+
+    // RestClient configured for WDQS
+    return RestClient.builder()
+        .baseUrl(baseUrl)
+        .requestFactory(requestFactory)
+        .defaultHeader(HttpHeaders.ACCEPT, "application/sparql-results+json")
+        .defaultHeader(HttpHeaders.USER_AGENT, userAgent)
+        .build();
+  }
+
 }
