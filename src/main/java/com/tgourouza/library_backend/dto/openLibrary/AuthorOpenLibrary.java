@@ -14,6 +14,8 @@ public class AuthorOpenLibrary {
     private String pictureUrl;
     private String country;
     private AuthorDate date;
+    // TODO: Change to Text type
     private String description;
+    // TODO: Remove
     private String wikipediaLink;
 }
