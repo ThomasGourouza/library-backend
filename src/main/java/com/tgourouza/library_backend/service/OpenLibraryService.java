@@ -1,9 +1,11 @@
 package com.tgourouza.library_backend.service;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.tgourouza.library_backend.exception.OpenLibraryUpstreamException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -14,6 +16,8 @@ import com.tgourouza.library_backend.dto.openLibrary.AuthorInfo;
 import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
 import com.tgourouza.library_backend.mapper.AuthorInfoMapper;
 import com.tgourouza.library_backend.mapper.BookInfoMapper;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
 
 @Service
 public class OpenLibraryService {
@@ -23,8 +27,8 @@ public class OpenLibraryService {
     private final ObjectMapper mapper = new ObjectMapper();
 
     public OpenLibraryService(@Qualifier("openLibraryRestClient") RestClient openLibraryClient,
-            BookInfoMapper bookInfoMapper,
-            AuthorInfoMapper authorInfoMapper) {
+                              BookInfoMapper bookInfoMapper,
+                              AuthorInfoMapper authorInfoMapper) {
         this.openLibraryClient = openLibraryClient;
         this.bookInfoMapper = bookInfoMapper;
         this.authorInfoMapper = authorInfoMapper;
@@ -60,55 +64,79 @@ public class OpenLibraryService {
     }
 
     private Optional<JsonNode> searchBestWorkDoc(String title, String author, int resultNumber) {
-        // Build search.json query
-        String json = openLibraryClient.get()
-                .uri(uri -> {
-                    var b = uri.path("/search.json");
-                    if (title != null && !title.isBlank())
-                        b = b.queryParam("title", title);
-                    if (author != null && !author.isBlank())
-                        b = b.queryParam("author", author);
-                    b = b.queryParam("fields",
-                            "key,title,author_key,cover_i,first_publish_year,subject,subject_facet,number_of_pages_median");
-                    return b.build();
-                })
-                .retrieve()
-                .body(String.class);
+        try {
+            String json = openLibraryClient.get()
+                    .uri(uri -> {
+                        var b = uri.path("/search.json");
+                        if (title != null && !title.isBlank())
+                            b = b.queryParam("title", title);
+                        if (author != null && !author.isBlank())
+                            b = b.queryParam("author", author);
+                        b = b.queryParam("fields",
+                                "key,title,author_key,cover_i,first_publish_year,subject,subject_facet,number_of_pages_median");
+                        return b.build();
+                    })
+                    .retrieve()
+                    .body(String.class);
 
-        if (json == null || json.isBlank())
-            return Optional.empty();
+            if (json == null || json.isBlank())
+                return Optional.empty();
 
-        JsonNode root = read(json);
-        JsonNode docs = root.path("docs");
-        if (!docs.isArray() || docs.size() == 0)
-            return Optional.empty();
+            JsonNode root = read(json);
+            JsonNode docs = root.path("docs");
+            if (!docs.isArray() || docs.size() == 0)
+                return Optional.empty();
 
-        List<JsonNode> works = new ArrayList<>();
-        for (JsonNode d : docs) {
-            String key = d.path("key").asText("");
-            if (key.startsWith("/works/")) {
-                works.add(d);
+            List<JsonNode> works = new ArrayList<>();
+            for (JsonNode d : docs) {
+                String key = d.path("key").asText("");
+                if (key.startsWith("/works/")) {
+                    works.add(d);
+                }
             }
+
+            if (works.isEmpty()) {
+                return Optional.of(docs.get(0));
+            }
+
+            // 1-based -> 0-based index, wrap around if needed
+            // If resultNumber <= 0, treat it as 1
+            int size = works.size();
+            int idx = (Math.max(1, resultNumber) - 1) % size;
+
+            return Optional.of(works.get(idx));
+        } catch (RestClientResponseException ex) {
+            int status = ex.getRawStatusCode();
+            if (status == 404) {
+                return null;
+            }
+            throw new OpenLibraryUpstreamException("GET", "/search.json", status);
+        } catch (RestClientException ex) {
+            throw new OpenLibraryUpstreamException("GET", "/search.json", ex);
+        } catch (Exception parse) {
+            throw new OpenLibraryUpstreamException("GET", "/search.json", parse);
         }
-
-        if (works.isEmpty()) {
-            return Optional.of(docs.get(0));
-        }
-
-        // 1-based -> 0-based index, wrap around if needed
-        // If resultNumber <= 0, treat it as 1
-        int size = works.size();
-        int idx = (Math.max(1, resultNumber) - 1) % size;
-
-        return Optional.of(works.get(idx));
     }
 
     private JsonNode getJson(String pathAndQuery) {
-        String json = openLibraryClient.get()
-                .uri(pathAndQuery)
-                .retrieve()
-                .body(String.class);
-        return read(json);
+        URI uri = URI.create(pathAndQuery);
+        try {
+            String json = openLibraryClient.get()
+                    .uri(pathAndQuery)
+                    .retrieve()
+                    .body(String.class);
+            return read(json);
+        } catch (RestClientResponseException ex) {
+            int status = ex.getRawStatusCode();
+            if (status == 404) {
+                return null;
+            }
+            throw new OpenLibraryUpstreamException("GET", uri.toString(), status);
+        } catch (RestClientException ex) {
+            throw new OpenLibraryUpstreamException("GET", uri.toString(), ex);
+        } catch (Exception parse) {
+            throw new OpenLibraryUpstreamException("GET", uri.toString(), parse);
+        }
     }
 
     private JsonNode read(String json) {

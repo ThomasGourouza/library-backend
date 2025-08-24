@@ -4,12 +4,15 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tgourouza.library_backend.dto.wikidata.AuthorWikidata;
 
+import com.tgourouza.library_backend.exception.WikidataUpstreamException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -33,15 +36,22 @@ public class WikidataService {
 
         MultiValueMap<String, String> form = new LinkedMultiValueMap<>();
         form.add("query", sparql);
+        try {
+            String json = wdqsClient.post()
+                    .uri("/sparql")
+                    .contentType(MediaType.APPLICATION_FORM_URLENCODED)
+                    .body(form) // <-- this was missing
+                    .retrieve()
+                    .body(String.class);
 
-        String json = wdqsClient.post()
-                .uri("/sparql")
-                .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                .body(form) // <-- this was missing
-                .retrieve()
-                .body(String.class);
-
-        return parseAuthorInfo(json, qid);
+            return parseAuthorInfo(json, qid);
+        } catch (RestClientResponseException ex) {
+            throw new WikidataUpstreamException("POST", "/sparql", ex.getRawStatusCode());
+        } catch (RestClientException ex) {
+            throw new WikidataUpstreamException("POST", "/sparql", ex);
+        } catch (Exception parse) {
+            throw new WikidataUpstreamException("POST", "/sparql", parse);
+        }
     }
 
     private Optional<AuthorWikidata> parseAuthorInfo(String json, String qid) {
@@ -53,21 +63,17 @@ public class WikidataService {
             }
 
             // Aggregators
-            String label = null, description = null;
+            String label = null, shortDescription = null;
             LocalDate birthDate = null, deathDate = null;
             String birthPlace = null, birthCountry = null, deathPlace = null, deathCountry = null;
             String wikipediaEn = null, wikipediaFr = null, wikipediaEs = null, wikipediaDe = null, wikipediaRu = null, wikipediaIt = null, wikipediaPt = null, wikipediaJa = null;
             Set<String> citizenships = new LinkedHashSet<>();
             Set<String> occupations = new LinkedHashSet<>();
             Set<String> languages = new LinkedHashSet<>();
-            Map<String, String> identifiers = new LinkedHashMap<>();
-            identifiers.put("VIAF", null);
-            identifiers.put("ISNI", null);
-            identifiers.put("GND", null);
 
             for (JsonNode b : bindings) {
                 label = firstNonNull(label, val(b, "personLabel"));
-                description = firstNonNull(description, val(b, "personDescription"));
+                shortDescription = firstNonNull(shortDescription, val(b, "personDescription"));
 
                 birthDate = firstNonNull(birthDate, parseDate(val(b, "birthDate")));
                 deathDate = firstNonNull(deathDate, parseDate(val(b, "deathDate")));
@@ -89,19 +95,12 @@ public class WikidataService {
                 wikipediaIt = firstNonNull(wikipediaIt, uri(b, "itwiki"));
                 wikipediaPt = firstNonNull(wikipediaPt, uri(b, "ptwiki"));
                 wikipediaJa = firstNonNull(wikipediaJa, uri(b, "jawiki"));
-
-                identifiers.computeIfPresent("VIAF", (k, v) -> v != null ? v : val(b, "viaf"));
-                identifiers.computeIfPresent("ISNI", (k, v) -> v != null ? v : val(b, "isni"));
-                identifiers.computeIfPresent("GND", (k, v) -> v != null ? v : val(b, "gnd"));
             }
-
-            // Remove null identifier entries
-            identifiers.entrySet().removeIf(e -> e.getValue() == null);
 
             AuthorWikidata info = new AuthorWikidata(
                     qid,
                     label,
-                    description,
+                    shortDescription,
                     birthDate,
                     deathDate,
                     birthPlace,
@@ -111,7 +110,6 @@ public class WikidataService {
                     List.copyOf(citizenships),
                     List.copyOf(occupations),
                     List.copyOf(languages),
-                    Map.copyOf(identifiers),
                     wikipediaEn,
                     wikipediaFr,
                     wikipediaEs,
@@ -141,28 +139,28 @@ public class WikidataService {
                        ?enwiki ?frwiki ?eswiki ?dewiki ?ruwiki ?itwiki ?ptwiki ?jawiki
                 WHERE {
                   VALUES ?person { wd:%s }
-
+                
                   OPTIONAL { ?person wdt:P569 ?birthDate. }
                   OPTIONAL { ?person wdt:P570 ?deathDate. }
-
+                
                   OPTIONAL {
                     ?person wdt:P19 ?birthPlace.
                     OPTIONAL { ?birthPlace (wdt:P131*)/wdt:P17 ?birthCountry. }
                   }
-
+                
                   OPTIONAL {
                     ?person wdt:P20 ?deathPlace.
                     OPTIONAL { ?deathPlace (wdt:P131*)/wdt:P17 ?deathCountry. }
                   }
-
+                
                   OPTIONAL { ?person wdt:P27 ?citizenship. }
                   OPTIONAL { ?person wdt:P106 ?occupation. }
                   OPTIONAL { ?person wdt:P1412 ?language. }
-
+                
                   OPTIONAL { ?person wdt:P214 ?viaf. }   # VIAF
                   OPTIONAL { ?person wdt:P213 ?isni. }   # ISNI
                   OPTIONAL { ?person wdt:P227 ?gnd. }    # GND
-
+                
                   OPTIONAL { ?frwiki schema:about ?person ; schema:isPartOf <https://fr.wikipedia.org/> . }
                   OPTIONAL { ?enwiki schema:about ?person ; schema:isPartOf <https://en.wikipedia.org/> . }
                   OPTIONAL { ?eswiki schema:about ?person ; schema:isPartOf <https://es.wikipedia.org/> . }
@@ -171,7 +169,7 @@ public class WikidataService {
                   OPTIONAL { ?itwiki schema:about ?person ; schema:isPartOf <https://it.wikipedia.org/> . }
                   OPTIONAL { ?ptwiki schema:about ?person ; schema:isPartOf <https://pt.wikipedia.org/> . }
                   OPTIONAL { ?jawiki schema:about ?person ; schema:isPartOf <https://ja.wikipedia.org/> . }
-
+                
                   SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en,fr". }
                 }
                 """.formatted(qid);

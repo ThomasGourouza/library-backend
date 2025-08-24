@@ -7,7 +7,7 @@ import java.util.Map;
 public record AuthorWikidata(
         String id,
         String label,
-        String description,
+        String shortDescription,
         LocalDate birthDate,
         LocalDate deathDate,
         String birthPlace,
@@ -17,7 +17,6 @@ public record AuthorWikidata(
         List<String> citizenships,
         List<String> occupations,
         List<String> languages,
-        Map<String, String> identifiers, // VIAF, ISNI, GND
         String wikipediaEn,
         String wikipediaFr,
         String wikipediaEs,

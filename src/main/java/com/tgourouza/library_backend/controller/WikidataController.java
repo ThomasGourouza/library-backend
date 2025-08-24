@@ -21,14 +21,8 @@ public class WikidataController {
 
     @GetMapping(value = "/authors/{qid}", produces = "application/json")
     public ResponseEntity<AuthorWikidata> getAuthor(@PathVariable String qid) {
-        try {
             return service.getAuthorByQid(qid)
-                    .<ResponseEntity<AuthorWikidata>>map(ResponseEntity::ok)
+                    .map(ResponseEntity::ok)
                     .orElseGet(() -> ResponseEntity.notFound().build());
-        } catch (Exception ex) {
-            log.error("Failed to fetch Wikidata (id='{}')", qid, ex);
-            return ResponseEntity.status(502).build();
-
-        }
     }
 }

@@ -4,6 +4,7 @@ import com.tgourouza.library_backend.dto.ErrorResponse;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.server.ResponseStatusException;
@@ -65,5 +66,17 @@ public class GlobalExceptionHandler {
                 LocalDateTime.now()
         );
         return new ResponseEntity<>(error, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(OpenLibraryUpstreamException.class)
+    public ResponseEntity<String> handleOpenLibrary(OpenLibraryUpstreamException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                .body("OpenLibrary unavailable");
+    }
+
+    @ExceptionHandler(WikidataUpstreamException.class)
+    public ResponseEntity<String> handleWikidata(WikidataUpstreamException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_GATEWAY)
+                .body("Wikidata unavailable");
     }
 }
