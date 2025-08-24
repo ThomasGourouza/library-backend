@@ -2,7 +2,6 @@ package com.tgourouza.library_backend.dto.wikidata;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Map;
 
 public record AuthorWikidata(
         String id,
@@ -10,9 +9,9 @@ public record AuthorWikidata(
         String shortDescription,
         LocalDate birthDate,
         LocalDate deathDate,
-        String birthPlace,
+        String birthCity,
         String birthCountry,
-        String deathPlace,
+        String deathCity,
         String deathCountry,
         List<String> citizenships,
         List<String> occupations,

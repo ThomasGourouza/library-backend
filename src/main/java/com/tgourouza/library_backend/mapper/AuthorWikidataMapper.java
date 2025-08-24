@@ -23,7 +23,7 @@ public class AuthorWikidataMapper {
             // Aggregators
             String label = null, shortDescription = null;
             LocalDate birthDate = null, deathDate = null;
-            String birthPlace = null, birthCountry = null, deathPlace = null, deathCountry = null;
+            String birthCity = null, birthCountry = null, deathCity = null, deathCountry = null;
             String wikipediaEn = null, wikipediaFr = null, wikipediaEs = null, wikipediaDe = null, wikipediaRu = null, wikipediaIt = null, wikipediaPt = null, wikipediaJa = null;
             Set<String> citizenships = new LinkedHashSet<>();
             Set<String> occupations = new LinkedHashSet<>();
@@ -36,9 +36,9 @@ public class AuthorWikidataMapper {
                 birthDate = firstNonNull(birthDate, parseDate(val(b, "birthDate")));
                 deathDate = firstNonNull(deathDate, parseDate(val(b, "deathDate")));
 
-                birthPlace = firstNonNull(birthPlace, val(b, "birthPlaceLabel"));
+                birthCity = firstNonNull(birthCity, val(b, "birthPlaceLabel"));
                 birthCountry = firstNonNull(birthCountry, val(b, "birthCountryLabel"));
-                deathPlace = firstNonNull(deathPlace, val(b, "deathPlaceLabel"));
+                deathCity = firstNonNull(deathCity, val(b, "deathPlaceLabel"));
                 deathCountry = firstNonNull(deathCountry, val(b, "deathCountryLabel"));
 
                 addIfPresent(citizenships, val(b, "citizenshipLabel"));
@@ -61,9 +61,9 @@ public class AuthorWikidataMapper {
                     shortDescription,
                     birthDate,
                     deathDate,
-                    birthPlace,
+                    birthCity,
                     birthCountry,
-                    deathPlace,
+                    deathCity,
                     deathCountry,
                     List.copyOf(citizenships),
                     List.copyOf(occupations),

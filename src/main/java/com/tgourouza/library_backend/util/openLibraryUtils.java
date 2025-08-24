@@ -2,12 +2,8 @@ package com.tgourouza.library_backend.util;
 
 import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
@@ -18,13 +14,16 @@ import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 public class openLibraryUtils {
 
     public static String text(JsonNode node, String field) {
-        if (node == null || node.isMissingNode())
+        if (node == null || node.isMissingNode()) {
             return "";
+        }
         JsonNode n = node.path(field);
-        if (n.isMissingNode())
+        if (n.isMissingNode()) {
             return "";
-        if (n.isTextual())
+        }
+        if (n.isTextual()) {
             return n.asText("");
+        }
         // description/bio can be object { "value": "..." }
         String val = n.path("value").asText("");
         return val == null ? "" : val;
@@ -32,31 +31,36 @@ public class openLibraryUtils {
 
     public static HashSet<String> mergeJsonArraysToSet(JsonNode... arrays) {
         HashSet<String> out = new HashSet<>();
-        if (arrays == null)
+        if (arrays == null) {
             return out;
+        }
 
         for (JsonNode arr : arrays) {
-            if (arr == null || !arr.isArray())
+            if (arr == null || !arr.isArray()) {
                 continue;
+            }
             for (JsonNode n : arr) {
                 String s = n.asText("");
-                if (!s.isBlank())
+                if (!s.isBlank()) {
                     out.add(s.trim());
+                }
             }
         }
         return out;
     }
 
     public static String lastPathSegment(String path) {
-        if (path == null)
+        if (path == null) {
             return "";
+        }
         int i = path.lastIndexOf('/');
         return (i >= 0 && i + 1 < path.length()) ? path.substring(i + 1) : path;
     }
 
     public static int parseYear(String s) {
-        if (s == null)
+        if (s == null) {
             return 0;
+        }
         // grab leading 4-digit year if present
         for (int i = 0; i + 3 < s.length(); i++) {
             if (Character.isDigit(s.charAt(i)) && Character.isDigit(s.charAt(i + 1))
@@ -79,16 +83,18 @@ public class openLibraryUtils {
     public static String readWikipediaLink(JsonNode node, String originalTitle, String language) {
         // direct "wikipedia" field
         String wiki = text(node, "wikipedia");
-        if (!wiki.isBlank())
+        if (!wiki.isBlank()) {
             return wiki;
+        }
 
         // links: [ { title, url }, ... ]
         JsonNode links = node.path("links");
         if (links.isArray()) {
             for (JsonNode l : links) {
                 String url = l.path("url").asText("");
-                if (url.contains("wikipedia.org"))
+                if (url.contains("wikipedia.org")) {
                     return url;
+                }
             }
         }
         // built link
@@ -108,25 +114,6 @@ public class openLibraryUtils {
     }
 
     /* ============================== Author utils ============================== */
-
-    public static LocalDate parseFlexibleDate(String s) {
-        if (s == null || s.isBlank())
-            return null;
-        // Try ISO first
-        List<String> patterns = List.of("yyyy-MM-dd", "yyyy-MM", "yyyy");
-        for (String p : patterns) {
-            try {
-                if ("yyyy".equals(p))
-                    return LocalDate.of(Integer.parseInt(s.substring(0, 4)), 1, 1);
-                return LocalDate.parse(s, DateTimeFormatter.ofPattern(p));
-            } catch (DateTimeParseException | NumberFormatException ignore) {
-            }
-        }
-        // Last resort: extract a 4-digit year
-        int y = parseYear(s);
-        return y == 0 ? null : LocalDate.of(y, 1, 1);
-    }
-
     public static String readBio(JsonNode author) {
         String bio = text(author, "bio");
         return bio == null ? "" : bio;
@@ -140,20 +127,22 @@ public class openLibraryUtils {
     /*
      * ============================== Wikipedia utils ==============================
      */
-
     private static String resolveWikipediaLangCode(String language) {
-        if (language == null || language.isBlank())
+        if (language == null || language.isBlank()) {
             return "en";
+        }
         String key = language.trim().toLowerCase(Locale.ROOT);
 
         // direct hit on name/synonym
         String code = LANGUAGE_TO_WIKI.get(key);
-        if (code != null)
+        if (code != null) {
             return code;
+        }
 
         // if caller already passed a 2-letter code we support, accept it
-        if (key.length() == 2 && LANGUAGE_TO_WIKI.containsValue(key))
+        if (key.length() == 2 && LANGUAGE_TO_WIKI.containsValue(key)) {
             return key;
+        }
 
         return "en"; // sensible default
     }

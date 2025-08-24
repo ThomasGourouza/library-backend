@@ -29,30 +29,14 @@ public class AuthorOpenLibraryMapper {
             }
         }
 
-        // "country" – Open Library rarely has a country; use birth_place if present
-        // (raw).
-        String country = text(a, "birth_place");
-
-        // Dates
-        LocalDate birth = parseFlexibleDate(text(a, "birth_date"));
-        LocalDate death = parseFlexibleDate(text(a, "death_date"));
-
-        // Description / bio (may be string or object with "value")
         String description = readBio(a);
         String descriptionLanguage = getLanguage(description);
-
-        // Wikipedia link – from "wikipedia" or links[].url
-        // TODO: use wikidata language
-        String wikipedia = readWikipediaLink(a, name, Language.ENGLISH.toString());
 
         return new AuthorOpenLibrary(
                 authorOLKey,
                 wikidataId,
                 name,
                 pictureUrl,
-                country,
-                new AuthorDate(birth, death),
-                new Text(description, descriptionLanguage),
-                wikipedia);
+                new Text(description, descriptionLanguage));
     }
 }

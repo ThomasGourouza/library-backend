@@ -14,35 +14,39 @@ import java.util.List;
 @NoArgsConstructor
 public class AuthorInfo {
 
+    // Open Library fields
     private String oLKey;
     private String wikidataId;
+
     private String name;
     private String pictureUrl;
-    private String country;
-    private AuthorDate date;
     private String description;
-    private String wikipediaLink;
 
 
-
-    private String id;
-    private String label;
+    // Wikidata fields
     private String shortDescription;
-    private LocalDate birthDate;
-    private LocalDate deathDate;
-    private String birthPlace;
+    private AuthorDate date;
+//    private LocalDate birthDate;
+//    private LocalDate deathDate;
+
+    private String birthCity;
+
     private String birthCountry;
-    private String deathPlace;
+    private String deathCity;
+
     private String deathCountry;
+
     private List<String> citizenships;
     private List<String> occupations;
     private List<String> languages;
-    private String wikipediaEn;
-    private String wikipediaFr;
-    private String wikipediaEs;
-    private String wikipediaDe;
-    private String wikipediaRu;
-    private String wikipediaIt;
-    private String wikipediaPt;
-    private String wikipediaJa;
+
+    private Multilingual wikipediaLinks;
+//    private String wikipediaEn;
+//    private String wikipediaFr;
+//    private String wikipediaEs;
+//    private String wikipediaDe;
+//    private String wikipediaRu;
+//    private String wikipediaIt;
+//    private String wikipediaPt;
+//    private String wikipediaJa;
 }

@@ -12,9 +12,5 @@ public class AuthorOpenLibrary {
     private String wikidataId;
     private String name;
     private String pictureUrl;
-    private String country;
-    private AuthorDate date;
     private Text description;
-    // TODO: Remove
-    private String wikipediaLink;
 }
