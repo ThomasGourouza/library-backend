@@ -10,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RestController
@@ -32,8 +29,8 @@ public class OpenLibraryWikiDataController {
         this.authorInfoMapper = authorInfoMapper;
     }
 
-    @GetMapping(value = "/author-info", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthorInfo> getAuthorInfo(@RequestParam("author_key") String authorKey) {
+    @GetMapping(value = "/author-info/{authorKey}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AuthorInfo> getAuthorInfo(@PathVariable String authorKey) {
         if (authorKey == null || authorKey.isBlank()) {
             return ResponseEntity.badRequest().build();
         }

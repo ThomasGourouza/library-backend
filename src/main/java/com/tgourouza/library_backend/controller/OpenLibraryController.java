@@ -3,10 +3,7 @@ package com.tgourouza.library_backend.controller;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
 import com.tgourouza.library_backend.service.OpenLibraryService;
@@ -36,8 +33,8 @@ public class OpenLibraryController {
         return ResponseEntity.ok(info);
     }
 
-    @GetMapping(value = "/author", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthorOpenLibrary> getAuthorOpenLibrary(@RequestParam("author_key") String authorKey) {
+    @GetMapping(value = "/author/{authorKey}", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AuthorOpenLibrary> getAuthorOpenLibrary(@PathVariable String authorKey) {
         if (authorKey == null || authorKey.isBlank()) {
             return ResponseEntity.badRequest().build();
         }
