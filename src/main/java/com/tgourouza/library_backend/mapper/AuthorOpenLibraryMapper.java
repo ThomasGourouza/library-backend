@@ -2,17 +2,15 @@ package com.tgourouza.library_backend.mapper;
 
 import java.time.LocalDate;
 
+import com.tgourouza.library_backend.dto.openLibrary.Text;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.dto.author.AuthorDate;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
-import static com.tgourouza.library_backend.util.openLibraryUtils.authorImage;
-import static com.tgourouza.library_backend.util.openLibraryUtils.parseFlexibleDate;
-import static com.tgourouza.library_backend.util.openLibraryUtils.readBio;
-import static com.tgourouza.library_backend.util.openLibraryUtils.readWikipediaLink;
-import static com.tgourouza.library_backend.util.openLibraryUtils.text;
+
+import static com.tgourouza.library_backend.util.openLibraryUtils.*;
 
 @Component
 public class AuthorOpenLibraryMapper {
@@ -41,6 +39,7 @@ public class AuthorOpenLibraryMapper {
 
         // Description / bio (may be string or object with "value")
         String description = readBio(a);
+        String descriptionLanguage = getLanguage(description);
 
         // Wikipedia link – from "wikipedia" or links[].url
         // TODO: use wikidata language
@@ -53,7 +52,7 @@ public class AuthorOpenLibraryMapper {
                 pictureUrl,
                 country,
                 new AuthorDate(birth, death),
-                description,
+                new Text(description, descriptionLanguage),
                 wikipedia);
     }
 }
