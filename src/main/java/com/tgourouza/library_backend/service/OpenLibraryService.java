@@ -5,40 +5,42 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.tgourouza.library_backend.exception.OpenLibraryUpstreamException;
+import com.tgourouza.library_backend.mapper.AuthorOpenLibraryMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tgourouza.library_backend.dto.openLibrary.AuthorInfo;
-import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
-import com.tgourouza.library_backend.mapper.AuthorInfoMapper;
-import com.tgourouza.library_backend.mapper.BookInfoMapper;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestClientResponseException;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
+import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
+import com.tgourouza.library_backend.exception.OpenLibraryUpstreamException;
+import com.tgourouza.library_backend.mapper.BookInfoMapper;
+
 @Service
 public class OpenLibraryService {
+
     private final RestClient openLibraryClient; // https://openlibrary.org
     private final BookInfoMapper bookInfoMapper;
-    private final AuthorInfoMapper authorInfoMapper;
+    private final AuthorOpenLibraryMapper authorOpenLibraryMapper;
     private final ObjectMapper mapper = new ObjectMapper();
 
     public OpenLibraryService(@Qualifier("openLibraryRestClient") RestClient openLibraryClient,
-                              BookInfoMapper bookInfoMapper,
-                              AuthorInfoMapper authorInfoMapper) {
+            BookInfoMapper bookInfoMapper,
+            AuthorOpenLibraryMapper authorOpenLibraryMapper) {
         this.openLibraryClient = openLibraryClient;
         this.bookInfoMapper = bookInfoMapper;
-        this.authorInfoMapper = authorInfoMapper;
+        this.authorOpenLibraryMapper = authorOpenLibraryMapper;
     }
 
     public BookInfo getBookInfo(String title, String author, int resultNumber) {
         // 1) Search works
         Optional<JsonNode> bestDoc = searchBestWorkDoc(title, author, resultNumber);
-        if (bestDoc.isEmpty())
+        if (bestDoc.isEmpty()) {
             return null;
+        }
 
         JsonNode doc = bestDoc.get();
         String workKey = doc.path("key").asText(""); // e.g. "/works/OL12345W"
@@ -54,13 +56,14 @@ public class OpenLibraryService {
         return bookInfoMapper.mapToBookInfo(doc, work);
     }
 
-    public AuthorInfo getAuthorInfo(String authorKey) {
+    public AuthorOpenLibrary getAuthorOpenLibrary(String authorKey) {
         String safe = authorKey.startsWith("OL") ? authorKey : authorKey.trim();
         JsonNode author = getJson("/authors/" + safe + ".json");
-        if (author == null || author.isMissingNode())
+        if (author == null || author.isMissingNode()) {
             return null;
+        }
 
-        return authorInfoMapper.mapToAuthorInfo(author, safe);
+        return authorOpenLibraryMapper.mapToAuthorOpenLibrary(author, safe);
     }
 
     private Optional<JsonNode> searchBestWorkDoc(String title, String author, int resultNumber) {
@@ -68,10 +71,12 @@ public class OpenLibraryService {
             String json = openLibraryClient.get()
                     .uri(uri -> {
                         var b = uri.path("/search.json");
-                        if (title != null && !title.isBlank())
+                        if (title != null && !title.isBlank()) {
                             b = b.queryParam("title", title);
-                        if (author != null && !author.isBlank())
+                        }
+                        if (author != null && !author.isBlank()) {
                             b = b.queryParam("author", author);
+                        }
                         b = b.queryParam("fields",
                                 "key,title,author_key,cover_i,first_publish_year,subject,subject_facet,number_of_pages_median");
                         return b.build();
@@ -79,13 +84,15 @@ public class OpenLibraryService {
                     .retrieve()
                     .body(String.class);
 
-            if (json == null || json.isBlank())
+            if (json == null || json.isBlank()) {
                 return Optional.empty();
+            }
 
             JsonNode root = read(json);
             JsonNode docs = root.path("docs");
-            if (!docs.isArray() || docs.size() == 0)
+            if (!docs.isArray() || docs.size() == 0) {
                 return Optional.empty();
+            }
 
             List<JsonNode> works = new ArrayList<>();
             for (JsonNode d : docs) {

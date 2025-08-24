@@ -1,7 +1,6 @@
 package com.tgourouza.library_backend.controller;
 
-import com.tgourouza.library_backend.dto.openLibrary.AuthorFullInfo;
-import com.tgourouza.library_backend.service.AuthorInfoService;
+import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,11 +19,9 @@ import lombok.extern.slf4j.Slf4j;
 public class OpenLibraryController {
 
     private final OpenLibraryService openLibraryService;
-    private final AuthorInfoService authorInfoService;
 
-    public OpenLibraryController(OpenLibraryService openLibraryService, AuthorInfoService authorInfoService) {
+    public OpenLibraryController(OpenLibraryService openLibraryService) {
         this.openLibraryService = openLibraryService;
-        this.authorInfoService = authorInfoService;
     }
 
     @GetMapping(value = "/book-info", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,15 +36,15 @@ public class OpenLibraryController {
         return ResponseEntity.ok(info);
     }
 
-    @GetMapping(value = "/author-info", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthorFullInfo> getAuthorInfo(@RequestParam("author_key") String authorKey) {
+    @GetMapping(value = "/author", produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<AuthorOpenLibrary> getAuthorOpenLibrary(@RequestParam("author_key") String authorKey) {
         if (authorKey == null || authorKey.isBlank()) {
             return ResponseEntity.badRequest().build();
         }
-        AuthorFullInfo full = authorInfoService.getAuthorInfo(authorKey); // may throw 502-mapped exceptions
-        if (full == null) {
+        AuthorOpenLibrary authorOpenLibrary = openLibraryService.getAuthorOpenLibrary(authorKey); // may throw 502-mapped exceptions
+        if (authorOpenLibrary == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(full);
+        return ResponseEntity.ok(authorOpenLibrary);
     }
 }
