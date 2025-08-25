@@ -1,20 +1,17 @@
 package com.tgourouza.library_backend.mapper;
 
-import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
-import com.tgourouza.library_backend.dto.author.AuthorDTO;
-import com.tgourouza.library_backend.dto.author.AuthorDate;
-import com.tgourouza.library_backend.dto.book.BookDTO;
-import com.tgourouza.library_backend.entity.AuthorEntity;
-import com.tgourouza.library_backend.entity.BookEntity;
-
-import org.springframework.stereotype.Component;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import org.springframework.stereotype.Component;
+
+import com.tgourouza.library_backend.dto.TimePlaceTranslated;
+import com.tgourouza.library_backend.dto.author.AuthorDTO;
+import com.tgourouza.library_backend.dto.book.BookDTO;
+import com.tgourouza.library_backend.entity.AuthorEntity;
+import com.tgourouza.library_backend.entity.BookEntity;
 import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
-import static com.tgourouza.library_backend.util.utils.fromCsv;
 
 @Component
 public class AuthorMapper {
@@ -28,27 +25,41 @@ public class AuthorMapper {
     public AuthorDTO toDTO(AuthorEntity author) {
         if (author == null) return null;
         return new AuthorDTO(
-                author.getId(),
-                author.getName(),
-                author.getCountry(),
-                new AuthorDate(author.getBirthDate(), author.getDeathDate()),
-                multilingualMapper.toMultilingualDescription(author),
-                author.getWikipediaLink(),
-                toDTOsWithoutAuthor(author.getBooks())
+            author.getId(), // UUID id;
+            author.getOLKey(), // String oLKey;
+            author.getName(), // String name;
+            author.getPictureUrl(), // String pictureUrl;
+            multilingualMapper.toMultilingualShortDescription(author), // Multilingual shortDescription;
+            multilingualMapper.toMultilingualDescription(author), // Multilingual description;
+            new TimePlaceTranslated(
+                author.getBirthDate(),
+                author.getBirthCity(),
+                multilingualMapper.toMultilingualBirthCountry(author)
+            ), // TimePlaceTranslated birth;
+            new TimePlaceTranslated(
+                author.getDeathDate(),
+                author.getDeathCity(),
+                multilingualMapper.toMultilingualDeathCountry(author)
+            ), // TimePlaceTranslated death;
+            multilingualMapper.toMultilingualListCitizenships(author), // MultilingualList citizenships;
+            multilingualMapper.toMultilingualListOccupations(author), // MultilingualList occupations;
+            multilingualMapper.toMultilingualListLanguages(author), // MultilingualList languages;
+            multilingualMapper.toMultilingualWikipediaLink(author), // Multilingual wikipediaLink;
+            toDTOsWithoutAuthor(author.getBooks()) // List<BookDTO> books;
         );
     }
 
-    public void updateEntity(AuthorEntity author, AuthorCreateRequest request, String country) {
-        if (request == null || author == null) return;
-        author.setName(request.getName());
-        author.setCountry(country);
-        if (request.getDate() != null) {
-            author.setBirthDate(request.getDate().getBirth());
-            author.setDeathDate(request.getDate().getDeath());
-        }
-        multilingualMapper.applyMultilingualDescription(request.getDescription(), author);
-        author.setWikipediaLink(request.getWikipediaLink());
-    }
+    // public void updateEntity(AuthorEntity author, AuthorCreateRequest request, String country) {
+    //     if (request == null || author == null) return;
+    //     author.setName(request.getName());
+    //     author.setCountry(country);
+    //     if (request.getDate() != null) {
+    //         author.setBirthDate(request.getDate().getBirth());
+    //         author.setDeathDate(request.getDate().getDeath());
+    //     }
+    //     multilingualMapper.applyMultilingualDescription(request.getDescription(), author);
+    //     author.setWikipediaLink(request.getWikipediaLink());
+    // }
 
     private List<BookDTO> toDTOsWithoutAuthor(List<BookEntity> books) {
         if (books == null) return Collections.emptyList();
@@ -60,17 +71,20 @@ public class AuthorMapper {
         return new BookDTO(
                 book.getId(),
                 book.getOriginalTitle(),
+                book.getLanguage(),
                 multilingualMapper.toMultilingualTitle(book),
                 null,
+                book.getAuthorOLKey(),
                 calculateAuthorAgeAtPublication(book),
-                book.getPublicationDate(),
-                book.getLanguage(),
-                fromCsv(book.getTags()),
+                book.getPublicationYear(),
+                book.getCoverUrl(),
+                book.getNumberOfPages(),
                 multilingualMapper.toMultilingualDescription(book),
-                book.getWikipediaLink(),
+                multilingualMapper.toMultilingualListTags(book),
+                multilingualMapper.toMultilingualWikipediaLink(book),
+                book.getPersonalNotes(),
                 book.getStatus(),
-                book.getFavorite(),
-                book.getPersonalNotes()
+                book.getFavorite()
         );
     }
 }

@@ -31,6 +31,7 @@ public class AuthorEntity {
     @NotNull
     private String name;
 
+    @Column(name = "ol_key")
     private String oLKey;
     private String pictureUrl;
 

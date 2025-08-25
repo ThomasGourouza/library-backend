@@ -1,6 +1,5 @@
 package com.tgourouza.library_backend.util;
 
-import java.time.Period;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
@@ -16,10 +15,10 @@ public class utils {
     public static Integer calculateAuthorAgeAtPublication(BookEntity book) {
         if (book == null || book.getAuthor() == null
                 || book.getAuthor().getBirthDate() == null
-                || book.getPublicationDate() == null) {
+                || book.getPublicationYear() == 0) {
             return null;
         }
-        return Period.between(book.getAuthor().getBirthDate(), book.getPublicationDate()).getYears();
+        return book.getPublicationYear() - book.getAuthor().getBirthDate().getYear();
     }
 
     public static void applyDefaultValuesOnBookRequestIfNeeded(BookCreateRequest request) {
@@ -56,6 +55,7 @@ public class utils {
         return result.toString();
     }
 
+    // TODO: remove ?
     public static Set<Tag> fromCsv(String csv) {
         if (csv == null || csv.isBlank()) {
             return Set.of();
