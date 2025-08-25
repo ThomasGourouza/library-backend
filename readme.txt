@@ -14,10 +14,7 @@ keytool -importcert -alias mymemory-ca \
   -keystore src/main/resources/mymemory-trust.jks \
   -storepass mymemory123 -noprompt && \
 rm openlibrary-chain.pem && \
-rm corp-or-site-ca.pem
-
-
----
+rm corp-or-site-ca.pem && \
 rm -f src/main/resources/wikidata-truststore.jks && \
 openssl s_client -showcerts -connect query.wikidata.org:443 </dev/null 2>/dev/null \
   | awk '/BEGIN CERTIFICATE/,/END CERTIFICATE/ { print }' > wikidata-chain.pem && \

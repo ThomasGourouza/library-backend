@@ -11,5 +11,4 @@ public class TimePlace {
     private LocalDate date;
     private String city;
     private String country;
-    private int age;
 }

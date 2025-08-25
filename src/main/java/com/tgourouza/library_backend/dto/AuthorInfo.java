@@ -1,23 +1,25 @@
 package com.tgourouza.library_backend.dto;
 
+import java.util.List;
+
 import com.tgourouza.library_backend.dto.openLibrary.Text;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthorInfo {
     // Open Library fields
+    private String oLKey;
     private String name;
     private String pictureUrl;
     private Text description;
 
     // Wikidata fields
-    private Text shortDescription;
+    private String shortDescription;
 
     private TimePlace birth;
 //    private LocalDate birthDate;
