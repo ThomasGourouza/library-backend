@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.service.NllbService;
 
@@ -23,12 +24,12 @@ public class NllbController {
     }
 
     @GetMapping("/translate")
-    public ResponseEntity<Multilingual> translateText(@RequestParam String text) {
+    public ResponseEntity<Multilingual> translateText(@RequestParam String text, @RequestParam(required = false) Language sourceLanguage) {
         try {
             if (text == null || text.trim().isEmpty()) {
                 return ResponseEntity.ok(new Multilingual(null, null, null, null, null, null, null, null));
             }
-            Multilingual translation = nllbService.translateText(text.trim());
+            Multilingual translation = nllbService.translateText(text.trim(), sourceLanguage);
             return ResponseEntity.ok(translation);
 
         } catch (Exception e) {

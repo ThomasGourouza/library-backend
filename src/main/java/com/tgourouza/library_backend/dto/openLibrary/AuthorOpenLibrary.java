@@ -1,7 +1,5 @@
 package com.tgourouza.library_backend.dto.openLibrary;
 
-import com.tgourouza.library_backend.dto.author.AuthorDate;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

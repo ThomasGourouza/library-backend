@@ -1,6 +1,9 @@
 package com.tgourouza.library_backend.dto.author;
 
 import com.tgourouza.library_backend.dto.Multilingual;
+import com.tgourouza.library_backend.dto.TimePlace;
+import com.tgourouza.library_backend.dto.openLibrary.Text;
+
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Data;
@@ -10,10 +13,21 @@ public class AuthorCreateRequest {
     @NotBlank(message = "Name is required")
     @Size(max = 255)
     private String name;
-    // private String oLKey;
-    private AuthorDate date;
-    private Multilingual description;
-    private String wikipediaLink;
-    // Field with default value
-    private String country;
+    private String oLKey;
+
+    private String pictureUrl;
+
+    private Text description;
+
+    private Text shortDescription;
+
+    private TimePlace birth;
+
+    private TimePlace death;
+
+    private String citizenships;
+    private String occupations;
+    private String languages;
+
+    private Multilingual wikipediaLink;
 }

@@ -8,8 +8,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.pemistahl.lingua.api.LanguageDetector;
-import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
+import com.github.pemistahl.lingua.api.Language;
 
 public class openLibraryUtils {
 
@@ -80,7 +79,7 @@ public class openLibraryUtils {
         return d == null ? "" : d;
     }
 
-    public static String readWikipediaLink(JsonNode node, String originalTitle, String language) {
+    public static String readWikipediaLink(JsonNode node, String originalTitle, Language language) {
         // direct "wikipedia" field
         String wiki = text(node, "wikipedia");
         if (!wiki.isBlank()) {
@@ -108,11 +107,6 @@ public class openLibraryUtils {
         return "https://covers.openlibrary.org/b/id/" + id + "-" + size + ".jpg";
     }
 
-    public static String getLanguage(String text) {
-        LanguageDetector detector = LanguageDetectorBuilder.fromAllLanguages().build();
-        return detector.detectLanguageOf(text).toString();
-    }
-
     /* ============================== Author utils ============================== */
     public static String readBio(JsonNode author) {
         String bio = text(author, "bio");
@@ -127,11 +121,11 @@ public class openLibraryUtils {
     /*
      * ============================== Wikipedia utils ==============================
      */
-    private static String resolveWikipediaLangCode(String language) {
-        if (language == null || language.isBlank()) {
+    private static String resolveWikipediaLangCode(Language language) {
+        if (language == null) {
             return "en";
         }
-        String key = language.trim().toLowerCase(Locale.ROOT);
+        String key = language.toString().trim().toLowerCase(Locale.ROOT);
 
         // direct hit on name/synonym
         String code = LANGUAGE_TO_WIKI.get(key);

@@ -1,28 +1,32 @@
 package com.tgourouza.library_backend.mapper;
 
-import java.util.HashSet;
-
-import org.springframework.stereotype.Component;
-
-import com.fasterxml.jackson.databind.JsonNode;
-import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
-import com.tgourouza.library_backend.dto.openLibrary.Text;
-
 import static com.tgourouza.library_backend.util.openLibraryUtils.coverImage;
-import static com.tgourouza.library_backend.util.openLibraryUtils.getLanguage;
 import static com.tgourouza.library_backend.util.openLibraryUtils.mergeJsonArraysToSet;
 import static com.tgourouza.library_backend.util.openLibraryUtils.parseYear;
 import static com.tgourouza.library_backend.util.openLibraryUtils.readDescription;
 import static com.tgourouza.library_backend.util.openLibraryUtils.readWikipediaLink;
 import static com.tgourouza.library_backend.util.openLibraryUtils.text;
 
+import java.util.HashSet;
+
+import org.springframework.stereotype.Component;
+
+import com.fasterxml.jackson.databind.JsonNode;
+import com.github.pemistahl.lingua.api.Language;
+import com.github.pemistahl.lingua.api.LanguageDetector;
+import com.tgourouza.library_backend.dto.book.BookCreateRequest;
+import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
+import com.tgourouza.library_backend.dto.openLibrary.Text;
+
 @Component
 public class BookInfoMapper {
 
     private final TagsMapper tagsMapper;
+    private final LanguageDetector detector;
 
-    public BookInfoMapper(TagsMapper tagsMapper) {
+    public BookInfoMapper(TagsMapper tagsMapper, LanguageDetector detector) {
         this.tagsMapper = tagsMapper;
+        this.detector = detector;
     }
 
     public BookInfo mapToBookInfo(JsonNode doc, JsonNode work) {
@@ -30,7 +34,7 @@ public class BookInfoMapper {
         if (originalTitle.isBlank())
             originalTitle = text(doc, "title");
 
-        String originalTitleLanguage = getLanguage(originalTitle);
+        Language originalTitleLanguage = detector.detectLanguageOf(originalTitle);
 
         // Cover
         String coverUrl = null;
@@ -89,8 +93,13 @@ public class BookInfoMapper {
                 numberOfPages,
                 new Text(
                         description,
-                        getLanguage(description)),
+                        detector.detectLanguageOf(description)),
                 tagsMapper.fromSet(tags),
                 wikipedia);
     }
+
+    // TODO
+        public BookCreateRequest mapToBookCreateRequest(BookInfo bookInfo) {
+                return new BookCreateRequest();
+        }
 }

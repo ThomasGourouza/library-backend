@@ -2,12 +2,12 @@ package com.tgourouza.library_backend.util;
 
 import java.time.Period;
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.tgourouza.library_backend.constant.Tag;
 import com.tgourouza.library_backend.constant.Status;
-import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
+import com.tgourouza.library_backend.constant.Tag;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.entity.BookEntity;
 
@@ -24,7 +24,7 @@ public class utils {
 
     public static void applyDefaultValuesOnBookRequestIfNeeded(BookCreateRequest request) {
         if (request.getTags() == null) {
-            request.setTags(Tag.UNKNOWN.toString());
+            request.setTags(null);
         }
         if (request.getStatus() == null) {
             request.setStatus(Status.UNREAD.toString());
@@ -58,7 +58,7 @@ public class utils {
 
     public static Set<Tag> fromCsv(String csv) {
         if (csv == null || csv.isBlank()) {
-            return Set.of(Tag.UNKNOWN);
+            return Set.of();
         }
         return Arrays.stream(csv.split(","))
                 .map(String::trim)
@@ -68,9 +68,10 @@ public class utils {
                     try {
                         return Tag.valueOf(s);
                     } catch (IllegalArgumentException e) {
-                        return Tag.UNKNOWN;
+                        return null;
                     }
                 })
+                .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
 }

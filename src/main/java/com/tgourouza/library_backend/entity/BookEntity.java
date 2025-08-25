@@ -1,13 +1,21 @@
 package com.tgourouza.library_backend.entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.tgourouza.library_backend.constant.*;
-import jakarta.persistence.*;
-import jakarta.validation.constraints.NotNull;
-import lombok.*;
-
-import java.time.LocalDate;
 import java.util.UUID;
+
+import com.fasterxml.jackson.annotation.JsonBackReference;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "book")
@@ -21,6 +29,7 @@ public class BookEntity {
     private UUID id;
     @NotNull
     private String originalTitle;
+    private String language;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
@@ -28,14 +37,10 @@ public class BookEntity {
     @JsonBackReference
     private AuthorEntity author;
 
-    private LocalDate publicationDate;
-    private String wikipediaLink;
-    private String language;
-    private String tags; // Comma-separated values
-    private Status status;
-    private Boolean favorite;
-    private String personalNotes;
-
+    private Integer authorAgeAtPublication;
+    private String authorOLKey;
+    private int publicationYear;
+    // private Multilingual title;
     private String titleFrench;
     private String titleSpanish;
     private String titleItalian;
@@ -45,6 +50,9 @@ public class BookEntity {
     private String titleRussian;
     private String titleJapanese;
 
+    private String coverUrl;
+    private int numberOfPages;
+    // private Multilingual description;
     private String descriptionFrench;
     private String descriptionSpanish;
     private String descriptionItalian;
@@ -53,4 +61,29 @@ public class BookEntity {
     private String descriptionGerman;
     private String descriptionRussian;
     private String descriptionJapanese;
+
+    // private Multilingual tags;
+    private String tagsFrench;
+    private String tagsSpanish;
+    private String tagsItalian;
+    private String tagsPortuguese;
+    private String tagsEnglish;
+    private String tagsGerman;
+    private String tagsRussian;
+    private String tagsJapanese;
+
+    // private Multilingual wikipediaLink;
+    private String wikipediaLinkFrench;
+    private String wikipediaLinkSpanish;
+    private String wikipediaLinkItalian;
+    private String wikipediaLinkPortuguese;
+    private String wikipediaLinkEnglish;
+    private String wikipediaLinkGerman;
+    private String wikipediaLinkRussian;
+    private String wikipediaLinkJapanese;
+
+    // Editable fields
+    private String personalNotes;
+    private String status;
+    private Boolean favorite;
 }

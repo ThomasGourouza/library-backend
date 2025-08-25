@@ -1,21 +1,30 @@
 package com.tgourouza.library_backend.dto.author;
 
-import com.tgourouza.library_backend.dto.Multilingual;
-import com.tgourouza.library_backend.dto.book.BookDTO;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import java.util.List;
 import java.util.UUID;
+
+import com.tgourouza.library_backend.dto.Multilingual;
+import com.tgourouza.library_backend.dto.MultilingualList;
+import com.tgourouza.library_backend.dto.TimePlaceTranslated;
+import com.tgourouza.library_backend.dto.book.BookDTO;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 @Data
 @AllArgsConstructor
 public class AuthorDTO {
     private UUID id;
+    private String oLKey;
     private String name;
-    private String country;
-    private AuthorDate date;
+    private String pictureUrl;
+    private Multilingual shortDescription;
     private Multilingual description;
-    private String wikipediaLink;
+    private TimePlaceTranslated birth;
+    private TimePlaceTranslated death;
+    private MultilingualList citizenships;
+    private MultilingualList occupations;
+    private MultilingualList languages;
+    private Multilingual wikipediaLink;
     private List<BookDTO> books;
 }

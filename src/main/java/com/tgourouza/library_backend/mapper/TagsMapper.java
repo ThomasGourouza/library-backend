@@ -1,6 +1,11 @@
 package com.tgourouza.library_backend.mapper;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
@@ -490,9 +495,9 @@ public class TagsMapper {
                                 "kind", "kinder", "kindheit", "jugend", "jugendlich", "junge")));
         }
 
-        public Set<Tag> fromSet(Set<String> tags) {
+        public Set<String> fromSet(Set<String> tags) {
                 if (tags == null || tags.isEmpty())
-                        return Set.of(Tag.UNKNOWN);
+                        return Set.of();
 
                 // normalize input phrases
                 Set<String> normalized = tags.stream()
@@ -525,7 +530,7 @@ public class TagsMapper {
                         }
                 }
 
-                return result.isEmpty() ? Set.of(Tag.UNKNOWN) : result;
+                return result.isEmpty() ? Set.of() : result.stream().map(Tag::getValue).collect(Collectors.toSet());
         }
 
         /** true if `keyword` appears as a full word in `phrase` */

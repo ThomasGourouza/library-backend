@@ -1,19 +1,24 @@
 package com.tgourouza.library_backend.mapper;
 
-import java.time.LocalDate;
-
-import com.tgourouza.library_backend.dto.openLibrary.Text;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.pemistahl.lingua.api.Language;
-import com.tgourouza.library_backend.dto.author.AuthorDate;
+import com.github.pemistahl.lingua.api.LanguageDetector;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
-
-import static com.tgourouza.library_backend.util.openLibraryUtils.*;
+import com.tgourouza.library_backend.dto.openLibrary.Text;
+import static com.tgourouza.library_backend.util.openLibraryUtils.authorImage;
+import static com.tgourouza.library_backend.util.openLibraryUtils.readBio;
+import static com.tgourouza.library_backend.util.openLibraryUtils.text;
 
 @Component
 public class AuthorOpenLibraryMapper {
+
+    private final LanguageDetector detector;
+
+    public AuthorOpenLibraryMapper(LanguageDetector detector) {
+        this.detector = detector;
+    }
 
     public AuthorOpenLibrary mapToAuthorOpenLibrary(JsonNode a, String authorOLKey) {
         String name = text(a, "name");
@@ -30,7 +35,7 @@ public class AuthorOpenLibraryMapper {
         }
 
         String description = readBio(a);
-        String descriptionLanguage = getLanguage(description);
+        Language descriptionLanguage = detector.detectLanguageOf(description);
 
         return new AuthorOpenLibrary(
                 authorOLKey,

@@ -26,20 +26,20 @@ public class NllbService {
         this.nllbLangMapper = nllbLangMapper;
     }
 
-    public Multilingual translateText(String text) {
-        Language detected = detector.detectLanguageOf(text);
-        if (detected == Language.UNKNOWN) {
+    public Multilingual translateText(String text, Language sourceLanguage) {
+        Language source = sourceLanguage != null ? sourceLanguage : detector.detectLanguageOf(text);
+        if (source == Language.UNKNOWN) {
             throw new IllegalArgumentException("Could not detect source language");
         }
         return new Multilingual(
-                translate(text, detected, Language.FRENCH),
-                translate(text, detected, Language.SPANISH),
-                translate(text, detected, Language.ITALIAN),
-                translate(text, detected, Language.PORTUGUESE),
-                translate(text, detected, Language.ENGLISH),
-                translate(text, detected, Language.GERMAN),
-                translate(text, detected, Language.RUSSIAN),
-                translate(text, detected, Language.JAPANESE));
+                translate(text, source, Language.FRENCH),
+                translate(text, source, Language.SPANISH),
+                translate(text, source, Language.ITALIAN),
+                translate(text, source, Language.PORTUGUESE),
+                translate(text, source, Language.ENGLISH),
+                translate(text, source, Language.GERMAN),
+                translate(text, source, Language.RUSSIAN),
+                translate(text, source, Language.JAPANESE));
     }
 
     private String translate(String text, Language source, Language target) {

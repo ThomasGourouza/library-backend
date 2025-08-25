@@ -1,9 +1,10 @@
 package com.tgourouza.library_backend.dto.book;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
+import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.dto.Multilingual;
+import com.tgourouza.library_backend.dto.openLibrary.Text;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -15,16 +16,17 @@ public class BookCreateRequest {
     @NotBlank(message = "Original title is required")
     @Size(max = 255)
     private String originalTitle;
+    private Language language; // title language
     @NotNull
     private UUID authorId;
-    private Multilingual title;
-    private LocalDate publicationDate; // publicationYear
-    // private String coverUrl;
-    // private int numberOfPages;
-    private Multilingual description;
-    private String language;
-    private String tags; // default value
-    private String wikipediaLink;
+
+    private String authorOLKey;
+    private int publicationYear;
+    private String coverUrl;
+    private int numberOfPages;
+    private Text description;
+    private Text tags;
+    private Multilingual wikipediaLink;
 
     private String personalNotes; // can be empty
     private String status; // can be empty & default value
