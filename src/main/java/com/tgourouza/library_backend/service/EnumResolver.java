@@ -12,6 +12,7 @@ import com.tgourouza.library_backend.exception.InvalidRequestException;
 
 @Component
 public class EnumResolver {
+
     public Status getStatus(String input) {
         return resolveEnum(Status.class, "Status", input);
     }

@@ -1,15 +1,16 @@
 package com.tgourouza.library_backend.service;
 
+import java.util.List;
+import java.util.UUID;
+
+import org.springframework.stereotype.Service;
+
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
 import com.tgourouza.library_backend.mapper.AuthorMapper;
 import com.tgourouza.library_backend.repository.AuthorRepository;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.UUID;
 
 @Service
 public class AuthorService {
@@ -39,16 +40,14 @@ public class AuthorService {
     public AuthorDTO create(AuthorCreateRequest request) {
         return updateEntityAndSave(
                 request,
-                new AuthorEntity(),
-                request.getCountry()
+                new AuthorEntity()
         );
     }
 
     public AuthorDTO update(UUID authorId, AuthorCreateRequest request) {
         return updateEntityAndSave(
                 request,
-                getAuthorEntity(authorId),
-                request.getCountry()
+                getAuthorEntity(authorId)
         );
     }
 
@@ -59,8 +58,8 @@ public class AuthorService {
         authorRepository.deleteById(authorId);
     }
 
-    private AuthorDTO updateEntityAndSave(AuthorCreateRequest request, AuthorEntity author, String country) {
-        authorMapper.updateEntity(author, request, country);
+    private AuthorDTO updateEntityAndSave(AuthorCreateRequest request, AuthorEntity author) {
+        authorMapper.updateEntity(author, request);
         return authorMapper.toDTO(authorRepository.save(author));
     }
 

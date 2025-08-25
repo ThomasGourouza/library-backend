@@ -3,6 +3,7 @@ package com.tgourouza.library_backend.dto.book;
 import java.util.UUID;
 
 import com.github.pemistahl.lingua.api.Language;
+import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.openLibrary.Text;
 
@@ -29,6 +30,6 @@ public class BookCreateRequest {
     private Multilingual wikipediaLink;
 
     private String personalNotes; // can be empty
-    private String status; // can be empty & default value
+    private Status status; // can be empty & default value
     private Boolean favorite; // can be empty & default value
 }

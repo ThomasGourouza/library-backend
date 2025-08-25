@@ -2,6 +2,7 @@ package com.tgourouza.library_backend.dto.book;
 
 import java.util.UUID;
 
+import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.MultilingualList;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
@@ -28,6 +29,6 @@ public class BookDTO {
 
     // Editable fields
     private String personalNotes;
-    private String status;
+    private Status status;
     private Boolean favorite;
 }

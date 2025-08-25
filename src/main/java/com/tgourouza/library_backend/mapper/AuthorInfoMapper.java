@@ -50,7 +50,7 @@ public class AuthorInfoMapper {
                                                 authorWikidata.wikipediaJa()));
         }
 
-        // TODO
+        // TODO: implement
         public AuthorCreateRequest mapToAuthorCreateRequest(AuthorInfo authorInfo) {
                 return new AuthorCreateRequest();
         }

@@ -1,12 +1,5 @@
 package com.tgourouza.library_backend.mapper;
 
-import static com.tgourouza.library_backend.util.openLibraryUtils.coverImage;
-import static com.tgourouza.library_backend.util.openLibraryUtils.mergeJsonArraysToSet;
-import static com.tgourouza.library_backend.util.openLibraryUtils.parseYear;
-import static com.tgourouza.library_backend.util.openLibraryUtils.readDescription;
-import static com.tgourouza.library_backend.util.openLibraryUtils.readWikipediaLink;
-import static com.tgourouza.library_backend.util.openLibraryUtils.text;
-
 import java.util.HashSet;
 
 import org.springframework.stereotype.Component;
@@ -17,6 +10,12 @@ import com.github.pemistahl.lingua.api.LanguageDetector;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
 import com.tgourouza.library_backend.dto.openLibrary.Text;
+import static com.tgourouza.library_backend.util.openLibraryUtils.coverImage;
+import static com.tgourouza.library_backend.util.openLibraryUtils.mergeJsonArraysToSet;
+import static com.tgourouza.library_backend.util.openLibraryUtils.parseYear;
+import static com.tgourouza.library_backend.util.openLibraryUtils.readDescription;
+import static com.tgourouza.library_backend.util.openLibraryUtils.readWikipediaLink;
+import static com.tgourouza.library_backend.util.openLibraryUtils.text;
 
 @Component
 public class BookInfoMapper {
@@ -98,7 +97,7 @@ public class BookInfoMapper {
                 wikipedia);
     }
 
-    // TODO
+    // TODO: implement
         public BookCreateRequest mapToBookCreateRequest(BookInfo bookInfo) {
                 return new BookCreateRequest();
         }

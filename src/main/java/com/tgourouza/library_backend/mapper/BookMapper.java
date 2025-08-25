@@ -1,22 +1,28 @@
 package com.tgourouza.library_backend.mapper;
 
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
+
 import org.springframework.stereotype.Component;
 
 import com.tgourouza.library_backend.dto.TimePlaceTranslated;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
+import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
-import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
+import com.tgourouza.library_backend.service.EnumResolver;
 
 @Component
 public class BookMapper {
 
     private final MultilingualMapper multilingualMapper;
+    private final EnumResolver enumResolver;
 
     public BookMapper(
-            MultilingualMapper multilingualMapper) {
+            MultilingualMapper multilingualMapper,
+            EnumResolver enumResolver) {
         this.multilingualMapper = multilingualMapper;
+        this.enumResolver = enumResolver;
     }
 
     public BookDTO toDTO(BookEntity book) {
@@ -38,32 +44,30 @@ public class BookMapper {
                 multilingualMapper.toMultilingualListTags(book),
                 multilingualMapper.toMultilingualWikipediaLink(book),
                 book.getPersonalNotes(),
-                book.getStatus(),
+                enumResolver.getStatus(book.getStatus()),
                 book.getFavorite());
     }
 
-    // public void updateEntity(
-    // BookEntity book,
-    // BookCreateRequest request,
-    // AuthorEntity author,
-    // String language,
-    // String tags,
-    // Status status
-    // ) {
-    // if (request == null || book == null) return;
-    // book.setOriginalTitle(request.getOriginalTitle());
-    // book.setAuthor(author);
-    // book.setPublicationDate(request.getPublicationDate());
-    // book.setLanguage(language);
-    // book.setTags(tags);
-    // book.setStatus(status);
-    // book.setWikipediaLink(request.getWikipediaLink());
-    // book.setFavorite(request.getFavorite());
-    // book.setPersonalNotes(request.getPersonalNotes());
-    // multilingualMapper.applyMultilingualTitle(request.getTitle(), book);
-    // multilingualMapper.applyMultilingualDescription(request.getDescription(),
-    // book);
-    // }
+    // TODO: implement
+    public void updateEntity(
+            BookEntity book,
+            BookCreateRequest request,
+            AuthorEntity author) {
+        if (request == null || book == null)
+            return;
+        book.setOriginalTitle(request.getOriginalTitle());
+        book.setAuthor(author);
+        book.setPublicationDate(request.getPublicationDate());
+        book.setLanguage(language);
+        book.setTags(tags);
+        book.setStatus(status);
+        book.setWikipediaLink(request.getWikipediaLink());
+        book.setFavorite(request.getFavorite());
+        book.setPersonalNotes(request.getPersonalNotes());
+        multilingualMapper.applyMultilingualTitle(request.getTitle(), book);
+        multilingualMapper.applyMultilingualDescription(request.getDescription(),
+                book);
+    }
 
     private AuthorDTO toDTOWithoutBooks(AuthorEntity author) {
         if (author == null)

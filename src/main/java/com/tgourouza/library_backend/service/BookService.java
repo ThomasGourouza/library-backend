@@ -1,17 +1,19 @@
 package com.tgourouza.library_backend.service;
 
-import com.tgourouza.library_backend.dto.book.BookCreateRequest;
-import com.tgourouza.library_backend.dto.book.BookDTO;
-import com.tgourouza.library_backend.entity.*;
-import com.tgourouza.library_backend.exception.DataNotFoundException;
-import com.tgourouza.library_backend.mapper.BookMapper;
-import com.tgourouza.library_backend.repository.*;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.UUID;
 
-import static com.tgourouza.library_backend.util.utils.applyDefaultValuesOnBookRequestIfNeeded;
+import org.springframework.stereotype.Service;
+
+import com.tgourouza.library_backend.constant.Status;
+import com.tgourouza.library_backend.dto.book.BookCreateRequest;
+import com.tgourouza.library_backend.dto.book.BookDTO;
+import com.tgourouza.library_backend.entity.AuthorEntity;
+import com.tgourouza.library_backend.entity.BookEntity;
+import com.tgourouza.library_backend.exception.DataNotFoundException;
+import com.tgourouza.library_backend.mapper.BookMapper;
+import com.tgourouza.library_backend.repository.AuthorRepository;
+import com.tgourouza.library_backend.repository.BookRepository;
 
 @Service
 public class BookService {
@@ -43,7 +45,6 @@ public class BookService {
     }
 
     public BookDTO createBook(BookCreateRequest request) {
-        applyDefaultValuesOnBookRequestIfNeeded(request);
         return updateEntityAndSave(request, new BookEntity());
     }
 
@@ -58,36 +59,37 @@ public class BookService {
         bookRepository.deleteById(bookId);
     }
 
-    public BookDTO updateStatus(UUID bookId, String status) {
-        BookEntity book = getBookEntity(bookId);
-        book.setStatus(enumResolver.getStatus(status));
-        return bookMapper.toDTO(bookRepository.save(book));
-    }
+    // public BookDTO updateStatus(UUID bookId, String status) {
+    //     BookEntity book = getBookEntity(bookId);
+    //     book.setStatus(enumResolver.getStatus(status));
+    //     return bookMapper.toDTO(bookRepository.save(book));
+    // }
 
-    public BookDTO updateFavorite(UUID bookId, Boolean favorite) {
-        BookEntity book = getBookEntity(bookId);
-        book.setFavorite(favorite);
-        return bookMapper.toDTO(bookRepository.save(book));
-    }
+    // public BookDTO updateFavorite(UUID bookId, Boolean favorite) {
+    //     BookEntity book = getBookEntity(bookId);
+    //     book.setFavorite(favorite);
+    //     return bookMapper.toDTO(bookRepository.save(book));
+    // }
 
-    public BookDTO updatePersonalNotes(UUID bookId, String notes) {
-        BookEntity book = getBookEntity(bookId);
-        book.setPersonalNotes(notes);
-        return bookMapper.toDTO(bookRepository.save(book));
-    }
+    // public BookDTO updatePersonalNotes(UUID bookId, String notes) {
+    //     BookEntity book = getBookEntity(bookId);
+    //     book.setPersonalNotes(notes);
+    //     return bookMapper.toDTO(bookRepository.save(book));
+    // }
 
-    private BookDTO updateEntityAndSave(BookCreateRequest request, BookEntity book) {
+    private BookDTO updateEntityAndSave(BookCreateRequest request, BookEntity bookEntity) {
+        if (request.getStatus() == null) {
+            request.setStatus(Status.UNREAD);
+        }
+        if (request.getFavorite() == null) {
+            request.setFavorite(false);
+        }
         bookMapper.updateEntity(
-                book,
+                bookEntity,
                 request,
-                getAuthorEntity(request.getAuthorId()),
-                // TODO: no need since not an enum
-                request.getLanguage(),
-                // TODO: check Tags
-                request.getTags(),
-                enumResolver.getStatus(request.getStatus())
+                getAuthorEntity(request.getAuthorId())
         );
-        return bookMapper.toDTO(bookRepository.save(book));
+        return bookMapper.toDTO(bookRepository.save(bookEntity));
     }
 
     private BookEntity getBookEntity(UUID bookId) {

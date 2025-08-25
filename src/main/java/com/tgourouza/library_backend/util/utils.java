@@ -5,9 +5,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.constant.Tag;
-import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.entity.BookEntity;
 
 public class utils {
@@ -19,18 +17,6 @@ public class utils {
             return null;
         }
         return book.getPublicationYear() - book.getAuthor().getBirthDate().getYear();
-    }
-
-    public static void applyDefaultValuesOnBookRequestIfNeeded(BookCreateRequest request) {
-        if (request.getTags() == null) {
-            request.setTags(null);
-        }
-        if (request.getStatus() == null) {
-            request.setStatus(Status.UNREAD.toString());
-        }
-        if (request.getFavorite() == null) {
-            request.setFavorite(false);
-        }
     }
 
     public static String cleanAndTitleCase(String input) {
