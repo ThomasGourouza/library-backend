@@ -87,7 +87,7 @@ public class utils {
                 }
             } else {
                 if (c == ',') {
-                    out.add(field.toString());
+                    out.add(field.toString().trim());
                     field.setLength(0);
                 } else if (c == '"') {
                     inQuotes = true; // start quoted field
@@ -101,7 +101,7 @@ public class utils {
             }
         }
 
-        out.add(field.toString()); // last field
+        out.add(field.toString().trim()); // last field
         return out;
     }
 }

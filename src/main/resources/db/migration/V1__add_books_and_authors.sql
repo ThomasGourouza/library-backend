@@ -86,6 +86,7 @@ CREATE TABLE IF NOT EXISTS author (
 );
 
 -- Helpful index for lookups by author ol_key
+CREATE INDEX IF NOT EXISTS idx_author_id ON author (id);
 CREATE INDEX IF NOT EXISTS idx_author_ol_key ON author (ol_key);
 
 -- ---------- BOOK ----------
