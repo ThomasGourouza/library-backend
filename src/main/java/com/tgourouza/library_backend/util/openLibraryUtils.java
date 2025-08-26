@@ -56,9 +56,9 @@ public class openLibraryUtils {
         return (i >= 0 && i + 1 < path.length()) ? path.substring(i + 1) : path;
     }
 
-    public static int parseYear(String s) {
+    public static Integer parseYear(String s) {
         if (s == null) {
-            return 0;
+            return null;
         }
         // grab leading 4-digit year if present
         for (int i = 0; i + 3 < s.length(); i++) {
@@ -70,7 +70,7 @@ public class openLibraryUtils {
                 }
             }
         }
-        return 0;
+        return null;
     }
 
     public static String readDescription(JsonNode work) {
@@ -162,7 +162,6 @@ public class openLibraryUtils {
     private static Map<String, String> createWikipediaLangMap() {
         Map<String, String> m = new HashMap<>();
 
-        // TODO: check in Language enum from pemistahl.lingua
         m.put("english", "en");
         m.put("chinese", "zh");
         m.put("mandarin", "zh");

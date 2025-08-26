@@ -39,7 +39,6 @@ public class MymemoryService {
     public Multilingual translateTitle(String title, Language sourceLanguage) {
         Language source = sourceLanguage != null ? sourceLanguage : detector.detectLanguageOf(title);
         if (source == Language.UNKNOWN) {
-            // TODO: handled ?
             throw new IllegalArgumentException("Could not detect source language");
         }
         return new Multilingual(

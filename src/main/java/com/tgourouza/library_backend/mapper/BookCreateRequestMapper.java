@@ -1,9 +1,9 @@
 package com.tgourouza.library_backend.mapper;
 
-import java.util.HashSet;
-import java.util.UUID;
+import static com.tgourouza.library_backend.util.openLibraryUtils.*;
 
-import com.tgourouza.library_backend.service.AuthorService;
+import java.util.HashSet;
+
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -12,12 +12,7 @@ import com.github.pemistahl.lingua.api.LanguageDetector;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.Text;
-import static com.tgourouza.library_backend.util.openLibraryUtils.coverImage;
-import static com.tgourouza.library_backend.util.openLibraryUtils.mergeJsonArraysToSet;
-import static com.tgourouza.library_backend.util.openLibraryUtils.parseYear;
-import static com.tgourouza.library_backend.util.openLibraryUtils.readDescription;
-import static com.tgourouza.library_backend.util.openLibraryUtils.readWikipediaLink;
-import static com.tgourouza.library_backend.util.openLibraryUtils.text;
+import com.tgourouza.library_backend.service.AuthorService;
 
 @Component
 public class BookCreateRequestMapper {
@@ -54,7 +49,10 @@ public class BookCreateRequestMapper {
         }
 
         // Number of pages
-        int numberOfPages = doc.path("number_of_pages_median").asInt(0);
+        var number_of_pages_median = doc.path("number_of_pages_median");
+        String number_of_pages_medianText = number_of_pages_median != null ? number_of_pages_median.asText() : null;
+        Integer numberOfPages = number_of_pages_medianText != null && !number_of_pages_medianText.isEmpty()
+                ? Integer.valueOf(number_of_pages_medianText) : null;
 
         // Author id
         String authorOLKey = null;
@@ -73,8 +71,11 @@ public class BookCreateRequestMapper {
         }
 
         // Publication year
-        int publicationYear = doc.path("first_publish_year").asInt(0);
-        if (publicationYear == 0) {
+        var first_publish_year = doc.path("first_publish_year");
+        String first_publish_yearText = first_publish_year != null ? first_publish_year.asText() : null;
+        Integer publicationYear = first_publish_yearText != null && !first_publish_yearText.isEmpty()
+                ? Integer.valueOf(first_publish_yearText) : null;
+        if (publicationYear == null) {
             String fpd = text(work, "first_publish_date");
             publicationYear = parseYear(fpd);
         }

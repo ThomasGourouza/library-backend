@@ -1,7 +1,8 @@
 package com.tgourouza.library_backend.util;
 
 import java.time.Period;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 import com.tgourouza.library_backend.entity.AuthorEntity;
@@ -12,11 +13,12 @@ public class utils {
     public static Integer calculateAuthorAgeAtPublication(BookEntity book) {
         if (book == null || book.getAuthor() == null
                 || book.getAuthor().getBirthDate() == null
-                || book.getPublicationYear() == 0) {
+                || book.getPublicationYear() == null) {
             return null;
         }
         return book.getPublicationYear() - book.getAuthor().getBirthDate().getYear();
     }
+
     public static Integer calculateAuthorAgeAtDeathOrCurrent(AuthorEntity author) {
         if (author == null || author.getBirthDate() == null) {
             return null;
@@ -54,16 +56,20 @@ public class utils {
     }
 
     private static String escape(String s) {
-        if (s == null) return ""; // null -> empty field
-        boolean needsQuote =
-                s.contains(",") || s.contains("\"") || s.contains("\n") || s.contains("\r")
-                        || s.startsWith(" ") || s.endsWith(" ");
+        if (s == null) {
+            return ""; // null -> empty field
+
+                }boolean needsQuote
+                = s.contains(",") || s.contains("\"") || s.contains("\n") || s.contains("\r")
+                || s.startsWith(" ") || s.endsWith(" ");
         String escaped = s.replace("\"", "\"\""); // double quotes inside
         return needsQuote ? "\"" + escaped + "\"" : escaped;
     }
 
     public static List<String> toList(String line) {
-        if (line == null) return List.of();
+        if (line == null) {
+            return List.of();
+        }
 
         List<String> out = new ArrayList<>();
         StringBuilder field = new StringBuilder();

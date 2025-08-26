@@ -13,7 +13,6 @@ import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
-import com.tgourouza.library_backend.service.EnumResolver;
 
 import java.util.ArrayList;
 
@@ -23,17 +22,14 @@ import static com.tgourouza.library_backend.util.utils.*;
 public class BookMapper {
 
     private final MultilingualMapper multilingualMapper;
-    private final EnumResolver enumResolver;
     private final MymemoryService mymemoryService;
     private final NllbService nllbService;
 
     public BookMapper(
             MultilingualMapper multilingualMapper,
-            EnumResolver enumResolver,
             MymemoryService mymemoryService,
             NllbService nllbService) {
         this.multilingualMapper = multilingualMapper;
-        this.enumResolver = enumResolver;
         this.mymemoryService = mymemoryService;
         this.nllbService = nllbService;
     }
@@ -57,7 +53,7 @@ public class BookMapper {
                 multilingualMapper.toMultilingualListTags(book),
                 multilingualMapper.toMultilingualWikipediaLink(book),
                 book.getPersonalNotes(),
-                enumResolver.getStatus(book.getStatus().toString()),
+                book.getStatus(),
                 book.getFavorite());
     }
 

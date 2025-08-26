@@ -14,6 +14,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class BookDTO {
+
     private UUID id;
     private String originalTitle;
     private Language language; // title language
@@ -21,10 +22,9 @@ public class BookDTO {
     private AuthorDTO author;
     private String authorOLKey;
     private Integer authorAgeAtPublication;
-    // TODO: int -> Integer
-    private int publicationYear;
+    private Integer publicationYear;
     private String coverUrl;
-    private int numberOfPages;
+    private Integer numberOfPages;
     private Multilingual description;
     private MultilingualList tags;
     private Multilingual wikipediaLink;

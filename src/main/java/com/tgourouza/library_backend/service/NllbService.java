@@ -28,9 +28,6 @@ public class NllbService {
 
     public Multilingual translateText(String text, Language sourceLanguage) {
         Language source = sourceLanguage != null ? sourceLanguage : detector.detectLanguageOf(text);
-        if (source == Language.UNKNOWN) {
-            throw new IllegalArgumentException("Could not detect source language");
-        }
         return new Multilingual(
                 translate(text, source, Language.FRENCH),
                 translate(text, source, Language.SPANISH),
@@ -43,6 +40,9 @@ public class NllbService {
     }
 
     private String translate(String text, Language source, Language target) {
+        if (text == null || text.isBlank() || source == Language.UNKNOWN) {
+            return text;
+        }
         String src = nllbLangMapper.toNllb(source)
                 .orElseThrow(() -> new IllegalArgumentException("Unsupported source language: " + source));
         String tgt = nllbLangMapper.toNllb(target)

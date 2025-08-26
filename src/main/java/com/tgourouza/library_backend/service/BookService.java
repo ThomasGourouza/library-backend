@@ -45,10 +45,6 @@ public class BookService {
         return updateEntityAndSave(request, new BookEntity());
     }
 
-    public BookDTO updateBook(UUID bookId, BookCreateRequest request) {
-        return updateEntityAndSave(request, getBookEntity(bookId));
-    }
-
     public void deleteBook(UUID bookId) {
         if (!bookRepository.existsById(bookId)) {
             throw new DataNotFoundException("Book", String.valueOf(bookId));
@@ -58,7 +54,7 @@ public class BookService {
 
     // public BookDTO updateStatus(UUID bookId, String status) {
     //     BookEntity book = getBookEntity(bookId);
-    //     book.setStatus(enumResolver.getStatus(status));
+    //     book.setStatus(getStatus(status));
     //     return bookMapper.toDTO(bookRepository.save(book));
     // }
     // public BookDTO updateFavorite(UUID bookId, Boolean favorite) {

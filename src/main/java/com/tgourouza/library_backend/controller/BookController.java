@@ -46,14 +46,6 @@ public class BookController {
         return ResponseEntity.created(location).body(dto);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<BookDTO> updateBook(
-            @PathVariable UUID id,
-            @Valid @RequestBody BookCreateRequest request
-    ) {
-        return ResponseEntity.ok(bookService.updateBook(id, request));
-    }
-
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable UUID id) {
         bookService.deleteBook(id);
@@ -85,5 +77,4 @@ public class BookController {
     //     BookDTO dto = bookService.updatePersonalNotes(id, request.getPersonalNotes());
     //     return ResponseEntity.ok(dto);
     // }
-
 }
