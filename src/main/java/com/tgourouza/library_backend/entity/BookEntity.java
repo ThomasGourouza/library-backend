@@ -3,9 +3,9 @@ package com.tgourouza.library_backend.entity;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-
 import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.constant.Status;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -25,6 +25,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class BookEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
@@ -39,6 +40,7 @@ public class BookEntity {
     @JsonBackReference
     private AuthorEntity author;
 
+    @Column(name = "author_ol_key")
     private String authorOLKey;
     private int publicationYear;
     // private Multilingual title;
