@@ -5,7 +5,7 @@ import java.util.UUID;
 
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.MultilingualList;
-import com.tgourouza.library_backend.dto.TimePlaceTranslated;
+import com.tgourouza.library_backend.dto.TimePlace;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 
 import lombok.AllArgsConstructor;
@@ -20,12 +20,12 @@ public class AuthorDTO {
     private String pictureUrl;
     private Multilingual shortDescription;
     private Multilingual description;
-    private TimePlaceTranslated birth;
-    private TimePlaceTranslated death;
+    private TimePlace birth;
+    private TimePlace death;
     private Integer ageAtDeathOrCurrent;
-    private MultilingualList citizenships;
+    private List<String> citizenships;
     private MultilingualList occupations;
-    private MultilingualList languages;
+    private List<String> languages;
     private Multilingual wikipediaLink;
     private List<BookDTO> books;
 }

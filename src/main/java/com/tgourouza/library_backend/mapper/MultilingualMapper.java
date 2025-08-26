@@ -42,36 +42,6 @@ public class MultilingualMapper {
                 author.getShortDescriptionJapanese());
     }
 
-    public Multilingual toMultilingualBirthCountry(AuthorEntity author) {
-        if (author == null) {
-            return null;
-        }
-        return new Multilingual(
-                author.getBirthCountryFrench(),
-                author.getBirthCountrySpanish(),
-                author.getBirthCountryItalian(),
-                author.getBirthCountryPortuguese(),
-                author.getBirthCountryEnglish(),
-                author.getBirthCountryGerman(),
-                author.getBirthCountryRussian(),
-                author.getBirthCountryJapanese());
-    }
-
-    public Multilingual toMultilingualDeathCountry(AuthorEntity author) {
-        if (author == null) {
-            return null;
-        }
-        return new Multilingual(
-                author.getDeathCountryFrench(),
-                author.getDeathCountrySpanish(),
-                author.getDeathCountryItalian(),
-                author.getDeathCountryPortuguese(),
-                author.getDeathCountryEnglish(),
-                author.getDeathCountryGerman(),
-                author.getDeathCountryRussian(),
-                author.getDeathCountryJapanese());
-    }
-
     public Multilingual toMultilingualWikipediaLink(AuthorEntity author) {
         if (author == null) {
             return null;
@@ -87,21 +57,6 @@ public class MultilingualMapper {
                 author.getWikipediaLinkJapanese());
     }
 
-    public MultilingualList toMultilingualListCitizenships(AuthorEntity author) {
-        if (author == null) {
-            return null;
-        }
-        return new MultilingualList(
-                toList(author.getCitizenshipsFrench()),
-                toList(author.getCitizenshipsSpanish()),
-                toList(author.getCitizenshipsItalian()),
-                toList(author.getCitizenshipsPortuguese()),
-                toList(author.getCitizenshipsEnglish()),
-                toList(author.getCitizenshipsGerman()),
-                toList(author.getCitizenshipsRussian()),
-                toList(author.getCitizenshipsJapanese()));
-    }
-
     public MultilingualList toMultilingualListOccupations(AuthorEntity author) {
         if (author == null) {
             return null;
@@ -115,21 +70,6 @@ public class MultilingualMapper {
                 toList(author.getOccupationsGerman()),
                 toList(author.getOccupationsRussian()),
                 toList(author.getOccupationsJapanese()));
-    }
-
-    public MultilingualList toMultilingualListLanguages(AuthorEntity author) {
-        if (author == null) {
-            return null;
-        }
-        return new MultilingualList(
-                toList(author.getLanguagesFrench()),
-                toList(author.getLanguagesSpanish()),
-                toList(author.getLanguagesItalian()),
-                toList(author.getLanguagesPortuguese()),
-                toList(author.getLanguagesEnglish()),
-                toList(author.getLanguagesGerman()),
-                toList(author.getLanguagesRussian()),
-                toList(author.getLanguagesJapanese()));
     }
 
     public Multilingual toMultilingualDescription(BookEntity book) {
@@ -204,48 +144,6 @@ public class MultilingualMapper {
         entity.setShortDescriptionJapanese(ml.getJapanese());
     }
 
-    public void applyMultilingualBirthCountry(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null) {
-            return;
-        }
-        entity.setBirthCountryFrench(ml.getFrench());
-        entity.setBirthCountrySpanish(ml.getSpanish());
-        entity.setBirthCountryItalian(ml.getItalian());
-        entity.setBirthCountryPortuguese(ml.getPortuguese());
-        entity.setBirthCountryEnglish(ml.getEnglish());
-        entity.setBirthCountryGerman(ml.getGerman());
-        entity.setBirthCountryRussian(ml.getRussian());
-        entity.setBirthCountryJapanese(ml.getJapanese());
-    }
-
-    public void applyMultilingualDeathCountry(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null) {
-            return;
-        }
-        entity.setDeathCountryFrench(ml.getFrench());
-        entity.setDeathCountrySpanish(ml.getSpanish());
-        entity.setDeathCountryItalian(ml.getItalian());
-        entity.setDeathCountryPortuguese(ml.getPortuguese());
-        entity.setDeathCountryEnglish(ml.getEnglish());
-        entity.setDeathCountryGerman(ml.getGerman());
-        entity.setDeathCountryRussian(ml.getRussian());
-        entity.setDeathCountryJapanese(ml.getJapanese());
-    }
-
-    public void applyMultilingualCitizenships(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null) {
-            return;
-        }
-        entity.setCitizenshipsFrench(ml.getFrench());
-        entity.setCitizenshipsSpanish(ml.getSpanish());
-        entity.setCitizenshipsItalian(ml.getItalian());
-        entity.setCitizenshipsPortuguese(ml.getPortuguese());
-        entity.setCitizenshipsEnglish(ml.getEnglish());
-        entity.setCitizenshipsGerman(ml.getGerman());
-        entity.setCitizenshipsRussian(ml.getRussian());
-        entity.setCitizenshipsJapanese(ml.getJapanese());
-    }
-
     public void applyMultilingualOccupations(Multilingual ml, AuthorEntity entity) {
         if (ml == null || entity == null) {
             return;
@@ -258,20 +156,6 @@ public class MultilingualMapper {
         entity.setOccupationsGerman(ml.getGerman());
         entity.setOccupationsRussian(ml.getRussian());
         entity.setOccupationsJapanese(ml.getJapanese());
-    }
-
-    public void applyMultilingualLanguages(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null) {
-            return;
-        }
-        entity.setLanguagesFrench(ml.getFrench());
-        entity.setLanguagesSpanish(ml.getSpanish());
-        entity.setLanguagesItalian(ml.getItalian());
-        entity.setLanguagesPortuguese(ml.getPortuguese());
-        entity.setLanguagesEnglish(ml.getEnglish());
-        entity.setLanguagesGerman(ml.getGerman());
-        entity.setLanguagesRussian(ml.getRussian());
-        entity.setLanguagesJapanese(ml.getJapanese());
     }
 
     public void applyMultilingualTitle(Multilingual ml, BookEntity entity) {

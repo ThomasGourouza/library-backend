@@ -24,6 +24,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class AuthorEntity {
+
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     @Column(updatable = false, nullable = false)
@@ -55,12 +56,12 @@ public class AuthorEntity {
     private String shortDescriptionRussian;
     private String shortDescriptionJapanese;
 
-    // private TimePlaceTranslated birth;
+    // private TimePlace birth;
     private LocalDate birthDate;
     private String birthCity;
     private String birthCountry;
 
-    // private TimePlaceTranslated death;
+    // private TimePlace death;
     private LocalDate deathDate;
     private String deathCity;
     private String deathCountry;

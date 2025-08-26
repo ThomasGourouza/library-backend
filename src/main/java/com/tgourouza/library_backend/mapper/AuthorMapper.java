@@ -1,22 +1,22 @@
 package com.tgourouza.library_backend.mapper;
 
+import static com.tgourouza.library_backend.util.utils.*;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.tgourouza.library_backend.dto.TimePlace;
 import org.springframework.stereotype.Component;
 
 import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.dto.Multilingual;
-import com.tgourouza.library_backend.dto.TimePlaceTranslated;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 import com.tgourouza.library_backend.service.NllbService;
-
-import static com.tgourouza.library_backend.util.utils.*;
 
 @Component
 public class AuthorMapper {
@@ -30,8 +30,9 @@ public class AuthorMapper {
     }
 
     public AuthorDTO toDTO(AuthorEntity author) {
-        if (author == null)
+        if (author == null) {
             return null;
+        }
         return new AuthorDTO(
                 author.getId(), // UUID id;
                 author.getOLKey(), // String oLKey;
@@ -39,26 +40,27 @@ public class AuthorMapper {
                 author.getPictureUrl(), // String pictureUrl;
                 multilingualMapper.toMultilingualShortDescription(author), // Multilingual shortDescription;
                 multilingualMapper.toMultilingualDescription(author), // Multilingual description;
-                new TimePlaceTranslated(
+                new TimePlace(
                         author.getBirthDate(),
                         author.getBirthCity(),
-                        multilingualMapper.toMultilingualBirthCountry(author)), // TimePlaceTranslated birth;
-                new TimePlaceTranslated(
+                        author.getBirthCountry()), // TimePlace birth;
+                new TimePlace(
                         author.getDeathDate(),
                         author.getDeathCity(),
-                        multilingualMapper.toMultilingualDeathCountry(author)), // TimePlaceTranslated death;
+                        author.getDeathCountry()), // TimePlace death;
                 calculateAuthorAgeAtDeathOrCurrent(author), // Integer ageAtDeathOrCurrent;
-                multilingualMapper.toMultilingualListCitizenships(author), // MultilingualList citizenships;
+                toList(author.getCitizenships()), // List<String> citizenships;
                 multilingualMapper.toMultilingualListOccupations(author), // MultilingualList occupations;
-                multilingualMapper.toMultilingualListLanguages(author), // MultilingualList languages;
+                toList(author.getLanguages()), // List<String> languages;
                 multilingualMapper.toMultilingualWikipediaLink(author), // Multilingual wikipediaLink;
                 toDTOsWithoutAuthor(author.getBooks()) // List<BookDTO> books;
         );
     }
 
     public void updateEntity(AuthorEntity author, AuthorCreateRequest request) {
-        if (request == null || author == null)
+        if (request == null || author == null) {
             return;
+        }
 
         author.setName(request.getName());
         author.setOLKey(request.getOLKey());
@@ -76,43 +78,33 @@ public class AuthorMapper {
         if (request.getBirth() != null) {
             author.setBirthDate(request.getBirth().getDate());
             author.setBirthCity(request.getBirth().getCity());
-            if (request.getBirth().getCountry() != null) {
-                Multilingual country = nllbService.translateText(request.getBirth().getCountry(), Language.ENGLISH);
-                multilingualMapper.applyMultilingualBirthCountry(country, author);
-            }
+            author.setBirthCountry(request.getBirth().getCountry());
         }
         if (request.getDeath() != null) {
             author.setDeathDate(request.getDeath().getDate());
             author.setDeathCity(request.getDeath().getCity());
-            if (request.getDeath().getCountry() != null) {
-                Multilingual country = nllbService.translateText(request.getDeath().getCountry(), Language.ENGLISH);
-                multilingualMapper.applyMultilingualDeathCountry(country, author);
-            }
+            author.setDeathCountry(request.getDeath().getCountry());
         }
-        if (request.getCitizenships() != null) {
-            Multilingual citizenships = nllbService.translateText(toCsv(request.getCitizenships()), Language.ENGLISH);
-            multilingualMapper.applyMultilingualCitizenships(citizenships, author);
-        }
+        author.setCitizenships(toCsv(request.getCitizenships()));
         if (request.getOccupations() != null) {
             Multilingual occupations = nllbService.translateText(toCsv(request.getOccupations()), Language.ENGLISH);
             multilingualMapper.applyMultilingualOccupations(occupations, author);
         }
-        if (request.getLanguages() != null) {
-            Multilingual languages = nllbService.translateText(toCsv(request.getLanguages()), Language.ENGLISH);
-            multilingualMapper.applyMultilingualLanguages(languages, author);
-        }
+        author.setLanguages(toCsv(request.getLanguages()));
         multilingualMapper.applyMultilingualWikipediaLink(request.getWikipediaLink(), author);
     }
 
     private List<BookDTO> toDTOsWithoutAuthor(List<BookEntity> books) {
-        if (books == null)
+        if (books == null) {
             return Collections.emptyList();
+        }
         return books.stream().map(this::toDTOWithoutAuthor).collect(Collectors.toList());
     }
 
     private BookDTO toDTOWithoutAuthor(BookEntity book) {
-        if (book == null)
+        if (book == null) {
             return null;
+        }
         return new BookDTO(
                 book.getId(),
                 book.getOriginalTitle(),
@@ -125,8 +117,8 @@ public class AuthorMapper {
                 book.getCoverUrl(),
                 book.getNumberOfPages(),
                 multilingualMapper.toMultilingualDescription(book),
-                multilingualMapper.toMultilingualListTags(book),
-                multilingualMapper.toMultilingualWikipediaLink(book),
+                toList(book.getTags()),
+                book.getWikipediaLink(),
                 book.getPersonalNotes(),
                 book.getStatus(),
                 book.getFavorite());

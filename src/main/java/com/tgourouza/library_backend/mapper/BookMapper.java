@@ -1,21 +1,21 @@
 package com.tgourouza.library_backend.mapper;
 
-import com.tgourouza.library_backend.constant.Status;
-import com.tgourouza.library_backend.dto.Multilingual;
-import com.tgourouza.library_backend.service.MymemoryService;
-import com.tgourouza.library_backend.service.NllbService;
+import static com.tgourouza.library_backend.util.utils.*;
+
+import java.util.stream.Collectors;
+
+import com.tgourouza.library_backend.dto.TimePlace;
 import org.springframework.stereotype.Component;
 
-import com.tgourouza.library_backend.dto.TimePlaceTranslated;
+import com.tgourouza.library_backend.constant.Status;
+import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
-
-import java.util.stream.Collectors;
-
-import static com.tgourouza.library_backend.util.utils.*;
+import com.tgourouza.library_backend.service.MymemoryService;
+import com.tgourouza.library_backend.service.NllbService;
 
 @Component
 public class BookMapper {
@@ -34,8 +34,9 @@ public class BookMapper {
     }
 
     public BookDTO toDTO(BookEntity book) {
-        if (book == null)
+        if (book == null) {
             return null;
+        }
         AuthorDTO authorDto = toDTOWithoutBooks(book.getAuthor());
         return new BookDTO(
                 book.getId(),
@@ -57,8 +58,9 @@ public class BookMapper {
     }
 
     public void updateEntity(BookEntity book, BookCreateRequest request, AuthorEntity author) {
-        if (request == null || book == null)
+        if (request == null || book == null) {
             return;
+        }
 
         book.setOriginalTitle(request.getOriginalTitle().value());
         book.setLanguage(request.getOriginalTitle().language());
@@ -85,8 +87,9 @@ public class BookMapper {
     }
 
     private AuthorDTO toDTOWithoutBooks(AuthorEntity author) {
-        if (author == null)
+        if (author == null) {
             return null;
+        }
         return new AuthorDTO(
                 author.getId(), // UUID id;
                 author.getOLKey(), // String oLKey;
@@ -94,18 +97,18 @@ public class BookMapper {
                 author.getPictureUrl(), // String pictureUrl;
                 multilingualMapper.toMultilingualShortDescription(author), // Multilingual shortDescription;
                 multilingualMapper.toMultilingualDescription(author), // Multilingual description;
-                new TimePlaceTranslated(
+                new TimePlace(
                         author.getBirthDate(),
                         author.getBirthCity(),
-                        multilingualMapper.toMultilingualBirthCountry(author)), // TimePlaceTranslated birth;
-                new TimePlaceTranslated(
+                        author.getBirthCountry()), // TimePlace birth;
+                new TimePlace(
                         author.getDeathDate(),
                         author.getDeathCity(),
-                        multilingualMapper.toMultilingualDeathCountry(author)), // TimePlaceTranslated death;
+                        author.getDeathCountry()), // TimePlace death;
                 calculateAuthorAgeAtDeathOrCurrent(author), // Integer ageAtDeathOrCurrent;
-                multilingualMapper.toMultilingualListCitizenships(author), // MultilingualList citizenships;
+                toList(author.getCitizenships()), // List<String> citizenships;
                 multilingualMapper.toMultilingualListOccupations(author), // MultilingualList occupations;
-                multilingualMapper.toMultilingualListLanguages(author), // MultilingualList languages;
+                toList(author.getLanguages()), // List<String> languages;
                 multilingualMapper.toMultilingualWikipediaLink(author), // Multilingual wikipediaLink;
                 null // List<BookDTO> books;
         );
