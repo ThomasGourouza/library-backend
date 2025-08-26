@@ -1,7 +1,9 @@
 package com.tgourouza.library_backend.mapper;
 
 import java.util.HashSet;
+import java.util.UUID;
 
+import com.tgourouza.library_backend.service.AuthorService;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -22,10 +24,12 @@ public class BookCreateRequestMapper {
 
     private final TagsMapper tagsMapper;
     private final LanguageDetector detector;
+    private final AuthorService authorService;
 
-    public BookCreateRequestMapper(TagsMapper tagsMapper, LanguageDetector detector) {
+    public BookCreateRequestMapper(TagsMapper tagsMapper, LanguageDetector detector, AuthorService authorService) {
         this.tagsMapper = tagsMapper;
         this.detector = detector;
+        this.authorService = authorService;
     }
 
     public BookCreateRequest mapToBookCreateRequest(JsonNode doc, JsonNode work) {
@@ -96,6 +100,7 @@ public class BookCreateRequestMapper {
                         description,
                         detector.detectLanguageOf(description)),
                 tagsMapper.fromSet(tags),
-                new Multilingual(wikipedia));
+                new Multilingual(wikipedia),
+                authorService.getAuthorEntityId(authorOLKey));
     }
 }

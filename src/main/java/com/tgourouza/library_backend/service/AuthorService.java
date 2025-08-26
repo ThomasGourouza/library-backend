@@ -67,4 +67,8 @@ public class AuthorService {
         return authorRepository.findById(authorId)
                 .orElseThrow(() -> new DataNotFoundException("Author", String.valueOf(authorId)));
     }
+
+    public UUID getAuthorEntityId(String authorOLKey) {
+        return authorRepository.getEntityId(authorOLKey).orElse(null);
+    }
 }

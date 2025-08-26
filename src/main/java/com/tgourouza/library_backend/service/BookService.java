@@ -5,7 +5,6 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
-import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
@@ -73,12 +72,6 @@ public class BookService {
     //     return bookMapper.toDTO(bookRepository.save(book));
     // }
     private BookDTO updateEntityAndSave(BookCreateRequest request, BookEntity bookEntity) {
-        if (request.getStatus() == null) {
-            request.setStatus(Status.UNREAD);
-        }
-        if (request.getFavorite() == null) {
-            request.setFavorite(false);
-        }
         bookMapper.updateEntity(
                 bookEntity,
                 request,

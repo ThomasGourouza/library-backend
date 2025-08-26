@@ -1,6 +1,7 @@
 package com.tgourouza.library_backend.mapper;
 
 import com.github.pemistahl.lingua.api.Language;
+import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.service.MymemoryService;
 import com.tgourouza.library_backend.service.NllbService;
@@ -86,9 +87,9 @@ public class BookMapper {
             multilingualMapper.applyMultilingualTags(tags, book);
         }
         multilingualMapper.applyMultilingualWikipediaLink(request.getWikipediaLink(), book);
-        book.setPersonalNotes(request.getPersonalNotes());
-        book.setStatus(enumResolver.getStatus(request.getStatus().toString()));
-        book.setFavorite(request.getFavorite());
+        book.setPersonalNotes("");
+        book.setStatus(Status.UNREAD);
+        book.setFavorite(false);
     }
 
     private AuthorDTO toDTOWithoutBooks(AuthorEntity author) {
