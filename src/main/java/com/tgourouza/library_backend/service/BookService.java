@@ -3,6 +3,7 @@ package com.tgourouza.library_backend.service;
 import java.util.List;
 import java.util.UUID;
 
+import com.tgourouza.library_backend.constant.Status;
 import org.springframework.stereotype.Service;
 
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
@@ -52,21 +53,24 @@ public class BookService {
         bookRepository.deleteById(bookId);
     }
 
-    // public BookDTO updateStatus(UUID bookId, String status) {
-    //     BookEntity book = getBookEntity(bookId);
-    //     book.setStatus(getStatus(status));
-    //     return bookMapper.toDTO(bookRepository.save(book));
-    // }
-    // public BookDTO updateFavorite(UUID bookId, Boolean favorite) {
-    //     BookEntity book = getBookEntity(bookId);
-    //     book.setFavorite(favorite);
-    //     return bookMapper.toDTO(bookRepository.save(book));
-    // }
-    // public BookDTO updatePersonalNotes(UUID bookId, String notes) {
-    //     BookEntity book = getBookEntity(bookId);
-    //     book.setPersonalNotes(notes);
-    //     return bookMapper.toDTO(bookRepository.save(book));
-    // }
+     public BookDTO updateStatus(UUID bookId, Status status) {
+         BookEntity book = getBookEntity(bookId);
+         book.setStatus(status);
+         return bookMapper.toDTO(bookRepository.save(book));
+     }
+
+     public BookDTO updateFavorite(UUID bookId, Boolean favorite) {
+         BookEntity book = getBookEntity(bookId);
+         book.setFavorite(favorite);
+         return bookMapper.toDTO(bookRepository.save(book));
+     }
+
+     public BookDTO updatePersonalNotes(UUID bookId, String notes) {
+         BookEntity book = getBookEntity(bookId);
+         book.setPersonalNotes(notes);
+         return bookMapper.toDTO(bookRepository.save(book));
+     }
+
     private BookDTO updateEntityAndSave(BookCreateRequest request, BookEntity bookEntity) {
         bookMapper.updateEntity(
                 bookEntity,

@@ -44,13 +44,6 @@ public class AuthorService {
         );
     }
 
-    public AuthorDTO update(UUID authorId, AuthorCreateRequest request) {
-        return updateEntityAndSave(
-                request,
-                getAuthorEntity(authorId)
-        );
-    }
-
     public void delete(UUID authorId) {
         if (!authorRepository.existsById(authorId)) {
             throw new DataNotFoundException("Author", String.valueOf(authorId));
