@@ -4,6 +4,8 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 
+import com.github.pemistahl.lingua.api.Language;
+import com.tgourouza.library_backend.constant.Status;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -29,7 +31,7 @@ public class BookEntity {
     private UUID id;
     @NotNull
     private String originalTitle;
-    private String language;
+    private Language language;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
@@ -37,7 +39,6 @@ public class BookEntity {
     @JsonBackReference
     private AuthorEntity author;
 
-    private Integer authorAgeAtPublication;
     private String authorOLKey;
     private int publicationYear;
     // private Multilingual title;
@@ -84,6 +85,6 @@ public class BookEntity {
 
     // Editable fields
     private String personalNotes;
-    private String status;
+    private Status status;
     private Boolean favorite;
 }

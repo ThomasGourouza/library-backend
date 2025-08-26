@@ -16,6 +16,8 @@ import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 import com.tgourouza.library_backend.service.EnumResolver;
 import com.tgourouza.library_backend.service.NllbService;
+
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtDeathOrCurrent;
 import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
 
 @Component
@@ -49,6 +51,7 @@ public class AuthorMapper {
                         author.getDeathDate(),
                         author.getDeathCity(),
                         multilingualMapper.toMultilingualDeathCountry(author)), // TimePlaceTranslated death;
+                calculateAuthorAgeAtDeathOrCurrent(author), // Integer ageAtDeathOrCurrent;
                 multilingualMapper.toMultilingualListCitizenships(author), // MultilingualList citizenships;
                 multilingualMapper.toMultilingualListOccupations(author), // MultilingualList occupations;
                 multilingualMapper.toMultilingualListLanguages(author), // MultilingualList languages;
@@ -129,7 +132,7 @@ public class AuthorMapper {
                 multilingualMapper.toMultilingualListTags(book),
                 multilingualMapper.toMultilingualWikipediaLink(book),
                 book.getPersonalNotes(),
-                enumResolver.getStatus(book.getStatus()),
+                enumResolver.getStatus(book.getStatus().toString()),
                 book.getFavorite());
     }
 }

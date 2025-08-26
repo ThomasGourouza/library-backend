@@ -36,20 +36,21 @@ public class MymemoryService {
         this.detector = detector;
     }
 
-    public Multilingual translateTitle(String title) throws JsonMappingException, JsonProcessingException {
-        Language detected = detector.detectLanguageOf(title);
-        if (detected == Language.UNKNOWN) {
+    public Multilingual translateTitle(String title, Language sourceLanguage) {
+        Language source = sourceLanguage != null ? sourceLanguage : detector.detectLanguageOf(title);
+        if (source == Language.UNKNOWN) {
+            // TODO: handled ?
             throw new IllegalArgumentException("Could not detect source language");
         }
         return new Multilingual(
-                cleanAndTitleCase(translate(title, detected, Language.FRENCH)),
-                cleanAndTitleCase(translate(title, detected, Language.SPANISH)),
-                cleanAndTitleCase(translate(title, detected, Language.ITALIAN)),
-                cleanAndTitleCase(translate(title, detected, Language.PORTUGUESE)),
-                cleanAndTitleCase(translate(title, detected, Language.ENGLISH)),
-                cleanAndTitleCase(translate(title, detected, Language.GERMAN)),
-                cleanAndTitleCase(translate(title, detected, Language.RUSSIAN)),
-                cleanAndTitleCase(translate(title, detected, Language.JAPANESE)));
+                cleanAndTitleCase(translate(title, source, Language.FRENCH)),
+                cleanAndTitleCase(translate(title, source, Language.SPANISH)),
+                cleanAndTitleCase(translate(title, source, Language.ITALIAN)),
+                cleanAndTitleCase(translate(title, source, Language.PORTUGUESE)),
+                cleanAndTitleCase(translate(title, source, Language.ENGLISH)),
+                cleanAndTitleCase(translate(title, source, Language.GERMAN)),
+                cleanAndTitleCase(translate(title, source, Language.RUSSIAN)),
+                cleanAndTitleCase(translate(title, source, Language.JAPANESE)));
     }
 
     private String translate(String title, Language source, Language target) {

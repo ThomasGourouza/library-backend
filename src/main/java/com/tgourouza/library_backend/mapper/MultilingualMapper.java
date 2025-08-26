@@ -193,6 +193,19 @@ public class MultilingualMapper {
         entity.setWikipediaLinkJapanese(ml.getJapanese());
     }
 
+    public void applyMultilingualWikipediaLink(Multilingual ml, BookEntity entity) {
+        if (ml == null || entity == null)
+            return;
+        entity.setWikipediaLinkFrench(ml.getFrench());
+        entity.setWikipediaLinkSpanish(ml.getSpanish());
+        entity.setWikipediaLinkItalian(ml.getItalian());
+        entity.setWikipediaLinkPortuguese(ml.getPortuguese());
+        entity.setWikipediaLinkEnglish(ml.getEnglish());
+        entity.setWikipediaLinkGerman(ml.getGerman());
+        entity.setWikipediaLinkRussian(ml.getRussian());
+        entity.setWikipediaLinkJapanese(ml.getJapanese());
+    }
+
     public void applyMultilingualDescription(Multilingual ml, AuthorEntity entity) {
         if (ml == null || entity == null)
             return;
@@ -284,7 +297,6 @@ public class MultilingualMapper {
         entity.setLanguagesJapanese(ml.getJapanese());
     }
 
-    //TODO: used?
     public void applyMultilingualTitle(Multilingual ml, BookEntity entity) {
         if (ml == null || entity == null)
             return;
@@ -298,7 +310,6 @@ public class MultilingualMapper {
         entity.setTitleJapanese(ml.getJapanese());
     }
 
-    //TODO: used?
     public void applyMultilingualDescription(Multilingual ml, BookEntity entity) {
         if (ml == null || entity == null)
             return;
@@ -310,5 +321,18 @@ public class MultilingualMapper {
         entity.setDescriptionGerman(ml.getGerman());
         entity.setDescriptionRussian(ml.getRussian());
         entity.setDescriptionJapanese(ml.getJapanese());
+    }
+
+    public void applyMultilingualTags(Multilingual ml, BookEntity entity) {
+        if (ml == null || entity == null)
+            return;
+        entity.setTagsFrench(ml.getFrench());
+        entity.setTagsSpanish(ml.getSpanish());
+        entity.setTagsItalian(ml.getItalian());
+        entity.setTagsPortuguese(ml.getPortuguese());
+        entity.setTagsEnglish(ml.getEnglish());
+        entity.setTagsGerman(ml.getGerman());
+        entity.setTagsRussian(ml.getRussian());
+        entity.setTagsJapanese(ml.getJapanese());
     }
 }

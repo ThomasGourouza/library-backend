@@ -10,19 +10,17 @@ import lombok.Data;
 
 @Data
 public class AuthorCreateRequest {
+    // Open Library fields
+    private String oLKey;
     @NotBlank(message = "Name is required")
     @Size(max = 255)
     private String name;
-    private String oLKey;
-
     private String pictureUrl;
-
     private Text description;
 
+    // Wikidata fields
     private Text shortDescription;
-
     private TimePlace birth;
-
     private TimePlace death;
 
     private String citizenships;

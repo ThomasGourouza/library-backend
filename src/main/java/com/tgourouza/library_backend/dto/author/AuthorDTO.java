@@ -22,6 +22,7 @@ public class AuthorDTO {
     private Multilingual description;
     private TimePlaceTranslated birth;
     private TimePlaceTranslated death;
+    private Integer ageAtDeathOrCurrent;
     private MultilingualList citizenships;
     private MultilingualList occupations;
     private MultilingualList languages;

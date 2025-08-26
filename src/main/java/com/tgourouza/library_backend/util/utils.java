@@ -1,11 +1,13 @@
 package com.tgourouza.library_backend.util;
 
+import java.time.Period;
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 import com.tgourouza.library_backend.constant.Tag;
+import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 
 public class utils {
@@ -17,6 +19,13 @@ public class utils {
             return null;
         }
         return book.getPublicationYear() - book.getAuthor().getBirthDate().getYear();
+    }
+    public static Integer calculateAuthorAgeAtDeathOrCurrent(AuthorEntity author) {
+        if (author == null || author.getBirthDate() == null) {
+            return null;
+        }
+        var maxDate = (author.getDeathDate() != null) ? author.getDeathDate() : java.time.LocalDate.now();
+        return Period.between(author.getBirthDate(), maxDate).getYears();
     }
 
     public static String cleanAndTitleCase(String input) {

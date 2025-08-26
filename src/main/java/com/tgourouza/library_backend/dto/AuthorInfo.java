@@ -10,7 +10,6 @@ import lombok.NoArgsConstructor;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
 public class AuthorInfo {
     // Open Library fields
     private String oLKey;

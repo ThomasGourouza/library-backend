@@ -32,7 +32,7 @@ public class MymemoryController {
             if (title == null || title.trim().isEmpty()) {
                 return ResponseEntity.ok(new Multilingual(null, null, null, null, null, null, null, null));
             }
-            Multilingual translations = mymemoryService.translateTitle(title.trim());
+            Multilingual translations = mymemoryService.translateTitle(title.trim(), null);
             return ResponseEntity.ok(translations);
 
         } catch (HttpClientErrorException e) {

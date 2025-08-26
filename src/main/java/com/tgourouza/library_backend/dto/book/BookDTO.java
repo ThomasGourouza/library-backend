@@ -2,6 +2,7 @@ package com.tgourouza.library_backend.dto.book;
 
 import java.util.UUID;
 
+import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.MultilingualList;
@@ -15,11 +16,12 @@ import lombok.Data;
 public class BookDTO {
     private UUID id;
     private String originalTitle;
-    private String language; // title language
+    private Language language; // title language
     private Multilingual title;
     private AuthorDTO author;
     private String authorOLKey;
     private Integer authorAgeAtPublication;
+    // TODO: int -> Integer
     private int publicationYear;
     private String coverUrl;
     private int numberOfPages;
