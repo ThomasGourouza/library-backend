@@ -69,6 +69,6 @@ public class AuthorService {
     }
 
     public UUID getAuthorEntityId(String authorOLKey) {
-        return authorRepository.getEntityId(authorOLKey).orElse(null);
+        return authorRepository.findByoLKey(authorOLKey).map(AuthorEntity::getId).orElse(null);
     }
 }
