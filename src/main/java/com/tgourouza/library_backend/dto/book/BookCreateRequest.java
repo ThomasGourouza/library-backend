@@ -6,16 +6,12 @@ import java.util.UUID;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.openLibrary.Text;
 
-import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
 @AllArgsConstructor
 public class BookCreateRequest {
-    @NotBlank(message = "Original title is required")
-    @Size(max = 255)
     private Text originalTitle;
     private String authorOLKey;
     private int publicationYear;
