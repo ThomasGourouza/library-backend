@@ -1,10 +1,7 @@
 package com.tgourouza.library_backend.util;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Locale;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -96,10 +93,7 @@ public class openLibraryUtils {
                 }
             }
         }
-        // built link
-        String code = resolveWikipediaLangCode(language); // e.g., "fr", "en", ...
-        String encodedTitle = encodeWikipediaTitle(originalTitle); // spaces→_, UTF-8 encoding
-        return "https://" + code + ".wikipedia.org/wiki/" + encodedTitle;
+        return null;
     }
 
     public static String coverImage(int id, char size) {
@@ -116,41 +110,6 @@ public class openLibraryUtils {
     public static String authorImage(int id, char size) {
         // a/id/{id}-{S|M|L}.jpg
         return "https://covers.openlibrary.org/a/id/" + id + "-" + size + ".jpg";
-    }
-
-    /*
-     * ============================== Wikipedia utils ==============================
-     */
-    private static String resolveWikipediaLangCode(Language language) {
-        if (language == null) {
-            return "en";
-        }
-        String key = language.toString().trim().toLowerCase(Locale.ROOT);
-
-        // direct hit on name/synonym
-        String code = LANGUAGE_TO_WIKI.get(key);
-        if (code != null) {
-            return code;
-        }
-
-        // if caller already passed a 2-letter code we support, accept it
-        if (key.length() == 2 && LANGUAGE_TO_WIKI.containsValue(key)) {
-            return key;
-        }
-
-        return "en"; // sensible default
-    }
-
-    private static String encodeWikipediaTitle(String title) {
-        // Replace whitespace with underscores, then URL-encode non-ASCII/special chars
-        String underscored = title.trim().replaceAll("\\s+", "_");
-        try {
-            String enc = URLEncoder.encode(underscored, StandardCharsets.UTF_8);
-            // URLEncoder encodes spaces as '+', keep underscores
-            return enc.replace("+", "_");
-        } catch (Exception e) {
-            return underscored;
-        }
     }
 
     /**

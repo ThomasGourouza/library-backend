@@ -1,11 +1,11 @@
 package com.tgourouza.library_backend.dto.book;
 
+import java.util.List;
 import java.util.UUID;
 
 import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.Multilingual;
-import com.tgourouza.library_backend.dto.MultilingualList;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 
 import lombok.AllArgsConstructor;
@@ -26,8 +26,8 @@ public class BookDTO {
     private String coverUrl;
     private Integer numberOfPages;
     private Multilingual description;
-    private MultilingualList tags;
-    private Multilingual wikipediaLink;
+    private List<String> tags;
+    private String wikipediaLink;
 
     // Editable fields
     private String personalNotes;

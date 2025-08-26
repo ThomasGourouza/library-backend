@@ -162,51 +162,7 @@ public class MultilingualMapper {
                 book.getTitleJapanese());
     }
 
-    public Multilingual toMultilingualWikipediaLink(BookEntity book) {
-        if (book == null) {
-            return null;
-        }
-        return new Multilingual(
-                book.getWikipediaLinkFrench(),
-                book.getWikipediaLinkSpanish(),
-                book.getWikipediaLinkItalian(),
-                book.getWikipediaLinkPortuguese(),
-                book.getWikipediaLinkEnglish(),
-                book.getWikipediaLinkGerman(),
-                book.getWikipediaLinkRussian(),
-                book.getWikipediaLinkJapanese());
-    }
-
-    public MultilingualList toMultilingualListTags(BookEntity book) {
-        if (book == null) {
-            return null;
-        }
-        return new MultilingualList(
-                toList(book.getTagsFrench()),
-                toList(book.getTagsSpanish()),
-                toList(book.getTagsItalian()),
-                toList(book.getTagsPortuguese()),
-                toList(book.getTagsEnglish()),
-                toList(book.getTagsGerman()),
-                toList(book.getTagsRussian()),
-                toList(book.getTagsJapanese()));
-    }
-
     public void applyMultilingualWikipediaLink(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null) {
-            return;
-        }
-        entity.setWikipediaLinkFrench(ml.getFrench());
-        entity.setWikipediaLinkSpanish(ml.getSpanish());
-        entity.setWikipediaLinkItalian(ml.getItalian());
-        entity.setWikipediaLinkPortuguese(ml.getPortuguese());
-        entity.setWikipediaLinkEnglish(ml.getEnglish());
-        entity.setWikipediaLinkGerman(ml.getGerman());
-        entity.setWikipediaLinkRussian(ml.getRussian());
-        entity.setWikipediaLinkJapanese(ml.getJapanese());
-    }
-
-    public void applyMultilingualWikipediaLink(Multilingual ml, BookEntity entity) {
         if (ml == null || entity == null) {
             return;
         }
@@ -344,19 +300,5 @@ public class MultilingualMapper {
         entity.setDescriptionGerman(ml.getGerman());
         entity.setDescriptionRussian(ml.getRussian());
         entity.setDescriptionJapanese(ml.getJapanese());
-    }
-
-    public void applyMultilingualTags(Multilingual ml, BookEntity entity) {
-        if (ml == null || entity == null) {
-            return;
-        }
-        entity.setTagsFrench(ml.getFrench());
-        entity.setTagsSpanish(ml.getSpanish());
-        entity.setTagsItalian(ml.getItalian());
-        entity.setTagsPortuguese(ml.getPortuguese());
-        entity.setTagsEnglish(ml.getEnglish());
-        entity.setTagsGerman(ml.getGerman());
-        entity.setTagsRussian(ml.getRussian());
-        entity.setTagsJapanese(ml.getJapanese());
     }
 }

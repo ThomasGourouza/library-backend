@@ -65,25 +65,9 @@ public class BookEntity {
     private String descriptionRussian;
     private String descriptionJapanese;
 
-    // private Multilingual tags;
-    private String tagsFrench;
-    private String tagsSpanish;
-    private String tagsItalian;
-    private String tagsPortuguese;
-    private String tagsEnglish;
-    private String tagsGerman;
-    private String tagsRussian;
-    private String tagsJapanese;
+    private String tags;
 
-    // private Multilingual wikipediaLink;
-    private String wikipediaLinkFrench;
-    private String wikipediaLinkSpanish;
-    private String wikipediaLinkItalian;
-    private String wikipediaLinkPortuguese;
-    private String wikipediaLinkEnglish;
-    private String wikipediaLinkGerman;
-    private String wikipediaLinkRussian;
-    private String wikipediaLinkJapanese;
+    private String wikipediaLink;
 
     // Editable fields
     private String personalNotes;

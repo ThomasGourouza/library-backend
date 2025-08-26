@@ -495,7 +495,7 @@ public class TagsMapper {
                                 "kind", "kinder", "kindheit", "jugend", "jugendlich", "junge")));
         }
 
-        public Set<String> fromSet(Set<String> tags) {
+        public Set<Tag> fromSet(Set<String> tags) {
                 if (tags == null || tags.isEmpty())
                         return Set.of();
 
@@ -530,7 +530,7 @@ public class TagsMapper {
                         }
                 }
 
-                return result.isEmpty() ? Set.of() : result.stream().map(Tag::getValue).collect(Collectors.toSet());
+                return result;
         }
 
         /** true if `keyword` appears as a full word in `phrase` */

@@ -58,38 +58,14 @@ public class AuthorEntity {
     // private TimePlaceTranslated birth;
     private LocalDate birthDate;
     private String birthCity;
-        // private Multilingual birthCountry;
-    private String birthCountryFrench;
-    private String birthCountrySpanish;
-    private String birthCountryItalian;
-    private String birthCountryPortuguese;
-    private String birthCountryEnglish;
-    private String birthCountryGerman;
-    private String birthCountryRussian;
-    private String birthCountryJapanese;
+    private String birthCountry;
 
     // private TimePlaceTranslated death;
     private LocalDate deathDate;
     private String deathCity;
-        // private Multilingual deathCountry;
-    private String deathCountryFrench;
-    private String deathCountrySpanish;
-    private String deathCountryItalian;
-    private String deathCountryPortuguese;
-    private String deathCountryEnglish;
-    private String deathCountryGerman;
-    private String deathCountryRussian;
-    private String deathCountryJapanese;
+    private String deathCountry;
 
-    // private Multilingual citizenships;
-    private String citizenshipsFrench;
-    private String citizenshipsSpanish;
-    private String citizenshipsItalian;
-    private String citizenshipsPortuguese;
-    private String citizenshipsEnglish;
-    private String citizenshipsGerman;
-    private String citizenshipsRussian;
-    private String citizenshipsJapanese;
+    private String citizenships;
 
     // private Multilingual occupations;
     private String occupationsFrench;
@@ -101,15 +77,7 @@ public class AuthorEntity {
     private String occupationsRussian;
     private String occupationsJapanese;
 
-    // private Multilingual languages;
-    private String languagesFrench;
-    private String languagesSpanish;
-    private String languagesItalian;
-    private String languagesPortuguese;
-    private String languagesEnglish;
-    private String languagesGerman;
-    private String languagesRussian;
-    private String languagesJapanese;
+    private String languages;
 
     // private Multilingual wikipediaLink;
     private String wikipediaLinkFrench;

@@ -101,7 +101,7 @@ public class BookCreateRequestMapper {
                         description,
                         detector.detectLanguageOf(description)),
                 tagsMapper.fromSet(tags),
-                new Multilingual(wikipedia),
+                wikipedia,
                 authorService.getAuthorEntityId(authorOLKey));
     }
 }

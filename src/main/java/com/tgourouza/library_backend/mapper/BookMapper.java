@@ -1,6 +1,5 @@
 package com.tgourouza.library_backend.mapper;
 
-import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.service.MymemoryService;
@@ -14,7 +13,7 @@ import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 
-import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import static com.tgourouza.library_backend.util.utils.*;
 
@@ -50,8 +49,8 @@ public class BookMapper {
                 book.getCoverUrl(),
                 book.getNumberOfPages(),
                 multilingualMapper.toMultilingualDescription(book),
-                multilingualMapper.toMultilingualListTags(book),
-                multilingualMapper.toMultilingualWikipediaLink(book),
+                toList(book.getTags()),
+                book.getWikipediaLink(),
                 book.getPersonalNotes(),
                 book.getStatus(),
                 book.getFavorite());
@@ -78,11 +77,8 @@ public class BookMapper {
         }
         book.setCoverUrl(request.getCoverUrl());
         book.setNumberOfPages(request.getNumberOfPages());
-        if (request.getTags() != null) {
-            Multilingual tags = nllbService.translateText(toCsv(new ArrayList<>(request.getTags())), Language.ENGLISH);
-            multilingualMapper.applyMultilingualTags(tags, book);
-        }
-        multilingualMapper.applyMultilingualWikipediaLink(request.getWikipediaLink(), book);
+        book.setTags(toCsv(request.getTags().stream().map(Enum::name).collect(Collectors.toList())));
+        book.setWikipediaLink(request.getWikipediaLink());
         book.setPersonalNotes("");
         book.setStatus(Status.UNREAD);
         book.setFavorite(false);
