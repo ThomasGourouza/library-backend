@@ -7,8 +7,8 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.pemistahl.lingua.api.Language;
 import com.github.pemistahl.lingua.api.LanguageDetector;
+import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
-import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
 import com.tgourouza.library_backend.dto.openLibrary.Text;
 import static com.tgourouza.library_backend.util.openLibraryUtils.coverImage;
 import static com.tgourouza.library_backend.util.openLibraryUtils.mergeJsonArraysToSet;
@@ -18,20 +18,21 @@ import static com.tgourouza.library_backend.util.openLibraryUtils.readWikipediaL
 import static com.tgourouza.library_backend.util.openLibraryUtils.text;
 
 @Component
-public class BookInfoMapper {
+public class BookCreateRequestMapper {
 
     private final TagsMapper tagsMapper;
     private final LanguageDetector detector;
 
-    public BookInfoMapper(TagsMapper tagsMapper, LanguageDetector detector) {
+    public BookCreateRequestMapper(TagsMapper tagsMapper, LanguageDetector detector) {
         this.tagsMapper = tagsMapper;
         this.detector = detector;
     }
 
-    public BookInfo mapToBookInfo(JsonNode doc, JsonNode work) {
+    public BookCreateRequest mapToBookCreateRequest(JsonNode doc, JsonNode work) {
         String originalTitle = text(work, "title");
-        if (originalTitle.isBlank())
+        if (originalTitle.isBlank()) {
             originalTitle = text(doc, "title");
+        }
 
         Language originalTitleLanguage = detector.detectLanguageOf(originalTitle);
 
@@ -61,8 +62,9 @@ public class BookInfoMapper {
             JsonNode workAuthors = work.path("authors");
             if (workAuthors.isArray() && workAuthors.size() > 0) {
                 String akey = workAuthors.get(0).path("author").path("key").asText("");
-                if (akey.startsWith("/authors/"))
+                if (akey.startsWith("/authors/")) {
                     authorOLKey = akey.substring("/authors/".length());
+                }
             }
         }
 
@@ -82,7 +84,7 @@ public class BookInfoMapper {
 
         String wikipedia = readWikipediaLink(work, originalTitle, originalTitleLanguage);
 
-        return new BookInfo(
+        return new BookCreateRequest(
                 new Text(
                         originalTitle,
                         originalTitleLanguage),
@@ -94,11 +96,6 @@ public class BookInfoMapper {
                         description,
                         detector.detectLanguageOf(description)),
                 tagsMapper.fromSet(tags),
-                wikipedia);
+                new Multilingual(wikipedia));
     }
-
-    // TODO: implement
-        public BookCreateRequest mapToBookCreateRequest(BookInfo bookInfo) {
-                return new BookCreateRequest();
-        }
 }

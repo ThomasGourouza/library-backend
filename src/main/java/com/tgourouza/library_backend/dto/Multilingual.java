@@ -16,4 +16,15 @@ public class Multilingual {
     private String german;
     private String russian;
     private String japanese;
+
+    public Multilingual(String value) {
+        this.french = value;
+        this.spanish = value;
+        this.italian = value;
+        this.portuguese = value;
+        this.english = value;
+        this.german = value;
+        this.russian = value;
+        this.japanese = value;
+    }
 }

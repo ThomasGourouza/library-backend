@@ -1,36 +1,42 @@
 package com.tgourouza.library_backend.controller;
 
-import com.tgourouza.library_backend.dto.AuthorInfo;
-import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
-import com.tgourouza.library_backend.dto.wikidata.AuthorWikidata;
-import com.tgourouza.library_backend.mapper.AuthorInfoMapper;
-import com.tgourouza.library_backend.service.OpenLibraryService;
-import com.tgourouza.library_backend.service.WikidataService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
+import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
+import com.tgourouza.library_backend.dto.wikidata.AuthorWikidata;
+import com.tgourouza.library_backend.mapper.AuthorCreateRequestMapper;
+import com.tgourouza.library_backend.service.OpenLibraryService;
+import com.tgourouza.library_backend.service.WikidataService;
+
+import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping("/openlibrary-wikidata")
 public class OpenLibraryWikiDataController {
+
     private final OpenLibraryService openLibraryService;
     private final WikidataService wikidataService;
-    private final AuthorInfoMapper authorInfoMapper;
+    private final AuthorCreateRequestMapper authorCreateRequestMapper;
 
     public OpenLibraryWikiDataController(
             OpenLibraryService openLibraryService,
             WikidataService wikidataService,
-            AuthorInfoMapper authorInfoMapper) {
+            AuthorCreateRequestMapper authorCreateRequestMapper) {
         this.openLibraryService = openLibraryService;
         this.wikidataService = wikidataService;
-        this.authorInfoMapper = authorInfoMapper;
+        this.authorCreateRequestMapper = authorCreateRequestMapper;
     }
 
     @GetMapping(value = "/author-info/{authorKey}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthorInfo> getAuthorInfo(@PathVariable String authorKey) {
+    public ResponseEntity<AuthorCreateRequest> getAuthorCreateRequest(@PathVariable String authorKey) {
         if (authorKey == null || authorKey.isBlank()) {
             return ResponseEntity.badRequest().build();
         }
@@ -42,6 +48,6 @@ public class OpenLibraryWikiDataController {
         if (StringUtils.hasText(authorOpenLibrary.getWikidataId())) {
             authorWikidata = wikidataService.getAuthorByQid(authorOpenLibrary.getWikidataId()).orElse(null);
         }
-        return ResponseEntity.ok(authorInfoMapper.mapToAuthorInfo(authorOpenLibrary, authorWikidata));
+        return ResponseEntity.ok(authorCreateRequestMapper.mapToAuthorCreateRequest(authorOpenLibrary, authorWikidata));
     }
 }

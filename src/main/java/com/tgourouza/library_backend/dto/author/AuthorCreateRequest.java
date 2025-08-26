@@ -6,9 +6,13 @@ import com.tgourouza.library_backend.dto.openLibrary.Text;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
+import java.util.List;
+
 @Data
+@AllArgsConstructor
 public class AuthorCreateRequest {
     // Open Library fields
     private String oLKey;
@@ -23,9 +27,9 @@ public class AuthorCreateRequest {
     private TimePlace birth;
     private TimePlace death;
 
-    private String citizenships;
-    private String occupations;
-    private String languages;
+    private List<String> citizenships;
+    private List<String> occupations;
+    private List<String> languages;
 
     private Multilingual wikipediaLink;
 }

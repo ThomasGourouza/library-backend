@@ -2,7 +2,6 @@ package com.tgourouza.library_backend.service;
 
 import java.util.Optional;
 
-import com.tgourouza.library_backend.mapper.AuthorWikidataMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -14,6 +13,7 @@ import org.springframework.web.client.RestClientResponseException;
 
 import com.tgourouza.library_backend.dto.wikidata.AuthorWikidata;
 import com.tgourouza.library_backend.exception.WikidataUpstreamException;
+import com.tgourouza.library_backend.mapper.AuthorWikidataMapper;
 
 @Service
 public class WikidataService {

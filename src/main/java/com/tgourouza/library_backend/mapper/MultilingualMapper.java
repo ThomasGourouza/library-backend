@@ -1,6 +1,6 @@
 package com.tgourouza.library_backend.mapper;
 
-import java.util.Arrays;
+import static com.tgourouza.library_backend.util.utils.*;
 
 import org.springframework.stereotype.Component;
 
@@ -13,8 +13,9 @@ import com.tgourouza.library_backend.entity.BookEntity;
 public class MultilingualMapper {
 
     public Multilingual toMultilingualDescription(AuthorEntity author) {
-        if (author == null)
+        if (author == null) {
             return null;
+        }
         return new Multilingual(
                 author.getDescriptionFrench(),
                 author.getDescriptionSpanish(),
@@ -27,8 +28,9 @@ public class MultilingualMapper {
     }
 
     public Multilingual toMultilingualShortDescription(AuthorEntity author) {
-        if (author == null)
+        if (author == null) {
             return null;
+        }
         return new Multilingual(
                 author.getShortDescriptionFrench(),
                 author.getShortDescriptionSpanish(),
@@ -41,8 +43,9 @@ public class MultilingualMapper {
     }
 
     public Multilingual toMultilingualBirthCountry(AuthorEntity author) {
-        if (author == null)
+        if (author == null) {
             return null;
+        }
         return new Multilingual(
                 author.getBirthCountryFrench(),
                 author.getBirthCountrySpanish(),
@@ -55,8 +58,9 @@ public class MultilingualMapper {
     }
 
     public Multilingual toMultilingualDeathCountry(AuthorEntity author) {
-        if (author == null)
+        if (author == null) {
             return null;
+        }
         return new Multilingual(
                 author.getDeathCountryFrench(),
                 author.getDeathCountrySpanish(),
@@ -69,8 +73,9 @@ public class MultilingualMapper {
     }
 
     public Multilingual toMultilingualWikipediaLink(AuthorEntity author) {
-        if (author == null)
+        if (author == null) {
             return null;
+        }
         return new Multilingual(
                 author.getWikipediaLinkFrench(),
                 author.getWikipediaLinkSpanish(),
@@ -83,50 +88,54 @@ public class MultilingualMapper {
     }
 
     public MultilingualList toMultilingualListCitizenships(AuthorEntity author) {
-        if (author == null)
+        if (author == null) {
             return null;
+        }
         return new MultilingualList(
-                Arrays.asList(author.getCitizenshipsFrench().split(",")),
-                Arrays.asList(author.getCitizenshipsSpanish().split(",")),
-                Arrays.asList(author.getCitizenshipsItalian().split(",")),
-                Arrays.asList(author.getCitizenshipsPortuguese().split(",")),
-                Arrays.asList(author.getCitizenshipsEnglish().split(",")),
-                Arrays.asList(author.getCitizenshipsGerman().split(",")),
-                Arrays.asList(author.getCitizenshipsRussian().split(",")),
-                Arrays.asList(author.getCitizenshipsJapanese().split(",")));
+                toList(author.getCitizenshipsFrench()),
+                toList(author.getCitizenshipsSpanish()),
+                toList(author.getCitizenshipsItalian()),
+                toList(author.getCitizenshipsPortuguese()),
+                toList(author.getCitizenshipsEnglish()),
+                toList(author.getCitizenshipsGerman()),
+                toList(author.getCitizenshipsRussian()),
+                toList(author.getCitizenshipsJapanese()));
     }
 
     public MultilingualList toMultilingualListOccupations(AuthorEntity author) {
-        if (author == null)
+        if (author == null) {
             return null;
+        }
         return new MultilingualList(
-                Arrays.asList(author.getOccupationsFrench().split(",")),
-                Arrays.asList(author.getOccupationsSpanish().split(",")),
-                Arrays.asList(author.getOccupationsItalian().split(",")),
-                Arrays.asList(author.getOccupationsPortuguese().split(",")),
-                Arrays.asList(author.getOccupationsEnglish().split(",")),
-                Arrays.asList(author.getOccupationsGerman().split(",")),
-                Arrays.asList(author.getOccupationsRussian().split(",")),
-                Arrays.asList(author.getOccupationsJapanese().split(",")));
+                toList(author.getOccupationsFrench()),
+                toList(author.getOccupationsSpanish()),
+                toList(author.getOccupationsItalian()),
+                toList(author.getOccupationsPortuguese()),
+                toList(author.getOccupationsEnglish()),
+                toList(author.getOccupationsGerman()),
+                toList(author.getOccupationsRussian()),
+                toList(author.getOccupationsJapanese()));
     }
 
     public MultilingualList toMultilingualListLanguages(AuthorEntity author) {
-        if (author == null)
+        if (author == null) {
             return null;
+        }
         return new MultilingualList(
-                Arrays.asList(author.getLanguagesFrench().split(",")),
-                Arrays.asList(author.getLanguagesSpanish().split(",")),
-                Arrays.asList(author.getLanguagesItalian().split(",")),
-                Arrays.asList(author.getLanguagesPortuguese().split(",")),
-                Arrays.asList(author.getLanguagesEnglish().split(",")),
-                Arrays.asList(author.getLanguagesGerman().split(",")),
-                Arrays.asList(author.getLanguagesRussian().split(",")),
-                Arrays.asList(author.getLanguagesJapanese().split(",")));
+                toList(author.getLanguagesFrench()),
+                toList(author.getLanguagesSpanish()),
+                toList(author.getLanguagesItalian()),
+                toList(author.getLanguagesPortuguese()),
+                toList(author.getLanguagesEnglish()),
+                toList(author.getLanguagesGerman()),
+                toList(author.getLanguagesRussian()),
+                toList(author.getLanguagesJapanese()));
     }
 
     public Multilingual toMultilingualDescription(BookEntity book) {
-        if (book == null)
+        if (book == null) {
             return null;
+        }
         return new Multilingual(
                 book.getDescriptionFrench(),
                 book.getDescriptionSpanish(),
@@ -139,8 +148,9 @@ public class MultilingualMapper {
     }
 
     public Multilingual toMultilingualTitle(BookEntity book) {
-        if (book == null)
+        if (book == null) {
             return null;
+        }
         return new Multilingual(
                 book.getTitleFrench(),
                 book.getTitleSpanish(),
@@ -153,8 +163,9 @@ public class MultilingualMapper {
     }
 
     public Multilingual toMultilingualWikipediaLink(BookEntity book) {
-        if (book == null)
+        if (book == null) {
             return null;
+        }
         return new Multilingual(
                 book.getWikipediaLinkFrench(),
                 book.getWikipediaLinkSpanish(),
@@ -167,22 +178,24 @@ public class MultilingualMapper {
     }
 
     public MultilingualList toMultilingualListTags(BookEntity book) {
-        if (book == null)
+        if (book == null) {
             return null;
+        }
         return new MultilingualList(
-                Arrays.asList(book.getTagsFrench().split(",")),
-                Arrays.asList(book.getTagsSpanish().split(",")),
-                Arrays.asList(book.getTagsItalian().split(",")),
-                Arrays.asList(book.getTagsPortuguese().split(",")),
-                Arrays.asList(book.getTagsEnglish().split(",")),
-                Arrays.asList(book.getTagsGerman().split(",")),
-                Arrays.asList(book.getTagsRussian().split(",")),
-                Arrays.asList(book.getTagsJapanese().split(",")));
+                toList(book.getTagsFrench()),
+                toList(book.getTagsSpanish()),
+                toList(book.getTagsItalian()),
+                toList(book.getTagsPortuguese()),
+                toList(book.getTagsEnglish()),
+                toList(book.getTagsGerman()),
+                toList(book.getTagsRussian()),
+                toList(book.getTagsJapanese()));
     }
 
     public void applyMultilingualWikipediaLink(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setWikipediaLinkFrench(ml.getFrench());
         entity.setWikipediaLinkSpanish(ml.getSpanish());
         entity.setWikipediaLinkItalian(ml.getItalian());
@@ -194,8 +207,9 @@ public class MultilingualMapper {
     }
 
     public void applyMultilingualWikipediaLink(Multilingual ml, BookEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setWikipediaLinkFrench(ml.getFrench());
         entity.setWikipediaLinkSpanish(ml.getSpanish());
         entity.setWikipediaLinkItalian(ml.getItalian());
@@ -207,8 +221,9 @@ public class MultilingualMapper {
     }
 
     public void applyMultilingualDescription(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setDescriptionFrench(ml.getFrench());
         entity.setDescriptionSpanish(ml.getSpanish());
         entity.setDescriptionItalian(ml.getItalian());
@@ -220,8 +235,9 @@ public class MultilingualMapper {
     }
 
     public void applyMultilingualShortDescription(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setShortDescriptionFrench(ml.getFrench());
         entity.setShortDescriptionSpanish(ml.getSpanish());
         entity.setShortDescriptionItalian(ml.getItalian());
@@ -233,8 +249,9 @@ public class MultilingualMapper {
     }
 
     public void applyMultilingualBirthCountry(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setBirthCountryFrench(ml.getFrench());
         entity.setBirthCountrySpanish(ml.getSpanish());
         entity.setBirthCountryItalian(ml.getItalian());
@@ -246,8 +263,9 @@ public class MultilingualMapper {
     }
 
     public void applyMultilingualDeathCountry(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setDeathCountryFrench(ml.getFrench());
         entity.setDeathCountrySpanish(ml.getSpanish());
         entity.setDeathCountryItalian(ml.getItalian());
@@ -259,8 +277,9 @@ public class MultilingualMapper {
     }
 
     public void applyMultilingualCitizenships(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setCitizenshipsFrench(ml.getFrench());
         entity.setCitizenshipsSpanish(ml.getSpanish());
         entity.setCitizenshipsItalian(ml.getItalian());
@@ -272,8 +291,9 @@ public class MultilingualMapper {
     }
 
     public void applyMultilingualOccupations(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setOccupationsFrench(ml.getFrench());
         entity.setOccupationsSpanish(ml.getSpanish());
         entity.setOccupationsItalian(ml.getItalian());
@@ -285,8 +305,9 @@ public class MultilingualMapper {
     }
 
     public void applyMultilingualLanguages(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setLanguagesFrench(ml.getFrench());
         entity.setLanguagesSpanish(ml.getSpanish());
         entity.setLanguagesItalian(ml.getItalian());
@@ -298,8 +319,9 @@ public class MultilingualMapper {
     }
 
     public void applyMultilingualTitle(Multilingual ml, BookEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setTitleFrench(ml.getFrench());
         entity.setTitleSpanish(ml.getSpanish());
         entity.setTitleItalian(ml.getItalian());
@@ -311,8 +333,9 @@ public class MultilingualMapper {
     }
 
     public void applyMultilingualDescription(Multilingual ml, BookEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setDescriptionFrench(ml.getFrench());
         entity.setDescriptionSpanish(ml.getSpanish());
         entity.setDescriptionItalian(ml.getItalian());
@@ -324,8 +347,9 @@ public class MultilingualMapper {
     }
 
     public void applyMultilingualTags(Multilingual ml, BookEntity entity) {
-        if (ml == null || entity == null)
+        if (ml == null || entity == null) {
             return;
+        }
         entity.setTagsFrench(ml.getFrench());
         entity.setTagsSpanish(ml.getSpanish());
         entity.setTagsItalian(ml.getItalian());

@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.tgourouza.library_backend.mapper.AuthorOpenLibraryMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -14,28 +13,29 @@ import org.springframework.web.client.RestClientResponseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
-import com.tgourouza.library_backend.dto.openLibrary.BookInfo;
 import com.tgourouza.library_backend.exception.OpenLibraryUpstreamException;
-import com.tgourouza.library_backend.mapper.BookInfoMapper;
+import com.tgourouza.library_backend.mapper.AuthorOpenLibraryMapper;
+import com.tgourouza.library_backend.mapper.BookCreateRequestMapper;
 
 @Service
 public class OpenLibraryService {
 
     private final RestClient openLibraryClient; // https://openlibrary.org
-    private final BookInfoMapper bookInfoMapper;
+    private final BookCreateRequestMapper bookCreateRequestMapper;
     private final AuthorOpenLibraryMapper authorOpenLibraryMapper;
     private final ObjectMapper mapper = new ObjectMapper();
 
     public OpenLibraryService(@Qualifier("openLibraryRestClient") RestClient openLibraryClient,
-            BookInfoMapper bookInfoMapper,
+            BookCreateRequestMapper bookCreateRequestMapper,
             AuthorOpenLibraryMapper authorOpenLibraryMapper) {
         this.openLibraryClient = openLibraryClient;
-        this.bookInfoMapper = bookInfoMapper;
+        this.bookCreateRequestMapper = bookCreateRequestMapper;
         this.authorOpenLibraryMapper = authorOpenLibraryMapper;
     }
 
-    public BookInfo getBookInfo(String title, String author, int resultNumber) {
+    public BookCreateRequest getBookCreateRequest(String title, String author, int resultNumber) {
         // 1) Search works
         Optional<JsonNode> bestDoc = searchBestWorkDoc(title, author, resultNumber);
         if (bestDoc.isEmpty()) {
@@ -52,8 +52,8 @@ public class OpenLibraryService {
         // 2) Fetch work JSON
         JsonNode work = getJson("/works/" + workId + ".json");
 
-        // 4) Map to BookInfo and return
-        return bookInfoMapper.mapToBookInfo(doc, work);
+        // 4) Map to BookCreateRequest and return
+        return bookCreateRequestMapper.mapToBookCreateRequest(doc, work);
     }
 
     public AuthorOpenLibrary getAuthorOpenLibrary(String authorKey) {

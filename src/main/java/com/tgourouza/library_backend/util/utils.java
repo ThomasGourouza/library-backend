@@ -1,12 +1,9 @@
 package com.tgourouza.library_backend.util;
 
 import java.time.Period;
-import java.util.Arrays;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
-import com.tgourouza.library_backend.constant.Tag;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 
@@ -50,23 +47,61 @@ public class utils {
         return result.toString();
     }
 
-    // TODO: remove ?
-    public static Set<Tag> fromCsv(String csv) {
-        if (csv == null || csv.isBlank()) {
-            return Set.of();
-        }
-        return Arrays.stream(csv.split(","))
-                .map(String::trim)
-                .filter(s -> !s.isEmpty())
-                .map(String::toUpperCase)
-                .map(s -> {
-                    try {
-                        return Tag.valueOf(s);
-                    } catch (IllegalArgumentException e) {
-                        return null;
+    public static String toCsv(List<String> fields) {
+        return fields.stream()
+                .map(utils::escape)
+                .collect(Collectors.joining(","));
+    }
+
+    private static String escape(String s) {
+        if (s == null) return ""; // null -> empty field
+        boolean needsQuote =
+                s.contains(",") || s.contains("\"") || s.contains("\n") || s.contains("\r")
+                        || s.startsWith(" ") || s.endsWith(" ");
+        String escaped = s.replace("\"", "\"\""); // double quotes inside
+        return needsQuote ? "\"" + escaped + "\"" : escaped;
+    }
+
+    public static List<String> toList(String line) {
+        if (line == null) return List.of();
+
+        List<String> out = new ArrayList<>();
+        StringBuilder field = new StringBuilder();
+        boolean inQuotes = false;
+        int len = line.length();
+
+        for (int i = 0; i < len; i++) {
+            char c = line.charAt(i);
+
+            if (inQuotes) {
+                if (c == '"') {
+                    // Escaped quote?
+                    if (i + 1 < len && line.charAt(i + 1) == '"') {
+                        field.append('"');
+                        i++; // skip the second quote
+                    } else {
+                        inQuotes = false; // closing quote
                     }
-                })
-                .filter(Objects::nonNull)
-                .collect(Collectors.toSet());
+                } else {
+                    field.append(c);
+                }
+            } else {
+                if (c == ',') {
+                    out.add(field.toString());
+                    field.setLength(0);
+                } else if (c == '"') {
+                    inQuotes = true; // start quoted field
+                } else if (c == '\n') {
+                    break; // end of record
+                } else if (c == '\r') {
+                    // ignore CR (handles CRLF)
+                } else {
+                    field.append(c);
+                }
+            }
+        }
+
+        out.add(field.toString()); // last field
+        return out;
     }
 }

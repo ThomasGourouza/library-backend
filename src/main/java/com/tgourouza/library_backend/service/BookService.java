@@ -17,21 +17,19 @@ import com.tgourouza.library_backend.repository.BookRepository;
 
 @Service
 public class BookService {
+
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
     private final BookMapper bookMapper;
-    private final EnumResolver enumResolver;
 
     public BookService(
             BookRepository bookRepository,
             AuthorRepository authorRepository,
-            BookMapper bookMapper,
-            EnumResolver enumResolver
+            BookMapper bookMapper
     ) {
         this.bookRepository = bookRepository;
         this.authorRepository = authorRepository;
         this.bookMapper = bookMapper;
-        this.enumResolver = enumResolver;
     }
 
     public List<BookDTO> getAllBooks() {
@@ -64,19 +62,16 @@ public class BookService {
     //     book.setStatus(enumResolver.getStatus(status));
     //     return bookMapper.toDTO(bookRepository.save(book));
     // }
-
     // public BookDTO updateFavorite(UUID bookId, Boolean favorite) {
     //     BookEntity book = getBookEntity(bookId);
     //     book.setFavorite(favorite);
     //     return bookMapper.toDTO(bookRepository.save(book));
     // }
-
     // public BookDTO updatePersonalNotes(UUID bookId, String notes) {
     //     BookEntity book = getBookEntity(bookId);
     //     book.setPersonalNotes(notes);
     //     return bookMapper.toDTO(bookRepository.save(book));
     // }
-
     private BookDTO updateEntityAndSave(BookCreateRequest request, BookEntity bookEntity) {
         if (request.getStatus() == null) {
             request.setStatus(Status.UNREAD);

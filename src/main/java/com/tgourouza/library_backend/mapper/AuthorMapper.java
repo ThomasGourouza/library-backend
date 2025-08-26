@@ -17,8 +17,7 @@ import com.tgourouza.library_backend.entity.BookEntity;
 import com.tgourouza.library_backend.service.EnumResolver;
 import com.tgourouza.library_backend.service.NllbService;
 
-import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtDeathOrCurrent;
-import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
+import static com.tgourouza.library_backend.util.utils.*;
 
 @Component
 public class AuthorMapper {
@@ -94,15 +93,15 @@ public class AuthorMapper {
             }
         }
         if (request.getCitizenships() != null) {
-            Multilingual citizenships = nllbService.translateText(request.getCitizenships(), Language.ENGLISH);
+            Multilingual citizenships = nllbService.translateText(toCsv(request.getCitizenships()), Language.ENGLISH);
             multilingualMapper.applyMultilingualCitizenships(citizenships, author);
         }
         if (request.getOccupations() != null) {
-            Multilingual occupations = nllbService.translateText(request.getOccupations(), Language.ENGLISH);
+            Multilingual occupations = nllbService.translateText(toCsv(request.getOccupations()), Language.ENGLISH);
             multilingualMapper.applyMultilingualOccupations(occupations, author);
         }
         if (request.getLanguages() != null) {
-            Multilingual languages = nllbService.translateText(request.getLanguages(), Language.ENGLISH);
+            Multilingual languages = nllbService.translateText(toCsv(request.getLanguages()), Language.ENGLISH);
             multilingualMapper.applyMultilingualLanguages(languages, author);
         }
         multilingualMapper.applyMultilingualWikipediaLink(request.getWikipediaLink(), author);

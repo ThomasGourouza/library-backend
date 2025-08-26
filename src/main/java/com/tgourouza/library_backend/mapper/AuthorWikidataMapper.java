@@ -1,15 +1,21 @@
 package com.tgourouza.library_backend.mapper;
 
+import java.time.LocalDate;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.Set;
+
+import org.springframework.stereotype.Component;
+
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.tgourouza.library_backend.dto.wikidata.AuthorWikidata;
-import org.springframework.stereotype.Component;
-
-import java.time.LocalDate;
-import java.util.*;
 
 @Component
 public class AuthorWikidataMapper {
+
     private final ObjectMapper mapper = new ObjectMapper();
 
     public Optional<AuthorWikidata> mapToAuthorWikiData(String json, String qid) {
@@ -55,7 +61,7 @@ public class AuthorWikidataMapper {
                 wikipediaJa = firstNonNull(wikipediaJa, uri(b, "jawiki"));
             }
 
-            AuthorWikidata info = new AuthorWikidata(
+            AuthorWikidata authorWikidata = new AuthorWikidata(
                     qid,
                     label,
                     shortDescription,
@@ -78,7 +84,7 @@ public class AuthorWikidataMapper {
                     wikipediaJa
             );
 
-            return Optional.of(info);
+            return Optional.of(authorWikidata);
         } catch (Exception e) {
             throw new RuntimeException("Failed to parse Wikidata response", e);
         }
