@@ -36,14 +36,7 @@ CREATE TABLE IF NOT EXISTS author (
 
     citizenships                TEXT,
 
-    occupations_french          TEXT,
-    occupations_spanish         TEXT,
-    occupations_italian         TEXT,
-    occupations_portuguese      TEXT,
-    occupations_english         TEXT,
-    occupations_german          TEXT,
-    occupations_russian         TEXT,
-    occupations_japanese        TEXT,
+    occupations                 TEXT,
 
     languages                   TEXT,
 

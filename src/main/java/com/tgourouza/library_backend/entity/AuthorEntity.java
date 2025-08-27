@@ -68,15 +68,8 @@ public class AuthorEntity {
 
     private String citizenships;
 
-    // private Multilingual occupations; TODO: String authorTags; (from List<AuthorTag>)
-    private String occupationsFrench;
-    private String occupationsSpanish;
-    private String occupationsItalian;
-    private String occupationsPortuguese;
-    private String occupationsEnglish;
-    private String occupationsGerman;
-    private String occupationsRussian;
-    private String occupationsJapanese;
+    // private List<String> occupations; TODO: String authorTags; (from List<AuthorTag>)
+    private String occupations;
 
     private String languages;
 

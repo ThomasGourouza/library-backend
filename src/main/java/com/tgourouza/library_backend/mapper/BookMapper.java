@@ -110,7 +110,7 @@ public class BookMapper {
                         author.getDeathCountry()), // TimePlace death; TODO: Country
                 calculateAuthorAgeAtDeathOrCurrent(author), // Integer ageAtDeathOrCurrent;
                 toList(author.getCitizenships()), // List<String> citizenships; TODO: List<Country>
-                multilingualMapper.toMultilingualListOccupations(author), // MultilingualList occupations; TODO: List<AuthorTag>
+                toList(author.getOccupations()), // List<String> occupations; TODO: List<AuthorTag>
                 toList(author.getLanguages()), // List<String> languages; TODO: List<Language>
                 multilingualMapper.toMultilingualWikipediaLink(author), // Multilingual wikipediaLink;
                 null // List<BookDTO> books;

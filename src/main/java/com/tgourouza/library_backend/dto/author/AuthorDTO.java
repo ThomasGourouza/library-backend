@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.tgourouza.library_backend.dto.Multilingual;
-import com.tgourouza.library_backend.dto.MultilingualList;
 import com.tgourouza.library_backend.dto.TimePlace;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 
@@ -24,7 +23,7 @@ public class AuthorDTO {
     private TimePlace death;
     private Integer ageAtDeathOrCurrent;
     private List<String> citizenships; // TODO: List<Country>
-    private MultilingualList occupations; // TODO: List<AuthorTag>
+    private List<String> occupations; // TODO: List<AuthorTag>
     private List<String> languages; // TODO: List<Language>
     private Multilingual wikipediaLink;
     private List<BookDTO> books;

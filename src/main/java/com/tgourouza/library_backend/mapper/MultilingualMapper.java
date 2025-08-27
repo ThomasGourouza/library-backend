@@ -1,11 +1,8 @@
 package com.tgourouza.library_backend.mapper;
 
-import static com.tgourouza.library_backend.util.utils.*;
-
 import org.springframework.stereotype.Component;
 
 import com.tgourouza.library_backend.dto.Multilingual;
-import com.tgourouza.library_backend.dto.MultilingualList;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 
@@ -55,21 +52,6 @@ public class MultilingualMapper {
                 author.getWikipediaLinkGerman(),
                 author.getWikipediaLinkRussian(),
                 author.getWikipediaLinkJapanese());
-    }
-
-    public MultilingualList toMultilingualListOccupations(AuthorEntity author) {
-        if (author == null) {
-            return null;
-        }
-        return new MultilingualList(
-                toList(author.getOccupationsFrench()),
-                toList(author.getOccupationsSpanish()),
-                toList(author.getOccupationsItalian()),
-                toList(author.getOccupationsPortuguese()),
-                toList(author.getOccupationsEnglish()),
-                toList(author.getOccupationsGerman()),
-                toList(author.getOccupationsRussian()),
-                toList(author.getOccupationsJapanese()));
     }
 
     public Multilingual toMultilingualDescription(BookEntity book) {
@@ -142,20 +124,6 @@ public class MultilingualMapper {
         entity.setShortDescriptionGerman(ml.getGerman());
         entity.setShortDescriptionRussian(ml.getRussian());
         entity.setShortDescriptionJapanese(ml.getJapanese());
-    }
-
-    public void applyMultilingualOccupations(Multilingual ml, AuthorEntity entity) {
-        if (ml == null || entity == null) {
-            return;
-        }
-        entity.setOccupationsFrench(ml.getFrench());
-        entity.setOccupationsSpanish(ml.getSpanish());
-        entity.setOccupationsItalian(ml.getItalian());
-        entity.setOccupationsPortuguese(ml.getPortuguese());
-        entity.setOccupationsEnglish(ml.getEnglish());
-        entity.setOccupationsGerman(ml.getGerman());
-        entity.setOccupationsRussian(ml.getRussian());
-        entity.setOccupationsJapanese(ml.getJapanese());
     }
 
     public void applyMultilingualTitle(Multilingual ml, BookEntity entity) {

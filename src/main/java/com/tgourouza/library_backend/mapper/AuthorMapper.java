@@ -6,7 +6,6 @@ import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
-import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.TimePlace;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
@@ -52,7 +51,7 @@ public class AuthorMapper {
                         author.getDeathCountry()), // TimePlace death; TODO: Country
                 calculateAuthorAgeAtDeathOrCurrent(author), // Integer ageAtDeathOrCurrent;
                 toList(author.getCitizenships()), // List<String> citizenships; TODO: List<Country>
-                multilingualMapper.toMultilingualListOccupations(author), // MultilingualList occupations; TODO: List<AuthorTag>
+                toList(author.getOccupations()), // List<String> occupations; TODO: List<AuthorTag>
                 toList(author.getLanguages()), // List<String> languages; TODO: List<Language>
                 multilingualMapper.toMultilingualWikipediaLink(author), // Multilingual wikipediaLink;
                 toDTOsWithoutAuthor(author.getBooks()) // List<BookDTO> books;
@@ -88,10 +87,7 @@ public class AuthorMapper {
             author.setDeathCountry(request.getDeath().getCountry());
         }
         author.setCitizenships(toCsv(request.getCitizenships()));
-        if (request.getOccupations() != null) {
-            Multilingual occupations = nllbService.translateText(toCsv(request.getOccupations()), Language.ENGLISH);
-            multilingualMapper.applyMultilingualOccupations(occupations, author);
-        }
+        author.setOccupations(toCsv(request.getOccupations()));
         author.setLanguages(toCsv(request.getLanguages()));
         multilingualMapper.applyMultilingualWikipediaLink(request.getWikipediaLink(), author);
     }
