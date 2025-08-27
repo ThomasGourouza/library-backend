@@ -1,5 +1,7 @@
 package com.tgourouza.library_backend.dto.author;
 
+import java.util.List;
+
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.TimePlace;
 import com.tgourouza.library_backend.dto.openLibrary.Text;
@@ -8,8 +10,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-
-import java.util.List;
 
 @Data
 @AllArgsConstructor
@@ -27,9 +27,9 @@ public class AuthorCreateRequest {
     private TimePlace birth;
     private TimePlace death;
 
-    private List<String> citizenships;
-    private List<String> occupations;
-    private List<String> languages;
+    private List<String> citizenships; // TODO: List<Country>
+    private List<String> occupations; // TODO: List<AuthorTag>
+    private List<String> languages; // TODO: List<Language>
 
     private Multilingual wikipediaLink;
 }

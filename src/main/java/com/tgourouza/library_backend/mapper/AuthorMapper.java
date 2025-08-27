@@ -1,22 +1,24 @@
 package com.tgourouza.library_backend.mapper;
 
-import static com.tgourouza.library_backend.util.utils.*;
-
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.tgourouza.library_backend.dto.TimePlace;
 import org.springframework.stereotype.Component;
 
 import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.dto.Multilingual;
+import com.tgourouza.library_backend.dto.TimePlace;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 import com.tgourouza.library_backend.service.NllbService;
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtDeathOrCurrent;
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
+import static com.tgourouza.library_backend.util.utils.toCsv;
+import static com.tgourouza.library_backend.util.utils.toList;
 
 @Component
 public class AuthorMapper {
@@ -43,15 +45,15 @@ public class AuthorMapper {
                 new TimePlace(
                         author.getBirthDate(),
                         author.getBirthCity(),
-                        author.getBirthCountry()), // TimePlace birth;
+                        author.getBirthCountry()), // TimePlace birth; TODO: Country
                 new TimePlace(
                         author.getDeathDate(),
                         author.getDeathCity(),
-                        author.getDeathCountry()), // TimePlace death;
+                        author.getDeathCountry()), // TimePlace death; TODO: Country
                 calculateAuthorAgeAtDeathOrCurrent(author), // Integer ageAtDeathOrCurrent;
-                toList(author.getCitizenships()), // List<String> citizenships;
-                multilingualMapper.toMultilingualListOccupations(author), // MultilingualList occupations;
-                toList(author.getLanguages()), // List<String> languages;
+                toList(author.getCitizenships()), // List<String> citizenships; TODO: List<Country>
+                multilingualMapper.toMultilingualListOccupations(author), // MultilingualList occupations; TODO: List<AuthorTag>
+                toList(author.getLanguages()), // List<String> languages; TODO: List<Language>
                 multilingualMapper.toMultilingualWikipediaLink(author), // Multilingual wikipediaLink;
                 toDTOsWithoutAuthor(author.getBooks()) // List<BookDTO> books;
         );
@@ -101,6 +103,7 @@ public class AuthorMapper {
         return books.stream().map(this::toDTOWithoutAuthor).collect(Collectors.toList());
     }
 
+    // TODO: duplicate code (BookMapper)
     private BookDTO toDTOWithoutAuthor(BookEntity book) {
         if (book == null) {
             return null;
@@ -117,7 +120,7 @@ public class AuthorMapper {
                 book.getCoverUrl(),
                 book.getNumberOfPages(),
                 multilingualMapper.toMultilingualDescription(book),
-                toList(book.getTags()),
+                toList(book.getTags()), // TODO: List<BookTag>
                 book.getWikipediaLink(),
                 book.getPersonalNotes(),
                 book.getStatus(),

@@ -1,7 +1,5 @@
 package com.tgourouza.library_backend.mapper;
 
-import static com.tgourouza.library_backend.util.openLibraryUtils.*;
-
 import java.util.HashSet;
 
 import org.springframework.stereotype.Component;
@@ -9,10 +7,15 @@ import org.springframework.stereotype.Component;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.github.pemistahl.lingua.api.Language;
 import com.github.pemistahl.lingua.api.LanguageDetector;
-import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.Text;
 import com.tgourouza.library_backend.service.AuthorService;
+import static com.tgourouza.library_backend.util.openLibraryUtils.coverImage;
+import static com.tgourouza.library_backend.util.openLibraryUtils.mergeJsonArraysToSet;
+import static com.tgourouza.library_backend.util.openLibraryUtils.parseYear;
+import static com.tgourouza.library_backend.util.openLibraryUtils.readDescription;
+import static com.tgourouza.library_backend.util.openLibraryUtils.readWikipediaLink;
+import static com.tgourouza.library_backend.util.openLibraryUtils.text;
 
 @Component
 public class BookCreateRequestMapper {

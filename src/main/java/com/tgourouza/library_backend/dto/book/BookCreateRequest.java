@@ -19,7 +19,7 @@ public class BookCreateRequest {
     private String coverUrl;
     private Integer numberOfPages;
     private Text description;
-    private Set<Tag> tags;
+    private Set<Tag> tags; // TODO: List<BookTag>
     private String wikipediaLink;
     private UUID authorId;
 }

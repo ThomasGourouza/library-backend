@@ -23,9 +23,9 @@ public class AuthorDTO {
     private TimePlace birth;
     private TimePlace death;
     private Integer ageAtDeathOrCurrent;
-    private List<String> citizenships;
-    private MultilingualList occupations;
-    private List<String> languages;
+    private List<String> citizenships; // TODO: List<Country>
+    private MultilingualList occupations; // TODO: List<AuthorTag>
+    private List<String> languages; // TODO: List<Language>
     private Multilingual wikipediaLink;
     private List<BookDTO> books;
 }

@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.constant;
 
+// TODO: rename BookTag
 public enum Tag {
     LITERATURE,
     PHILOSOPHY,

@@ -26,7 +26,7 @@ public class BookDTO {
     private String coverUrl;
     private Integer numberOfPages;
     private Multilingual description;
-    private List<String> tags;
+    private List<String> tags; // TODO: List<BookTag>
     private String wikipediaLink;
 
     // Editable fields

@@ -30,14 +30,14 @@ public class AuthorCreateRequestMapper {
                 new TimePlace(
                         authorWikidata.birthDate(),
                         authorWikidata.birthCity(),
-                        authorWikidata.birthCountry()),
+                        authorWikidata.birthCountry()), // TODO: Country
                 new TimePlace(
                         authorWikidata.deathDate(),
                         authorWikidata.deathCity(),
-                        authorWikidata.deathCountry()),
-                authorWikidata.citizenships(),
-                authorWikidata.occupations(),
-                authorWikidata.languages(),
+                        authorWikidata.deathCountry()), // TODO: Country
+                authorWikidata.citizenships(), // TODO: List<Country>
+                authorWikidata.occupations(), // TODO: List<AuthorTag>
+                authorWikidata.languages(), // TODO: List<Language>
                 new Multilingual(
                         authorWikidata.wikipediaFr(),
                         authorWikidata.wikipediaEs(),
