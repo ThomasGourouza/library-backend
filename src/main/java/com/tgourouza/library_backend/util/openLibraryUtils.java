@@ -5,7 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.pemistahl.lingua.api.Language;
 
 public class openLibraryUtils {
 
@@ -76,7 +75,7 @@ public class openLibraryUtils {
         return d == null ? "" : d;
     }
 
-    public static String readWikipediaLink(JsonNode node, String originalTitle, Language language) {
+    public static String readWikipediaLink(JsonNode node) {
         // direct "wikipedia" field
         String wiki = text(node, "wikipedia");
         if (!wiki.isBlank()) {

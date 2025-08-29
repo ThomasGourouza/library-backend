@@ -13,6 +13,7 @@ import org.springframework.web.client.RestClientResponseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
 import com.tgourouza.library_backend.exception.OpenLibraryUpstreamException;
@@ -35,7 +36,7 @@ public class OpenLibraryService {
         this.authorOpenLibraryMapper = authorOpenLibraryMapper;
     }
 
-    public BookCreateRequest getBookCreateRequest(String title, String author, int resultNumber) {
+    public BookCreateRequest getBookCreateRequest(String title, String author, int resultNumber, Language dataLanguage) {
         // 1) Search works
         Optional<JsonNode> bestDoc = searchBestWorkDoc(title, author, resultNumber);
         if (bestDoc.isEmpty()) {
@@ -53,7 +54,7 @@ public class OpenLibraryService {
         JsonNode work = getJson("/works/" + workId + ".json");
 
         // 4) Map to BookCreateRequest and return
-        return bookCreateRequestMapper.mapToBookCreateRequest(doc, work);
+        return bookCreateRequestMapper.mapToBookCreateRequest(doc, work, dataLanguage);
     }
 
     public AuthorOpenLibrary getAuthorOpenLibrary(String authorKey) {

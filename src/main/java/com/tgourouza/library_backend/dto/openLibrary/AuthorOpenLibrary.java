@@ -10,5 +10,5 @@ public class AuthorOpenLibrary {
     private String wikidataId;
     private String name;
     private String pictureUrl;
-    private Text description;
+    private String description;
 }

@@ -2,9 +2,9 @@ package com.tgourouza.library_backend.dto.author;
 
 import java.util.List;
 
+import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.TimePlace;
-import com.tgourouza.library_backend.dto.openLibrary.Text;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
@@ -20,10 +20,10 @@ public class AuthorCreateRequest {
     @Size(max = 255)
     private String name;
     private String pictureUrl;
-    private Text description;
+    private String description;
 
     // Wikidata fields
-    private Text shortDescription;
+    private String shortDescription;
     private TimePlace birth;
     private TimePlace death;
 
@@ -32,4 +32,7 @@ public class AuthorCreateRequest {
     private List<String> languages; // TODO: List<Language>
 
     private Multilingual wikipediaLink;
+
+    // Data language
+    private Language dataLanguage;
 }

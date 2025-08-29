@@ -1,5 +1,10 @@
 package com.tgourouza.library_backend.mapper;
 
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtDeathOrCurrent;
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
+import static com.tgourouza.library_backend.util.utils.toCsv;
+import static com.tgourouza.library_backend.util.utils.toList;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -14,10 +19,6 @@ import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 import com.tgourouza.library_backend.service.NllbService;
-import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtDeathOrCurrent;
-import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
-import static com.tgourouza.library_backend.util.utils.toCsv;
-import static com.tgourouza.library_backend.util.utils.toList;
 
 @Component
 public class AuthorMapper {
@@ -67,13 +68,13 @@ public class AuthorMapper {
         author.setOLKey(request.getOLKey());
         author.setPictureUrl(request.getPictureUrl());
         if (request.getDescription() != null) {
-            Multilingual description = nllbService.translateText(request.getDescription().value(),
-                    request.getDescription().language());
+            Multilingual description = nllbService.translateText(request.getDescription(),
+                    request.getDataLanguage());
             multilingualMapper.applyMultilingualDescription(description, author);
         }
         if (request.getShortDescription() != null) {
-            Multilingual shortDescription = nllbService.translateText(request.getShortDescription().value(),
-                    request.getShortDescription().language());
+            Multilingual shortDescription = nllbService.translateText(request.getShortDescription(),
+                    request.getDataLanguage());
             multilingualMapper.applyMultilingualShortDescription(shortDescription, author);
         }
         if (request.getBirth() != null) {

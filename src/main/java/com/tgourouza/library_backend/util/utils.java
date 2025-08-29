@@ -110,4 +110,19 @@ public class utils {
         out.add(field.toString().trim()); // last field
         return out;
     }
+
+    public static String cleanText(String input) {
+        if (input == null) return null;
+
+        return input
+                // Remove symbols like *, _, `, #, etc.
+                .replaceAll("[*_`#>~\\-]", " ")
+                // Remove quotation marks « »
+                .replaceAll("[«»]", "")
+                // Replace newlines and carriage returns with space
+                .replaceAll("[\\r\\n]+", " ")
+                // Collapse multiple spaces into one
+                .replaceAll("\\s+", " ")
+                .trim();
+    }
 }

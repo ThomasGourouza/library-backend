@@ -1,5 +1,10 @@
 package com.tgourouza.library_backend.mapper;
 
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtDeathOrCurrent;
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
+import static com.tgourouza.library_backend.util.utils.toCsv;
+import static com.tgourouza.library_backend.util.utils.toList;
+
 import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
@@ -14,10 +19,6 @@ import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 import com.tgourouza.library_backend.service.MymemoryService;
 import com.tgourouza.library_backend.service.NllbService;
-import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtDeathOrCurrent;
-import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
-import static com.tgourouza.library_backend.util.utils.toCsv;
-import static com.tgourouza.library_backend.util.utils.toList;
 
 @Component
 public class BookMapper {
@@ -64,19 +65,19 @@ public class BookMapper {
             return;
         }
 
-        book.setOriginalTitle(request.getOriginalTitle().value());
-        book.setLanguage(request.getOriginalTitle().language());
+        book.setOriginalTitle(request.getOriginalTitle());
+        book.setLanguage(request.getOriginalTitleLanguage()); // TODO: rename originalTitleLanguage
         book.setAuthor(author);
         book.setAuthorOLKey(request.getAuthorOLKey());
         book.setPublicationYear(request.getPublicationYear());
         if (request.getOriginalTitle() != null) {
             Multilingual title = mymemoryService.translateTitle(
-                    request.getOriginalTitle().value(), request.getOriginalTitle().language());
+                    request.getOriginalTitle(), request.getOriginalTitleLanguage());
             multilingualMapper.applyMultilingualTitle(title, book);
         }
         if (request.getDescription() != null) {
-            Multilingual description = nllbService.translateText(request.getDescription().value(),
-                    request.getDescription().language());
+            Multilingual description = nllbService.translateText(request.getDescription(),
+                    request.getDataLanguage());
             multilingualMapper.applyMultilingualDescription(description, book);
         }
         book.setCoverUrl(request.getCoverUrl());

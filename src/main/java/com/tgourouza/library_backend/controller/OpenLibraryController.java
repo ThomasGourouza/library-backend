@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.github.pemistahl.lingua.api.Language;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
 import com.tgourouza.library_backend.service.OpenLibraryService;
@@ -29,8 +30,11 @@ public class OpenLibraryController {
     public ResponseEntity<BookCreateRequest> getBookCreateRequest(
             @RequestParam String title,
             @RequestParam(required = false) String author,
-            @RequestParam(required = false, defaultValue = "1") int resultNumber) {
-        BookCreateRequest bookCreateRequest = openLibraryService.getBookCreateRequest(title, author, resultNumber);
+            @RequestParam(required = false, defaultValue = "1") int resultNumber,
+            @RequestParam(required = false, defaultValue = "ENGLISH") String language
+        ) {
+        BookCreateRequest bookCreateRequest = openLibraryService.getBookCreateRequest(
+            title, author, resultNumber, Language.valueOf(language.toUpperCase()));
         if (bookCreateRequest == null) {
             return ResponseEntity.notFound().build();
         }

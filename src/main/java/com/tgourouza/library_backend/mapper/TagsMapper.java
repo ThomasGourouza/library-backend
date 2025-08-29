@@ -85,7 +85,9 @@ public class TagsMapper {
                                 "kirche", "glaube", "glauben", "anbetung", "gebet",
                                 "jesus", "christus", "jesus christus",
                                 "christ", "christen", "christlich", "christentum",
-                                "bibel", "evangelium", "neues testament", "altes testament", "apostel", "jünger")));
+                                "bibel", "evangelium", "neues testament", "altes testament", "apostel", "jünger",
+                                //
+                                "god", "gott", "dios", "deus", "dio", "dieu")));
                 tagMap.put(Tag.HISTORY, new HashSet<>(Arrays.asList(
                                 "histoire", "history", "historia", "storia", "geschichte", "medieval", "medievale",
                                 "médiévale",
