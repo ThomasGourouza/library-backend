@@ -8,16 +8,9 @@ import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
-import com.tgourouza.library_backend.service.NllbService;
 
 @Component
 public class AuthorOpenLibraryMapper {
-
-    private final NllbService nllbService;
-
-    public AuthorOpenLibraryMapper(NllbService nllbService) {
-        this.nllbService = nllbService;
-    }
 
     public AuthorOpenLibrary mapToAuthorOpenLibrary(JsonNode a, String authorOLKey) {
         String name = text(a, "name");
@@ -32,7 +25,6 @@ public class AuthorOpenLibraryMapper {
                 pictureUrl = authorImage(pid, 'L');
             }
         }
-
         String description = readBio(a);
 
         return new AuthorOpenLibrary(
@@ -40,7 +32,6 @@ public class AuthorOpenLibraryMapper {
                 wikidataId,
                 name,
                 pictureUrl,
-                // TODO: not always english: remove "toEnglish"
-                nllbService.translateToEnglish(description));
+                description);
     }
 }

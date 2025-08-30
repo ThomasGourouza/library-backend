@@ -10,6 +10,7 @@ import static com.tgourouza.library_backend.util.utils.cleanText;
 
 import java.util.HashSet;
 
+import com.tgourouza.library_backend.service.LibreTranslateService;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -17,7 +18,6 @@ import com.github.pemistahl.lingua.api.Language;
 import com.github.pemistahl.lingua.api.LanguageDetector;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.service.AuthorService;
-import com.tgourouza.library_backend.service.NllbService;
 
 @Component
 public class BookCreateRequestMapper {
@@ -25,14 +25,17 @@ public class BookCreateRequestMapper {
     private final TagsMapper tagsMapper;
     private final LanguageDetector detector;
     private final AuthorService authorService;
-    private final NllbService nllbService;
+    private final LibreTranslateService libreTranslateService;
 
-    public BookCreateRequestMapper(TagsMapper tagsMapper, LanguageDetector detector,
-            AuthorService authorService, NllbService nllbService) {
+    public BookCreateRequestMapper(
+            TagsMapper tagsMapper,
+            LanguageDetector detector,
+            AuthorService authorService,
+            LibreTranslateService libreTranslateService) {
         this.tagsMapper = tagsMapper;
         this.detector = detector;
         this.authorService = authorService;
-        this.nllbService = nllbService;
+        this.libreTranslateService = libreTranslateService;
     }
 
     public BookCreateRequest mapToBookCreateRequest(JsonNode doc, JsonNode work, Language dataLanguage) {
@@ -104,7 +107,7 @@ public class BookCreateRequestMapper {
                 publicationYear,
                 coverUrl,
                 numberOfPages,
-                nllbService.translateLargeText(description, dataLanguage),
+                libreTranslateService.translateText(description, dataLanguage),
                 tagsMapper.fromSet(tags),
                 wikipedia,
                 authorService.getAuthorEntityId(authorOLKey),

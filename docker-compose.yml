@@ -18,30 +18,6 @@ services:
     volumes:
       - pgdata:/var/lib/postgresql/data
 
-  nllb:
-    build:
-      context: ./nllb-translate-server
-    container_name: nllb-translate
-    restart: unless-stopped
-    ports:
-      - "18000:8000"                # host:container
-    command: >
-      uvicorn server:app
-      --host 0.0.0.0
-      --port 8000
-      --workers 1
-    environment:
-      HF_HOME: /models
-      TRANSFORMERS_CACHE: /models
-      MODEL_ID: facebook/nllb-200-distilled-600M
-    volumes:
-      - nllb-cache:/models
-    healthcheck:
-      test: [ "CMD", "curl", "-fsS", "http://localhost:8000/health" ]
-      interval: 30s
-      timeout: 5s
-      retries: 5
-
   lt-fix-perms:
     image: libretranslate/libretranslate:v1.7.2
     user: "0:0"  # root, pour changer les droits
@@ -81,16 +57,13 @@ services:
   #   restart: unless-stopped
   #   depends_on:
   #     - postgres
-  #     - nllb
   #   environment:
   #     SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/library_db
   #     SPRING_DATASOURCE_USERNAME: admin
   #     SPRING_DATASOURCE_PASSWORD: admin123
-  #     NLLB_BASE_URL: http://nllb:8000   # <-- call NLLB by service name/port
   #   ports:
   #     - "8080:8080"
 
 volumes:
   pgdata:
-  nllb-cache:
   lt-models:

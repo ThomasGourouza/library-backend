@@ -24,140 +24,135 @@ import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
 
 @Configuration
 public class WebConfig {
-  @Bean
-  public WebMvcConfigurer corsConfigurer() {
-    return new WebMvcConfigurer() {
-      @Override
-      public void addCorsMappings(CorsRegistry registry) {
-        registry.addMapping("/**")
-            .allowedOrigins("http://localhost:4200")
-            .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
-            .allowedHeaders("*")
-            .allowCredentials(true);
-      }
-    };
-  }
 
-  @Bean
-  @Qualifier("openLibraryRestClient")
-  public RestClient openLibraryRestClient(
-      @Value("${openlibrary.base-url}") String baseUrl,
-      @Value("${openlibrary.user-agent}") String userAgent,
-      @Value("${openlibrary.truststore.path}") Resource tsResource,
-      @Value("${openlibrary.truststore.password}") String tsPass) throws Exception {
-
-    JdkClientHttpRequestFactory requestFactory = null;
-    if (tsResource != null && tsResource.exists()) {
-      KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-      try (var in = tsResource.getInputStream()) {
-        ks.load(in, (tsPass == null ? "" : tsPass).toCharArray());
-      }
-      var tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-      tmf.init(ks);
-      var ssl = SSLContext.getInstance("TLS");
-      ssl.init(null, tmf.getTrustManagers(), null);
-      requestFactory = new JdkClientHttpRequestFactory(HttpClient.newBuilder().sslContext(ssl).build());
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/**")
+                        .allowedOrigins("http://localhost:4200")
+                        .allowedMethods("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS")
+                        .allowedHeaders("*")
+                        .allowCredentials(true);
+            }
+        };
     }
 
-    var b = RestClient.builder()
-        .baseUrl(baseUrl)
-        .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
-        .defaultHeader(HttpHeaders.USER_AGENT, userAgent);
+    @Bean
+    @Qualifier("openLibraryRestClient")
+    public RestClient openLibraryRestClient(
+            @Value("${openlibrary.base-url}") String baseUrl,
+            @Value("${openlibrary.user-agent}") String userAgent,
+            @Value("${openlibrary.truststore.path}") Resource tsResource,
+            @Value("${openlibrary.truststore.password}") String tsPass) throws Exception {
 
-    if (requestFactory != null)
-      b = b.requestFactory(requestFactory);
+        JdkClientHttpRequestFactory requestFactory = null;
+        if (tsResource != null && tsResource.exists()) {
+            KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
+            try (var in = tsResource.getInputStream()) {
+                ks.load(in, (tsPass == null ? "" : tsPass).toCharArray());
+            }
+            var tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+            tmf.init(ks);
+            var ssl = SSLContext.getInstance("TLS");
+            ssl.init(null, tmf.getTrustManagers(), null);
+            requestFactory = new JdkClientHttpRequestFactory(HttpClient.newBuilder().sslContext(ssl).build());
+        }
 
-    return b.build();
-  }
+        var b = RestClient.builder()
+                .baseUrl(baseUrl)
+                .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.USER_AGENT, userAgent);
 
-  @Bean
-  @Qualifier("mymemoryRestClient")
-  public RestClient mymemoryRestClient(
-      @Value("${mymemory.base-url}") String baseUrl,
-      @Value("${mymemory.user-agent}") String userAgent,
-      @Value("${mymemory.truststore.path}") Resource truststore,
-      @Value("${mymemory.truststore.password}") String truststorePassword) throws Exception {
+        if (requestFactory != null) {
+            b = b.requestFactory(requestFactory);
+        }
 
-    KeyStore ts = KeyStore.getInstance(KeyStore.getDefaultType());
-    try (InputStream is = truststore.getInputStream()) {
-      ts.load(is, truststorePassword.toCharArray());
-    }
-    TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-    tmf.init(ts);
-
-    SSLContext sslContext = SSLContext.getInstance("TLS");
-    sslContext.init(null, tmf.getTrustManagers(), null);
-
-    HttpClient httpClient = HttpClient.newBuilder().sslContext(sslContext).build();
-    var requestFactory = new JdkClientHttpRequestFactory(httpClient);
-
-    return RestClient.builder()
-        .baseUrl(baseUrl)
-        .requestFactory(requestFactory)
-        .defaultHeader(HttpHeaders.USER_AGENT, userAgent)
-        .build();
-  }
-
-  @Bean
-  public RestClient nllbClient(@Value("${nllb.base-url}") String baseUrl) {
-    return RestClient.builder()
-        .baseUrl(baseUrl)
-        .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-        .build();
-  }
-
-  @Bean
-  public LanguageDetector linguaDetector() {
-    return LanguageDetectorBuilder.fromAllLanguages().build();
-  }
-
-  @Bean
-  @Qualifier("wikidataRestClient")
-  public RestClient wikidataRestClient(
-      @Value("${wikidata.base-url}") String baseUrl,
-      @Value("${wikidata.user-agent}") String userAgent,
-      @Value("${wikidata.truststore.path}") Resource truststore,
-      @Value("${wikidata.truststore.password}") String truststorePassword) throws Exception {
-
-    // Load truststore (JKS by default)
-    KeyStore ts = KeyStore.getInstance(KeyStore.getDefaultType());
-    try (InputStream is = truststore.getInputStream()) {
-      ts.load(is, truststorePassword.toCharArray());
+        return b.build();
     }
 
-    // Init TMF from truststore
-    TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-    tmf.init(ts);
+    @Bean
+    @Qualifier("mymemoryRestClient")
+    public RestClient mymemoryRestClient(
+            @Value("${mymemory.base-url}") String baseUrl,
+            @Value("${mymemory.user-agent}") String userAgent,
+            @Value("${mymemory.truststore.path}") Resource truststore,
+            @Value("${mymemory.truststore.password}") String truststorePassword) throws Exception {
 
-    // Build SSLContext
-    SSLContext sslContext = SSLContext.getInstance("TLS");
-    sslContext.init(null, tmf.getTrustManagers(), null);
+        KeyStore ts = KeyStore.getInstance(KeyStore.getDefaultType());
+        try (InputStream is = truststore.getInputStream()) {
+            ts.load(is, truststorePassword.toCharArray());
+        }
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        tmf.init(ts);
 
-    // JDK HttpClient with our SSL
-    HttpClient httpClient = HttpClient.newBuilder()
-        .sslContext(sslContext)
-        .build();
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, tmf.getTrustManagers(), null);
 
-    var requestFactory = new JdkClientHttpRequestFactory(httpClient);
+        HttpClient httpClient = HttpClient.newBuilder().sslContext(sslContext).build();
+        var requestFactory = new JdkClientHttpRequestFactory(httpClient);
 
-    // RestClient configured for WDQS
-    return RestClient.builder()
-        .baseUrl(baseUrl)
-        .requestFactory(requestFactory)
-        .defaultHeader(HttpHeaders.ACCEPT, "application/sparql-results+json")
-        .defaultHeader(HttpHeaders.USER_AGENT, userAgent)
-        .build();
-  }
+        return RestClient.builder()
+                .baseUrl(baseUrl)
+                .requestFactory(requestFactory)
+                .defaultHeader(HttpHeaders.USER_AGENT, userAgent)
+                .build();
+    }
 
-  @Bean
-  @Qualifier("libreTranslateClient")
-  public RestClient libreTranslateClient(
-          RestClient.Builder builder,
-          @Value("${libretranslate.base-url}") String baseUrl) {
+    // TODO: replace with libretranslate detector
+    @Bean
+    public LanguageDetector linguaDetector() {
+        return LanguageDetectorBuilder.fromAllLanguages().build();
+    }
 
-    return builder
-            .baseUrl(baseUrl)
-            .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
-            .build();
-  }
+    @Bean
+    @Qualifier("wikidataRestClient")
+    public RestClient wikidataRestClient(
+            @Value("${wikidata.base-url}") String baseUrl,
+            @Value("${wikidata.user-agent}") String userAgent,
+            @Value("${wikidata.truststore.path}") Resource truststore,
+            @Value("${wikidata.truststore.password}") String truststorePassword) throws Exception {
+
+        // Load truststore (JKS by default)
+        KeyStore ts = KeyStore.getInstance(KeyStore.getDefaultType());
+        try (InputStream is = truststore.getInputStream()) {
+            ts.load(is, truststorePassword.toCharArray());
+        }
+
+        // Init TMF from truststore
+        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
+        tmf.init(ts);
+
+        // Build SSLContext
+        SSLContext sslContext = SSLContext.getInstance("TLS");
+        sslContext.init(null, tmf.getTrustManagers(), null);
+
+        // JDK HttpClient with our SSL
+        HttpClient httpClient = HttpClient.newBuilder()
+                .sslContext(sslContext)
+                .build();
+
+        var requestFactory = new JdkClientHttpRequestFactory(httpClient);
+
+        // RestClient configured for WDQS
+        return RestClient.builder()
+                .baseUrl(baseUrl)
+                .requestFactory(requestFactory)
+                .defaultHeader(HttpHeaders.ACCEPT, "application/sparql-results+json")
+                .defaultHeader(HttpHeaders.USER_AGENT, userAgent)
+                .build();
+    }
+
+    @Bean
+    @Qualifier("libreTranslateClient")
+    public RestClient libreTranslateClient(
+            RestClient.Builder builder,
+            @Value("${libretranslate.base-url}") String baseUrl) {
+
+        return builder
+                .baseUrl(baseUrl)
+                .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .build();
+    }
 }

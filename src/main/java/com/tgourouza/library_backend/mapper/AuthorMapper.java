@@ -9,6 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import com.tgourouza.library_backend.service.LibreTranslateService;
 import org.springframework.stereotype.Component;
 
 import com.tgourouza.library_backend.dto.Multilingual;
@@ -18,17 +19,16 @@ import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
-import com.tgourouza.library_backend.service.NllbService;
 
 @Component
 public class AuthorMapper {
 
     private final MultilingualMapper multilingualMapper;
-    private final NllbService nllbService;
+    private final LibreTranslateService libreTranslateService;
 
-    public AuthorMapper(MultilingualMapper multilingualMapper, NllbService nllbService) {
+    public AuthorMapper(MultilingualMapper multilingualMapper, LibreTranslateService libreTranslateService) {
         this.multilingualMapper = multilingualMapper;
-        this.nllbService = nllbService;
+        this.libreTranslateService = libreTranslateService;
     }
 
     public AuthorDTO toDTO(AuthorEntity author) {
@@ -68,12 +68,12 @@ public class AuthorMapper {
         author.setOLKey(request.getOLKey());
         author.setPictureUrl(request.getPictureUrl());
         if (request.getDescription() != null) {
-            Multilingual description = nllbService.translateText(request.getDescription(),
+            Multilingual description = libreTranslateService.translateTextMultilingual(request.getDescription(),
                     request.getDataLanguage());
             multilingualMapper.applyMultilingualDescription(description, author);
         }
         if (request.getShortDescription() != null) {
-            Multilingual shortDescription = nllbService.translateText(request.getShortDescription(),
+            Multilingual shortDescription = libreTranslateService.translateTextMultilingual(request.getShortDescription(),
                     request.getDataLanguage());
             multilingualMapper.applyMultilingualShortDescription(shortDescription, author);
         }

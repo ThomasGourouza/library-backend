@@ -7,6 +7,7 @@ import static com.tgourouza.library_backend.util.utils.toList;
 
 import java.util.stream.Collectors;
 
+import com.tgourouza.library_backend.service.LibreTranslateService;
 import org.springframework.stereotype.Component;
 
 import com.tgourouza.library_backend.constant.Status;
@@ -18,22 +19,21 @@ import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 import com.tgourouza.library_backend.service.MymemoryService;
-import com.tgourouza.library_backend.service.NllbService;
 
 @Component
 public class BookMapper {
 
     private final MultilingualMapper multilingualMapper;
     private final MymemoryService mymemoryService;
-    private final NllbService nllbService;
+    private final LibreTranslateService libreTranslateService;
 
     public BookMapper(
             MultilingualMapper multilingualMapper,
             MymemoryService mymemoryService,
-            NllbService nllbService) {
+            LibreTranslateService libreTranslateService) {
         this.multilingualMapper = multilingualMapper;
         this.mymemoryService = mymemoryService;
-        this.nllbService = nllbService;
+        this.libreTranslateService = libreTranslateService;
     }
 
     public BookDTO toDTO(BookEntity book) {
@@ -76,7 +76,7 @@ public class BookMapper {
             multilingualMapper.applyMultilingualTitle(title, book);
         }
         if (request.getDescription() != null) {
-            Multilingual description = nllbService.translateText(request.getDescription(),
+            Multilingual description = libreTranslateService.translateTextMultilingual(request.getDescription(),
                     request.getDataLanguage());
             multilingualMapper.applyMultilingualDescription(description, book);
         }
