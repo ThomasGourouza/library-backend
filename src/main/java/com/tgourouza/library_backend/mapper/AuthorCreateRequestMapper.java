@@ -27,8 +27,8 @@ public class AuthorCreateRequestMapper {
                 authorOpenLibrary.getOLKey(),
                 authorOpenLibrary.getName(),
                 authorOpenLibrary.getPictureUrl(),
-                // TODO: not always english
-                libreTranslateService.translateText(cleanText(authorOpenLibrary.getDescription()), Language.FRENCH),
+                // TODO: not always english ?
+                libreTranslateService.translateText(cleanText(authorOpenLibrary.getDescription()), Language.ENGLISH),
                 authorWikidata.shortDescription(),
                 new TimePlace(
                         authorWikidata.birthDate(),

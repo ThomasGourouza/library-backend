@@ -107,7 +107,7 @@ public class BookCreateRequestMapper {
                 publicationYear,
                 coverUrl,
                 numberOfPages,
-                libreTranslateService.translateText(description, dataLanguage),
+                libreTranslateService.translateText(cleanText(description), dataLanguage),
                 tagsMapper.fromSet(tags),
                 wikipedia,
                 authorService.getAuthorEntityId(authorOLKey),
