@@ -99,7 +99,7 @@ public class WebConfig {
   }
 
   @Bean
-  RestClient nllbClient(@Value("${nllb.base-url}") String baseUrl) {
+  public RestClient nllbClient(@Value("${nllb.base-url}") String baseUrl) {
     return RestClient.builder()
         .baseUrl(baseUrl)
         .defaultHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
@@ -107,7 +107,7 @@ public class WebConfig {
   }
 
   @Bean
-  LanguageDetector linguaDetector() {
+  public LanguageDetector linguaDetector() {
     return LanguageDetectorBuilder.fromAllLanguages().build();
   }
 
@@ -149,4 +149,15 @@ public class WebConfig {
         .build();
   }
 
+  @Bean
+  @Qualifier("libreTranslateClient")
+  public RestClient libreTranslateClient(
+          RestClient.Builder builder,
+          @Value("${libretranslate.base-url}") String baseUrl) {
+
+    return builder
+            .baseUrl(baseUrl)
+            .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+            .build();
+  }
 }
