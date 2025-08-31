@@ -3,7 +3,6 @@ package com.tgourouza.library_backend.entity;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.tgourouza.library_backend.constant.Language;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -31,7 +30,7 @@ public class BookEntity {
     private UUID id;
     @NotNull
     private String originalTitle;
-    private Language language;
+    private String language;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)

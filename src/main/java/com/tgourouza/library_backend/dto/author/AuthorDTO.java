@@ -13,6 +13,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AuthorDTO {
+
     private UUID id;
     private String oLKey;
     private String name;
@@ -22,9 +23,9 @@ public class AuthorDTO {
     private TimePlace birth;
     private TimePlace death;
     private Integer ageAtDeathOrCurrent;
-    private List<String> citizenships; // TODO: List<Country>
-    private List<String> occupations; // TODO: List<AuthorTag>
-    private List<String> languages; // TODO: List<Language>
+    private List<String> citizenships; // TODO: translate
+    private List<String> occupations; // TODO: translate
+    private List<String> languages; // TODO: translate
     private Multilingual wikipediaLink;
     private List<BookDTO> books;
 }
