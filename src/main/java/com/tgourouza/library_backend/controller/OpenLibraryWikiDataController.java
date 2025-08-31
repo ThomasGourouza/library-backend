@@ -1,12 +1,10 @@
 package com.tgourouza.library_backend.controller;
 
+import com.tgourouza.library_backend.constant.Language;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
@@ -36,7 +34,8 @@ public class OpenLibraryWikiDataController {
     }
 
     @GetMapping(value = "/author-info/{authorKey}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<AuthorCreateRequest> getAuthorCreateRequest(@PathVariable String authorKey) {
+    public ResponseEntity<AuthorCreateRequest> getAuthorCreateRequest(
+            @PathVariable String authorKey, @RequestParam(required = false, defaultValue = "ENGLISH") Language language) {
         if (authorKey == null || authorKey.isBlank()) {
             return ResponseEntity.badRequest().build();
         }
@@ -48,6 +47,9 @@ public class OpenLibraryWikiDataController {
         if (StringUtils.hasText(authorOpenLibrary.getWikidataId())) {
             authorWikidata = wikidataService.getAuthorByQid(authorOpenLibrary.getWikidataId()).orElse(null);
         }
-        return ResponseEntity.ok(authorCreateRequestMapper.mapToAuthorCreateRequest(authorOpenLibrary, authorWikidata));
+        if (authorWikidata == null) {
+            return ResponseEntity.notFound().build();
+        }
+        return ResponseEntity.ok(authorCreateRequestMapper.mapToAuthorCreateRequest(authorOpenLibrary, authorWikidata, language));
     }
 }

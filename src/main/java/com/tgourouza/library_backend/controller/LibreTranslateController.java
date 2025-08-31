@@ -13,16 +13,14 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestClientResponseException;
 
-import java.util.List;
-
 @Slf4j
 @RestController
 @RequestMapping(path = "/translate", produces = MediaType.APPLICATION_JSON_VALUE)
-public class TranslateController {
+public class LibreTranslateController {
 
     private final LibreTranslateService service;
 
-    public TranslateController(LibreTranslateService service) {
+    public LibreTranslateController(LibreTranslateService service) {
         this.service = service;
     }
 

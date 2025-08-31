@@ -75,7 +75,7 @@ public class LibreTranslateService {
         return translate(text, null, target).translatedText();
     }
 
-    private String translateTextFromSource(String text, Language sourceLanguage, Language targetLanguage) {
+    public String translateTextFromSource(String text, Language sourceLanguage, Language targetLanguage) {
         String target = isoLangMapper.toIso(targetLanguage);
         String source = isoLangMapper.toIso(sourceLanguage);
         return translate(text, source, target).translatedText();
