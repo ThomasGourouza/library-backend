@@ -3,7 +3,7 @@ package com.tgourouza.library_backend.entity;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.github.pemistahl.lingua.api.Language;
+import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.constant.Status;
 
 import jakarta.persistence.Column;

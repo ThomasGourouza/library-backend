@@ -3,7 +3,7 @@ package com.tgourouza.library_backend.dto.book;
 import java.util.Set;
 import java.util.UUID;
 
-import com.github.pemistahl.lingua.api.Language;
+import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.constant.Tag;
 
 import lombok.AllArgsConstructor;

@@ -1,15 +1,14 @@
 package com.tgourouza.library_backend.mapper;
 
-import com.tgourouza.library_backend.service.LibreTranslateService;
 import org.springframework.stereotype.Component;
 
-import com.github.pemistahl.lingua.api.Language;
+import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.TimePlace;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
 import com.tgourouza.library_backend.dto.wikidata.AuthorWikidata;
-
+import com.tgourouza.library_backend.service.LibreTranslateService;
 import static com.tgourouza.library_backend.util.utils.cleanText;
 
 @Component
@@ -22,7 +21,7 @@ public class AuthorCreateRequestMapper {
     }
 
     public AuthorCreateRequest mapToAuthorCreateRequest(AuthorOpenLibrary authorOpenLibrary,
-                                                        AuthorWikidata authorWikidata) {
+            AuthorWikidata authorWikidata) {
         return new AuthorCreateRequest(
                 authorOpenLibrary.getOLKey(),
                 authorOpenLibrary.getName(),

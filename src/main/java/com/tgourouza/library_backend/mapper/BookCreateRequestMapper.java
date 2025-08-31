@@ -1,39 +1,30 @@
 package com.tgourouza.library_backend.mapper;
 
-import static com.tgourouza.library_backend.util.openLibraryUtils.coverImage;
-import static com.tgourouza.library_backend.util.openLibraryUtils.mergeJsonArraysToSet;
-import static com.tgourouza.library_backend.util.openLibraryUtils.parseYear;
-import static com.tgourouza.library_backend.util.openLibraryUtils.readDescription;
-import static com.tgourouza.library_backend.util.openLibraryUtils.readWikipediaLink;
-import static com.tgourouza.library_backend.util.openLibraryUtils.text;
-import static com.tgourouza.library_backend.util.utils.cleanText;
+import static com.tgourouza.library_backend.util.openLibraryUtils.*;
+import static com.tgourouza.library_backend.util.utils.*;
 
 import java.util.HashSet;
 
-import com.tgourouza.library_backend.service.LibreTranslateService;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.github.pemistahl.lingua.api.Language;
-import com.github.pemistahl.lingua.api.LanguageDetector;
+import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.service.AuthorService;
+import com.tgourouza.library_backend.service.LibreTranslateService;
 
 @Component
 public class BookCreateRequestMapper {
 
     private final TagsMapper tagsMapper;
-    private final LanguageDetector detector;
     private final AuthorService authorService;
     private final LibreTranslateService libreTranslateService;
 
     public BookCreateRequestMapper(
             TagsMapper tagsMapper,
-            LanguageDetector detector,
             AuthorService authorService,
             LibreTranslateService libreTranslateService) {
         this.tagsMapper = tagsMapper;
-        this.detector = detector;
         this.authorService = authorService;
         this.libreTranslateService = libreTranslateService;
     }
@@ -102,7 +93,7 @@ public class BookCreateRequestMapper {
 
         return new BookCreateRequest(
                 originalTitle,
-                detector.detectLanguageOf(originalTitle),
+                libreTranslateService.detectLanguage(originalTitle),
                 authorOLKey,
                 publicationYear,
                 coverUrl,

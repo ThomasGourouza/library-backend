@@ -3,7 +3,7 @@ package com.tgourouza.library_backend.dto.book;
 import java.util.List;
 import java.util.UUID;
 
-import com.github.pemistahl.lingua.api.Language;
+import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;

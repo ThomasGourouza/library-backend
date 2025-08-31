@@ -1,6 +1,5 @@
 package com.tgourouza.library_backend.service;
 
-import com.tgourouza.library_backend.mapper.IsoLangMapper;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -10,10 +9,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.github.pemistahl.lingua.api.Language;
-import com.github.pemistahl.lingua.api.LanguageDetector;
+import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.mymemory.TranslateTitleResponse;
+import com.tgourouza.library_backend.mapper.IsoLangMapper;
 import static com.tgourouza.library_backend.util.utils.cleanAndTitleCase;
 
 import lombok.extern.slf4j.Slf4j;
@@ -21,23 +20,26 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class MymemoryService {
+
     private final RestClient mymemoryClient;
     private final IsoLangMapper isoLangMapper;
-    private final LanguageDetector detector;
+    private final LibreTranslateService libreTranslateService;
     private final ObjectMapper mapper = new ObjectMapper();
 
     @Value("${mymemory.email}")
     private String email;
 
-    public MymemoryService(@Qualifier("mymemoryRestClient") RestClient mymemoryClient,
-                           IsoLangMapper isoLangMapper, LanguageDetector detector) {
+    public MymemoryService(
+            @Qualifier("mymemoryRestClient") RestClient mymemoryClient,
+            IsoLangMapper isoLangMapper,
+            LibreTranslateService libreTranslateService) {
         this.mymemoryClient = mymemoryClient;
         this.isoLangMapper = isoLangMapper;
-        this.detector = detector;
+        this.libreTranslateService = libreTranslateService;
     }
 
     public Multilingual translateTitle(String title, Language sourceLanguage) {
-        Language source = sourceLanguage != null ? sourceLanguage : detector.detectLanguageOf(title);
+        Language source = sourceLanguage != null ? sourceLanguage : libreTranslateService.detectLanguage(title);
         if (source == Language.UNKNOWN) {
             throw new IllegalArgumentException("Could not detect source language");
         }
@@ -54,16 +56,15 @@ public class MymemoryService {
 
     private String translate(String title, Language source, Language target) {
         try {
-            String src = isoLangMapper.toIso(source)
-                    .orElseThrow(() -> new IllegalArgumentException("Unsupported source language: " + source));
-            String tgt = isoLangMapper.toIso(target)
-                    .orElseThrow(() -> new IllegalArgumentException("Unsupported target language: " + target));
+            String src = isoLangMapper.toIso(source);
+            String tgt = isoLangMapper.toIso(target);
             if (src.equals(tgt)) {
                 return title;
             }
             String resp = mymemoryTranslation(title, src, tgt);
-            if (resp == null || resp.isBlank())
+            if (resp == null || resp.isBlank()) {
                 throw new IllegalStateException("Empty translation from MyMemory API");
+            }
 
             return getTranslation(resp, title, source, target).translatedText();
         } catch (Exception ex) {
@@ -101,10 +102,10 @@ public class MymemoryService {
         // https://api.mymemory.translated.net/get?q={text}&langpair=en|fr
         return mymemoryClient.get()
                 .uri(uri -> uri.path("/get")
-                        .queryParam("q", title)
-                        .queryParam("langpair", sourceLanguage + "|" + targetLanguage)
-                        .queryParam("de", email)
-                        .build())
+                .queryParam("q", title)
+                .queryParam("langpair", sourceLanguage + "|" + targetLanguage)
+                .queryParam("de", email)
+                .build())
                 .retrieve()
                 .body(String.class);
     }

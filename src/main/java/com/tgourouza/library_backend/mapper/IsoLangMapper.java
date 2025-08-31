@@ -1,22 +1,19 @@
 package com.tgourouza.library_backend.mapper;
 
-import com.github.pemistahl.lingua.api.Language;
+import com.tgourouza.library_backend.constant.Language;
 import org.springframework.stereotype.Component;
 
-import java.util.Collections;
-import java.util.EnumMap;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 @Component
 public class IsoLangMapper {
 
     private final Map<Language, String> l2iso;
+    private final Map<String, Language> iso2lang;
 
     public IsoLangMapper() {
         EnumMap<Language, String> m = new EnumMap<>(Language.class);
 
-        // cœur commun
         m.put(Language.ENGLISH, "en");  m.put(Language.FRENCH, "fr");
         m.put(Language.GERMAN, "de");   m.put(Language.SPANISH, "es");
         m.put(Language.ITALIAN, "it");  m.put(Language.PORTUGUESE, "pt");
@@ -50,23 +47,31 @@ public class IsoLangMapper {
         m.put(Language.TSONGA, "ts");   m.put(Language.TSWANA, "tn");
         m.put(Language.WELSH, "cy");    m.put(Language.XHOSA, "xh");
         m.put(Language.YORUBA, "yo");   m.put(Language.ZULU, "zu");
-        m.put(Language.ESPERANTO, "eo");
-
-        // norvégien – selon ta version de Lingua, tu peux avoir ces enums :
-        try { m.put(Language.valueOf("BOKMAL"), "no"); } catch (IllegalArgumentException ignore) {}
-        try { m.put(Language.valueOf("NYNORSK"), "nn"); } catch (IllegalArgumentException ignore) {}
-
-        // langues “bonus” (présentes dans ton MyMemory mapper) :
+        m.put(Language.ESPERANTO, "eo"); m.put(Language.NYNORSK, "nn");
+        m.put(Language.BOKMAL, "no");   m.put(Language.AZERBAIJANI, "az");
+        m.put(Language.GUJARATI, "gu");
+        // langues présentes dans MyMemory mapper:
         m.put(Language.LATIN, "la");
         m.put(Language.MARATHI, "mr");
         m.put(Language.PUNJABI, "pa");
-        m.put(Language.GANDA, "lg"); // Luganda (peut ne pas être dispo côté LibreTranslate)
-
+        m.put(Language.GANDA, "lg");
         this.l2iso = Collections.unmodifiableMap(m);
+
+        Map<String, Language> tmp = new HashMap<>();
+        for (Language lang : Language.values()) {
+            tmp.put(toIso(lang), lang);
+        }
+        this.iso2lang = Collections.unmodifiableMap(tmp);
     }
 
-    /** Lingua → ISO-639-1 */
-    public Optional<String> toIso(Language lingua) {
-        return Optional.ofNullable(l2iso.get(lingua));
+    /** Language → ISO-639-1 */
+    public String toIso(Language language) {
+        return l2iso.get(language);
+    }
+
+    /** ISO-639-1 -> Language */
+    public Language toLanguage(String code) {
+        if (code == null) return Language.UNKNOWN;
+        return iso2lang.get(code);
     }
 }

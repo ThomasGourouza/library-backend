@@ -2,7 +2,7 @@ package com.tgourouza.library_backend.dto.author;
 
 import java.util.List;
 
-import com.github.pemistahl.lingua.api.Language;
+import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.TimePlace;
 
@@ -14,6 +14,7 @@ import lombok.Data;
 @Data
 @AllArgsConstructor
 public class AuthorCreateRequest {
+
     // Open Library fields
     private String oLKey;
     @NotBlank(message = "Name is required")

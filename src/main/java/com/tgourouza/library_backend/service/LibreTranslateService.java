@@ -1,10 +1,8 @@
 package com.tgourouza.library_backend.service;
 
-import com.github.pemistahl.lingua.api.Language;
-import com.tgourouza.library_backend.dto.Multilingual;
-import com.tgourouza.library_backend.dto.libretranslate.DetectResult;
-import com.tgourouza.library_backend.dto.libretranslate.TranslateResponse;
-import com.tgourouza.library_backend.mapper.IsoLangMapper;
+import java.util.Arrays;
+import java.util.Objects;
+
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -12,8 +10,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
-import java.util.Arrays;
-import java.util.Objects;
+import com.tgourouza.library_backend.constant.Language;
+import com.tgourouza.library_backend.dto.Multilingual;
+import com.tgourouza.library_backend.dto.libretranslate.DetectResult;
+import com.tgourouza.library_backend.dto.libretranslate.TranslateResponse;
+import com.tgourouza.library_backend.mapper.IsoLangMapper;
 
 @Service
 public class LibreTranslateService {
@@ -42,6 +43,10 @@ public class LibreTranslateService {
         return arr == null ? null : Arrays.stream(arr).findFirst().orElse(null);
     }
 
+    public Language detectLanguage(String text) {
+        return isoLangMapper.toLanguage(detect(text).language());
+    }
+
     public TranslateResponse translate(String text, String source, String target) {
         if (text == null || text.isBlank()) {
             return new TranslateResponse(text);
@@ -66,16 +71,13 @@ public class LibreTranslateService {
     }
 
     public String translateText(String text, Language targetLanguage) {
-        String target = isoLangMapper.toIso(targetLanguage)
-                .orElseThrow(() -> new IllegalArgumentException("Unsupported target language: " + targetLanguage));
+        String target = isoLangMapper.toIso(targetLanguage);
         return translate(text, null, target).translatedText();
     }
 
     private String translateTextFromSource(String text, Language sourceLanguage, Language targetLanguage) {
-        String target = isoLangMapper.toIso(targetLanguage)
-                .orElseThrow(() -> new IllegalArgumentException("Unsupported target language: " + targetLanguage));
-        String source = isoLangMapper.toIso(sourceLanguage)
-                .orElseThrow(() -> new IllegalArgumentException("Unsupported source language: " + sourceLanguage));
+        String target = isoLangMapper.toIso(targetLanguage);
+        String source = isoLangMapper.toIso(sourceLanguage);
         return translate(text, source, target).translatedText();
     }
 

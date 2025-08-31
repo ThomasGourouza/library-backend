@@ -19,9 +19,6 @@ import org.springframework.web.client.RestClient;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
-import com.github.pemistahl.lingua.api.LanguageDetector;
-import com.github.pemistahl.lingua.api.LanguageDetectorBuilder;
-
 @Configuration
 public class WebConfig {
 
@@ -98,12 +95,6 @@ public class WebConfig {
                 .requestFactory(requestFactory)
                 .defaultHeader(HttpHeaders.USER_AGENT, userAgent)
                 .build();
-    }
-
-    // TODO: replace with libretranslate detector
-    @Bean
-    public LanguageDetector linguaDetector() {
-        return LanguageDetectorBuilder.fromAllLanguages().build();
     }
 
     @Bean
