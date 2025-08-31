@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.UUID;
 
 import com.tgourouza.library_backend.constant.Language;
-import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 
@@ -26,11 +25,11 @@ public class BookDTO {
     private String coverUrl;
     private Integer numberOfPages;
     private Multilingual description;
-    private List<String> tags; // TODO: List<BookTag>
+    private List<String> bookTags;
     private String wikipediaLink;
 
     // Editable fields
     private String personalNotes;
-    private Status status;
+    private String status;
     private Boolean favorite;
 }

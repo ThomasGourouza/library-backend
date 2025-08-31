@@ -4,7 +4,6 @@ import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.tgourouza.library_backend.constant.Language;
-import com.tgourouza.library_backend.constant.Status;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -71,6 +70,6 @@ public class BookEntity {
 
     // Editable fields
     private String personalNotes;
-    private Status status;
+    private String status;
     private Boolean favorite;
 }

@@ -1,15 +1,11 @@
 package com.tgourouza.library_backend.mapper;
 
-import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtDeathOrCurrent;
-import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
-import static com.tgourouza.library_backend.util.utils.toCsv;
-import static com.tgourouza.library_backend.util.utils.toList;
+import static com.tgourouza.library_backend.util.utils.*;
 
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.tgourouza.library_backend.service.LibreTranslateService;
 import org.springframework.stereotype.Component;
 
 import com.tgourouza.library_backend.dto.Multilingual;
@@ -19,6 +15,7 @@ import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
+import com.tgourouza.library_backend.service.LibreTranslateService;
 
 @Component
 public class AuthorMapper {
@@ -117,7 +114,7 @@ public class AuthorMapper {
                 book.getCoverUrl(),
                 book.getNumberOfPages(),
                 multilingualMapper.toMultilingualDescription(book),
-                toList(book.getTags()), // TODO: List<BookTag>
+                toList(book.getTags()),
                 book.getWikipediaLink(),
                 book.getPersonalNotes(),
                 book.getStatus(),

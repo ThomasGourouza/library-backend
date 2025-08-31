@@ -31,11 +31,11 @@ public class AuthorCreateRequestMapper {
                 libreTranslateService.translateTextFromSource(cleanText(authorWikidata.shortDescription()), Language.ENGLISH, language),
                 new TimePlace(
                         authorWikidata.birthDate(),
-                        authorWikidata.birthCity(),
+                        authorWikidata.birthCity(), // TODO: City
                         authorWikidata.birthCountry()), // TODO: Country
                 new TimePlace(
                         authorWikidata.deathDate(),
-                        authorWikidata.deathCity(),
+                        authorWikidata.deathCity(), // TODO: Country
                         authorWikidata.deathCountry()), // TODO: Country
                 authorWikidata.citizenships(), // TODO: List<Country>
                 authorWikidata.occupations(), // TODO: List<AuthorTag>

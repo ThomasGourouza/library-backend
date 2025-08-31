@@ -1,16 +1,12 @@
 package com.tgourouza.library_backend.mapper;
 
-import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtDeathOrCurrent;
-import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
-import static com.tgourouza.library_backend.util.utils.toCsv;
-import static com.tgourouza.library_backend.util.utils.toList;
+import static com.tgourouza.library_backend.util.utils.*;
 
 import java.util.stream.Collectors;
 
-import com.tgourouza.library_backend.service.LibreTranslateService;
+import com.tgourouza.library_backend.constant.Status;
 import org.springframework.stereotype.Component;
 
-import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.TimePlace;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
@@ -18,6 +14,7 @@ import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
+import com.tgourouza.library_backend.service.LibreTranslateService;
 import com.tgourouza.library_backend.service.MymemoryService;
 
 @Component
@@ -82,10 +79,11 @@ public class BookMapper {
         }
         book.setCoverUrl(request.getCoverUrl());
         book.setNumberOfPages(request.getNumberOfPages());
-        book.setTags(toCsv(request.getTags().stream().map(Enum::name).collect(Collectors.toList())));
+        book.setTags(toCsv(request.getBookTags().stream().map(Enum::name).collect(Collectors.toList())));
         book.setWikipediaLink(request.getWikipediaLink());
         book.setPersonalNotes("");
-        book.setStatus(Status.UNREAD);
+        // TODO: translate or always in english ?
+        book.setStatus(Status.UNREAD.getValue());
         book.setFavorite(false);
     }
 
