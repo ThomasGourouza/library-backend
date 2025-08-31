@@ -30,7 +30,7 @@ public class BookEntity {
     private UUID id;
     @NotNull
     private String originalTitle;
-    private String originalTitleLanguage;
+    private String originalTitleLanguageEnglish;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
@@ -63,12 +63,12 @@ public class BookEntity {
     private String descriptionRussian;
     private String descriptionJapanese;
 
-    private String tags;
+    private String tagsEnglish;
 
     private String wikipediaLink;
 
     // Editable fields
     private String personalNotes;
-    private String status;
+    private String statusEnglish;
     private Boolean favorite;
 }

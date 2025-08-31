@@ -1,6 +1,6 @@
 -- UUIDs via gen_random_uuid()
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
-
+-- TODO: add _english where needed
 -- ---------- AUTHOR ----------
 CREATE TABLE IF NOT EXISTS author (
     id                          UUID PRIMARY KEY DEFAULT gen_random_uuid(),

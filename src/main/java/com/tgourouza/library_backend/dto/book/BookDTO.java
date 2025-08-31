@@ -16,6 +16,7 @@ public class BookDTO {
     private UUID id;
     private String originalTitle;
     private String originalTitleLanguage; // title language
+    // TODO: String -> only from dataLanguage
     private Multilingual title;
     private AuthorDTO author;
     private String authorOLKey;
@@ -23,6 +24,7 @@ public class BookDTO {
     private Integer publicationYear;
     private String coverUrl;
     private Integer numberOfPages;
+    // TODO: String -> only from dataLanguage
     private Multilingual description;
     private List<String> bookTags;
     private String wikipediaLink;

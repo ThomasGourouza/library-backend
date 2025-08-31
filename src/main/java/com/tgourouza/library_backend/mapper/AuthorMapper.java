@@ -41,16 +41,16 @@ public class AuthorMapper {
                 multilingualMapper.toMultilingualDescription(author), // Multilingual description;
                 new TimePlace(
                         author.getBirthDate(),
-                        author.getBirthCity(),
-                        author.getBirthCountry()), // TimePlace birth; TODO: Country
+                        author.getBirthCityEnglish(),
+                        author.getBirthCountryEnglish()), // TimePlace birth; TODO: Country
                 new TimePlace(
                         author.getDeathDate(),
-                        author.getDeathCity(),
-                        author.getDeathCountry()), // TimePlace death; TODO: Country
+                        author.getDeathCityEnglish(),
+                        author.getDeathCountryEnglish()), // TimePlace death; TODO: Country
                 calculateAuthorAgeAtDeathOrCurrent(author), // Integer ageAtDeathOrCurrent;
-                toList(author.getCitizenships()), // List<String> citizenships; TODO: List<Country>
-                toList(author.getOccupations()), // List<String> occupations; TODO: List<AuthorTag>
-                toList(author.getLanguages()), // List<String> languages; TODO: List<DataLanguage>
+                toList(author.getCitizenshipsEnglish()), // List<String> citizenships; TODO: List<Country>
+                toList(author.getOccupationsEnglish()), // List<String> occupations; TODO: List<AuthorTag>
+                toList(author.getLanguagesEnglish()), // List<String> languages; TODO: List<DataLanguage>
                 multilingualMapper.toMultilingualWikipediaLink(author), // Multilingual wikipediaLink;
                 toDTOsWithoutAuthor(author.getBooks()) // List<BookDTO> books;
         );
@@ -76,17 +76,17 @@ public class AuthorMapper {
         }
         if (request.getBirth() != null) {
             author.setBirthDate(request.getBirth().getDate());
-            author.setBirthCity(request.getBirth().getCity());
-            author.setBirthCountry(request.getBirth().getCountry());
+            author.setBirthCityEnglish(request.getBirth().getCity());
+            author.setBirthCountryEnglish(request.getBirth().getCountry());
         }
         if (request.getDeath() != null) {
             author.setDeathDate(request.getDeath().getDate());
-            author.setDeathCity(request.getDeath().getCity());
-            author.setDeathCountry(request.getDeath().getCountry());
+            author.setDeathCityEnglish(request.getDeath().getCity());
+            author.setDeathCountryEnglish(request.getDeath().getCountry());
         }
-        author.setCitizenships(toCsv(request.getCitizenships()));
-        author.setOccupations(toCsv(request.getOccupations()));
-        author.setLanguages(toCsv(request.getLanguages()));
+        author.setCitizenshipsEnglish(toCsv(request.getCitizenships()));
+        author.setOccupationsEnglish(toCsv(request.getOccupations()));
+        author.setLanguagesEnglish(toCsv(request.getLanguages()));
         multilingualMapper.applyMultilingualWikipediaLink(request.getWikipediaLink(), author);
     }
 
@@ -105,7 +105,7 @@ public class AuthorMapper {
         return new BookDTO(
                 book.getId(),
                 book.getOriginalTitle(),
-                book.getOriginalTitleLanguage(),
+                book.getOriginalTitleLanguageEnglish(),
                 multilingualMapper.toMultilingualTitle(book),
                 null,
                 book.getAuthorOLKey(),
@@ -114,10 +114,10 @@ public class AuthorMapper {
                 book.getCoverUrl(),
                 book.getNumberOfPages(),
                 multilingualMapper.toMultilingualDescription(book),
-                toList(book.getTags()),
+                toList(book.getTagsEnglish()),
                 book.getWikipediaLink(),
                 book.getPersonalNotes(),
-                book.getStatus(),
+                book.getStatusEnglish(),
                 book.getFavorite());
     }
 }

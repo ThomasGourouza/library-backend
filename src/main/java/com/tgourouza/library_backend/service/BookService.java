@@ -54,7 +54,7 @@ public class BookService {
 
     public BookDTO updateStatus(UUID bookId, String status) {
         BookEntity book = getBookEntity(bookId);
-        book.setStatus(status);
+        book.setStatusEnglish(status);
         return bookMapper.toDTO(bookRepository.save(book));
     }
 

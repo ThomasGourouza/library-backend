@@ -58,20 +58,20 @@ public class AuthorEntity {
 
     // private TimePlace birth;
     private LocalDate birthDate;
-    private String birthCity;
-    private String birthCountry;
+    private String birthCityEnglish;
+    private String birthCountryEnglish;
 
     // private TimePlace death;
     private LocalDate deathDate;
-    private String deathCity;
-    private String deathCountry;
+    private String deathCityEnglish;
+    private String deathCountryEnglish;
 
-    private String citizenships;
+    private String citizenshipsEnglish;
 
     // private List<String> occupations; TODO: String authorTags; (from List<AuthorTag>)
-    private String occupations;
+    private String occupationsEnglish;
 
-    private String languages;
+    private String languagesEnglish;
 
     // private Multilingual wikipediaLink;
     private String wikipediaLinkFrench;

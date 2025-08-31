@@ -41,7 +41,7 @@ public class BookMapper {
         return new BookDTO(
                 book.getId(),
                 book.getOriginalTitle(),
-                book.getOriginalTitleLanguage(),
+                book.getOriginalTitleLanguageEnglish(),
                 multilingualMapper.toMultilingualTitle(book),
                 authorDto,
                 book.getAuthorOLKey(),
@@ -50,10 +50,10 @@ public class BookMapper {
                 book.getCoverUrl(),
                 book.getNumberOfPages(),
                 multilingualMapper.toMultilingualDescription(book),
-                toList(book.getTags()), // TODO: List<BookTag>
+                toList(book.getTagsEnglish()), // TODO: List<BookTag>
                 book.getWikipediaLink(),
                 book.getPersonalNotes(),
-                book.getStatus(),
+                book.getStatusEnglish(),
                 book.getFavorite());
     }
 
@@ -63,7 +63,7 @@ public class BookMapper {
         }
 
         book.setOriginalTitle(request.getOriginalTitle());
-        book.setOriginalTitleLanguage(request.getOriginalTitleDataLanguage()); // TODO: rename originalTitleLanguage
+        book.setOriginalTitleLanguageEnglish(request.getOriginalTitleDataLanguage()); // TODO: rename originalTitleLanguage
         book.setAuthor(author);
         book.setAuthorOLKey(request.getAuthorOLKey());
         book.setPublicationYear(request.getPublicationYear());
@@ -79,11 +79,11 @@ public class BookMapper {
         }
         book.setCoverUrl(request.getCoverUrl());
         book.setNumberOfPages(request.getNumberOfPages());
-        book.setTags(toCsv(request.getBookTags().stream().map(Enum::name).collect(Collectors.toList())));
+        book.setTagsEnglish(toCsv(request.getBookTags().stream().map(Enum::name).collect(Collectors.toList())));
         book.setWikipediaLink(request.getWikipediaLink());
         book.setPersonalNotes("");
         // TODO: translate or always in english ?
-        book.setStatus(Status.UNREAD.getValue());
+        book.setStatusEnglish(Status.UNREAD.getValue());
         book.setFavorite(false);
     }
 
@@ -101,16 +101,16 @@ public class BookMapper {
                 multilingualMapper.toMultilingualDescription(author), // Multilingual description;
                 new TimePlace(
                         author.getBirthDate(),
-                        author.getBirthCity(),
-                        author.getBirthCountry()), // TimePlace birth; TODO: Country
+                        author.getBirthCityEnglish(),
+                        author.getBirthCountryEnglish()), // TimePlace birth; TODO: Country
                 new TimePlace(
                         author.getDeathDate(),
-                        author.getDeathCity(),
-                        author.getDeathCountry()), // TimePlace death; TODO: Country
+                        author.getDeathCityEnglish(),
+                        author.getDeathCountryEnglish()), // TimePlace death; TODO: Country
                 calculateAuthorAgeAtDeathOrCurrent(author), // Integer ageAtDeathOrCurrent;
-                toList(author.getCitizenships()), // List<String> citizenships; TODO: List<Country>
-                toList(author.getOccupations()), // List<String> occupations; TODO: List<AuthorTag>
-                toList(author.getLanguages()), // List<String> languages; TODO: List<DataLanguage>
+                toList(author.getCitizenshipsEnglish()), // List<String> citizenships; TODO: List<Country>
+                toList(author.getOccupationsEnglish()), // List<String> occupations; TODO: List<AuthorTag>
+                toList(author.getLanguagesEnglish()), // List<String> languages; TODO: List<DataLanguage>
                 multilingualMapper.toMultilingualWikipediaLink(author), // Multilingual wikipediaLink;
                 null // List<BookDTO> books;
         );

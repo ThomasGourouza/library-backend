@@ -18,7 +18,9 @@ public class AuthorDTO {
     private String oLKey;
     private String name;
     private String pictureUrl;
+    // TODO: String -> only from dataLanguage
     private Multilingual shortDescription;
+    // TODO: String -> only from dataLanguage
     private Multilingual description;
     private TimePlace birth;
     private TimePlace death;
@@ -26,6 +28,7 @@ public class AuthorDTO {
     private List<String> citizenships; // TODO: translate
     private List<String> occupations; // TODO: translate
     private List<String> languages; // TODO: translate
+    // TODO: String -> only from dataLanguage
     private Multilingual wikipediaLink;
     private List<BookDTO> books;
 }
