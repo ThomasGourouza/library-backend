@@ -15,7 +15,7 @@ public class BookDTO {
 
     private UUID id;
     private String originalTitle;
-    private String language; // title language
+    private String originalTitleLanguage; // title language
     private Multilingual title;
     private AuthorDTO author;
     private String authorOLKey;

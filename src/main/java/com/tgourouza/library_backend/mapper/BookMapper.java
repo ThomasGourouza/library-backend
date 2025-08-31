@@ -41,7 +41,7 @@ public class BookMapper {
         return new BookDTO(
                 book.getId(),
                 book.getOriginalTitle(),
-                book.getLanguage(),
+                book.getOriginalTitleLanguage(),
                 multilingualMapper.toMultilingualTitle(book),
                 authorDto,
                 book.getAuthorOLKey(),
@@ -63,13 +63,13 @@ public class BookMapper {
         }
 
         book.setOriginalTitle(request.getOriginalTitle());
-        book.setLanguage(request.getOriginalTitleLanguage()); // TODO: rename originalTitleLanguage
+        book.setOriginalTitleLanguage(request.getOriginalTitleDataLanguage()); // TODO: rename originalTitleLanguage
         book.setAuthor(author);
         book.setAuthorOLKey(request.getAuthorOLKey());
         book.setPublicationYear(request.getPublicationYear());
         if (request.getOriginalTitle() != null) {
             Multilingual title = mymemoryService.translateTitle(
-                    request.getOriginalTitle(), request.getOriginalTitleLanguage());
+                    request.getOriginalTitle(), request.getOriginalTitleDataLanguage());
             multilingualMapper.applyMultilingualTitle(title, book);
         }
         if (request.getDescription() != null) {

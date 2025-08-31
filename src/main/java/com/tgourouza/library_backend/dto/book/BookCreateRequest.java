@@ -13,7 +13,7 @@ import lombok.Data;
 public class BookCreateRequest {
 
     private String originalTitle;
-    private DataLanguage originalTitleLanguage; // TODO: String ?
+    private DataLanguage originalTitleDataLanguage;
     private String authorOLKey;
     private Integer publicationYear;
     private String coverUrl;

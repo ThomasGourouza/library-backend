@@ -105,7 +105,7 @@ public class AuthorMapper {
         return new BookDTO(
                 book.getId(),
                 book.getOriginalTitle(),
-                book.getLanguage(),
+                book.getOriginalTitleLanguage(),
                 multilingualMapper.toMultilingualTitle(book),
                 null,
                 book.getAuthorOLKey(),

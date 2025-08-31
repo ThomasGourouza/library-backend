@@ -30,7 +30,7 @@ public class BookEntity {
     private UUID id;
     @NotNull
     private String originalTitle;
-    private String language;
+    private String originalTitleLanguage;
 
     @ManyToOne
     @JoinColumn(name = "author_id", nullable = false)
