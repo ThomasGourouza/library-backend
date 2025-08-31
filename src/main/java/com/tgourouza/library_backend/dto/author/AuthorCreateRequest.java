@@ -2,7 +2,7 @@ package com.tgourouza.library_backend.dto.author;
 
 import java.util.List;
 
-import com.tgourouza.library_backend.constant.Language;
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.TimePlace;
 
@@ -35,5 +35,5 @@ public class AuthorCreateRequest {
     private Multilingual wikipediaLink;
 
     // Data language
-    private Language dataLanguage;
+    private DataLanguage dataLanguage;
 }

@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.service;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -9,7 +10,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.mymemory.TranslateTitleResponse;
 import com.tgourouza.library_backend.mapper.IsoLangMapper;
@@ -38,23 +38,23 @@ public class MymemoryService {
         this.libreTranslateService = libreTranslateService;
     }
 
-    public Multilingual translateTitle(String title, Language sourceLanguage) {
-        Language source = sourceLanguage != null ? sourceLanguage : libreTranslateService.detectLanguage(title);
-        if (source == Language.UNKNOWN) {
+    public Multilingual translateTitle(String title, DataLanguage sourceLanguage) {
+        DataLanguage source = sourceLanguage != null ? sourceLanguage : libreTranslateService.detectLanguage(title);
+        if (source == DataLanguage.UNKNOWN) {
             throw new IllegalArgumentException("Could not detect source language");
         }
         return new Multilingual(
-                cleanAndTitleCase(translate(title, source, Language.FRENCH)),
-                cleanAndTitleCase(translate(title, source, Language.SPANISH)),
-                cleanAndTitleCase(translate(title, source, Language.ITALIAN)),
-                cleanAndTitleCase(translate(title, source, Language.PORTUGUESE)),
-                cleanAndTitleCase(translate(title, source, Language.ENGLISH)),
-                cleanAndTitleCase(translate(title, source, Language.GERMAN)),
-                cleanAndTitleCase(translate(title, source, Language.RUSSIAN)),
-                cleanAndTitleCase(translate(title, source, Language.JAPANESE)));
+                cleanAndTitleCase(translate(title, source, DataLanguage.FRENCH)),
+                cleanAndTitleCase(translate(title, source, DataLanguage.SPANISH)),
+                cleanAndTitleCase(translate(title, source, DataLanguage.ITALIAN)),
+                cleanAndTitleCase(translate(title, source, DataLanguage.PORTUGUESE)),
+                cleanAndTitleCase(translate(title, source, DataLanguage.ENGLISH)),
+                cleanAndTitleCase(translate(title, source, DataLanguage.GERMAN)),
+                cleanAndTitleCase(translate(title, source, DataLanguage.RUSSIAN)),
+                cleanAndTitleCase(translate(title, source, DataLanguage.JAPANESE)));
     }
 
-    private String translate(String title, Language source, Language target) {
+    private String translate(String title, DataLanguage source, DataLanguage target) {
         try {
             String src = isoLangMapper.toIso(source);
             String tgt = isoLangMapper.toIso(target);
@@ -73,8 +73,8 @@ public class MymemoryService {
         }
     }
 
-    public TranslateTitleResponse getTranslation(String body, String title, Language sourceLanguage,
-            Language targetLanguage)
+    public TranslateTitleResponse getTranslation(String body, String title, DataLanguage sourceLanguage,
+            DataLanguage targetLanguage)
             throws JsonMappingException, JsonProcessingException {
         JsonNode root = mapper.readTree(body);
         int status = root.path("responseStatus").asInt(0);

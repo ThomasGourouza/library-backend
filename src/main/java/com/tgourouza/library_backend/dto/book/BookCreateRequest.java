@@ -3,7 +3,7 @@ package com.tgourouza.library_backend.dto.book;
 import java.util.Set;
 import java.util.UUID;
 
-import com.tgourouza.library_backend.constant.Language;
+import com.tgourouza.library_backend.constant.DataLanguage;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -13,7 +13,7 @@ import lombok.Data;
 public class BookCreateRequest {
 
     private String originalTitle;
-    private Language originalTitleLanguage; // TODO: String ?
+    private DataLanguage originalTitleLanguage; // TODO: String ?
     private String authorOLKey;
     private Integer publicationYear;
     private String coverUrl;
@@ -24,6 +24,6 @@ public class BookCreateRequest {
     private UUID authorId;
 
     // Data language
-    private Language dataLanguage;
+    private DataLanguage dataLanguage;
 
 }

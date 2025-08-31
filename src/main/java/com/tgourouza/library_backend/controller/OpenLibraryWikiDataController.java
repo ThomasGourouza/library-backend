@@ -1,6 +1,6 @@
 package com.tgourouza.library_backend.controller;
 
-import com.tgourouza.library_backend.constant.Language;
+import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
@@ -35,7 +35,7 @@ public class OpenLibraryWikiDataController {
 
     @GetMapping(value = "/author-info/{authorKey}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthorCreateRequest> getAuthorCreateRequest(
-            @PathVariable String authorKey, @RequestParam(required = false, defaultValue = "ENGLISH") Language language) {
+            @PathVariable String authorKey, @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
         if (authorKey == null || authorKey.isBlank()) {
             return ResponseEntity.badRequest().build();
         }
@@ -50,6 +50,6 @@ public class OpenLibraryWikiDataController {
         if (authorWikidata == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(authorCreateRequestMapper.mapToAuthorCreateRequest(authorOpenLibrary, authorWikidata, language));
+        return ResponseEntity.ok(authorCreateRequestMapper.mapToAuthorCreateRequest(authorOpenLibrary, authorWikidata, dataLanguage));
     }
 }

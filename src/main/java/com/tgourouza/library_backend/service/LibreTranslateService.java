@@ -3,6 +3,7 @@ package com.tgourouza.library_backend.service;
 import java.util.Arrays;
 import java.util.Objects;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -10,7 +11,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
-import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.libretranslate.DetectResult;
 import com.tgourouza.library_backend.dto.libretranslate.TranslateResponse;
@@ -43,7 +43,7 @@ public class LibreTranslateService {
         return arr == null ? null : Arrays.stream(arr).findFirst().orElse(null);
     }
 
-    public Language detectLanguage(String text) {
+    public DataLanguage detectLanguage(String text) {
         return isoLangMapper.toLanguage(detect(text).language());
     }
 
@@ -70,26 +70,26 @@ public class LibreTranslateService {
                 .body(TranslateResponse.class);
     }
 
-    public String translateText(String text, Language targetLanguage) {
+    public String translateText(String text, DataLanguage targetLanguage) {
         String target = isoLangMapper.toIso(targetLanguage);
         return translate(text, null, target).translatedText();
     }
 
-    public String translateTextFromSource(String text, Language sourceLanguage, Language targetLanguage) {
+    public String translateTextFromSource(String text, DataLanguage sourceLanguage, DataLanguage targetLanguage) {
         String target = isoLangMapper.toIso(targetLanguage);
         String source = isoLangMapper.toIso(sourceLanguage);
         return translate(text, source, target).translatedText();
     }
 
-    public Multilingual translateTextMultilingual(String text, Language source) {
+    public Multilingual translateTextMultilingual(String text, DataLanguage source) {
         return new Multilingual(
-                translateTextFromSource(text, source, Language.FRENCH),
-                translateTextFromSource(text, source, Language.SPANISH),
-                translateTextFromSource(text, source, Language.ITALIAN),
-                translateTextFromSource(text, source, Language.PORTUGUESE),
-                translateTextFromSource(text, source, Language.ENGLISH),
-                translateTextFromSource(text, source, Language.GERMAN),
-                translateTextFromSource(text, source, Language.RUSSIAN),
-                translateTextFromSource(text, source, Language.JAPANESE));
+                translateTextFromSource(text, source, DataLanguage.FRENCH),
+                translateTextFromSource(text, source, DataLanguage.SPANISH),
+                translateTextFromSource(text, source, DataLanguage.ITALIAN),
+                translateTextFromSource(text, source, DataLanguage.PORTUGUESE),
+                translateTextFromSource(text, source, DataLanguage.ENGLISH),
+                translateTextFromSource(text, source, DataLanguage.GERMAN),
+                translateTextFromSource(text, source, DataLanguage.RUSSIAN),
+                translateTextFromSource(text, source, DataLanguage.JAPANESE));
     }
 }

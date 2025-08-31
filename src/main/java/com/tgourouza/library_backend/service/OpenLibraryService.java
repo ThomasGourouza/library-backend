@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -13,7 +14,6 @@ import org.springframework.web.client.RestClientResponseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
 import com.tgourouza.library_backend.exception.OpenLibraryUpstreamException;
@@ -36,7 +36,7 @@ public class OpenLibraryService {
         this.authorOpenLibraryMapper = authorOpenLibraryMapper;
     }
 
-    public BookCreateRequest getBookCreateRequest(String title, String author, int resultNumber, Language dataLanguage) {
+    public BookCreateRequest getBookCreateRequest(String title, String author, int resultNumber, DataLanguage dataLanguage) {
         // 1) Search works
         Optional<JsonNode> bestDoc = searchBestWorkDoc(title, author, resultNumber);
         if (bestDoc.isEmpty()) {

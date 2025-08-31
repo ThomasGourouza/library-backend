@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.Getter;
 
 @RequiredArgsConstructor
-public enum Language {
+public enum DataLanguage {
     AFRIKAANS("Afrikaans"),
     ALBANIAN("Albanian"),
     ARABIC("Arabic"),

@@ -1,6 +1,6 @@
 package com.tgourouza.library_backend.mapper;
 
-import com.tgourouza.library_backend.constant.Language;
+import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.stereotype.Component;
 
 import java.util.*;
@@ -8,70 +8,70 @@ import java.util.*;
 @Component
 public class IsoLangMapper {
 
-    private final Map<Language, String> l2iso;
-    private final Map<String, Language> iso2lang;
+    private final Map<DataLanguage, String> l2iso;
+    private final Map<String, DataLanguage> iso2lang;
 
     public IsoLangMapper() {
-        EnumMap<Language, String> m = new EnumMap<>(Language.class);
+        EnumMap<DataLanguage, String> m = new EnumMap<>(DataLanguage.class);
 
-        m.put(Language.ENGLISH, "en");  m.put(Language.FRENCH, "fr");
-        m.put(Language.GERMAN, "de");   m.put(Language.SPANISH, "es");
-        m.put(Language.ITALIAN, "it");  m.put(Language.PORTUGUESE, "pt");
-        m.put(Language.RUSSIAN, "ru");  m.put(Language.JAPANESE, "ja");
-        m.put(Language.CHINESE, "zh");  m.put(Language.ARABIC, "ar");
-        m.put(Language.TURKISH, "tr");  m.put(Language.UKRAINIAN, "uk");
-        m.put(Language.VIETNAMESE, "vi"); m.put(Language.POLISH, "pl");
-        m.put(Language.CZECH, "cs");    m.put(Language.DUTCH, "nl");
-        m.put(Language.GREEK, "el");    m.put(Language.ROMANIAN, "ro");
-        m.put(Language.HUNGARIAN, "hu"); m.put(Language.FINNISH, "fi");
-        m.put(Language.SWEDISH, "sv");  m.put(Language.DANISH, "da");
-        m.put(Language.HEBREW, "he");   m.put(Language.HINDI, "hi");
-        m.put(Language.INDONESIAN, "id"); m.put(Language.KOREAN, "ko");
-        m.put(Language.THAI, "th");     m.put(Language.CATALAN, "ca");
-        m.put(Language.BULGARIAN, "bg"); m.put(Language.SLOVAK, "sk");
-        m.put(Language.SLOVENE, "sl");  m.put(Language.LITHUANIAN, "lt");
-        m.put(Language.LATVIAN, "lv");  m.put(Language.ESTONIAN, "et");
-        m.put(Language.CROATIAN, "hr"); m.put(Language.SERBIAN, "sr");
-        m.put(Language.BOSNIAN, "bs");  m.put(Language.MACEDONIAN, "mk");
-        m.put(Language.ALBANIAN, "sq"); m.put(Language.ARMENIAN, "hy");
-        m.put(Language.GEORGIAN, "ka"); m.put(Language.BELARUSIAN, "be");
-        m.put(Language.PERSIAN, "fa");  m.put(Language.URDU, "ur");
-        m.put(Language.BENGALI, "bn");  m.put(Language.TAMIL, "ta");
-        m.put(Language.TELUGU, "te");   m.put(Language.MALAY, "ms");
-        m.put(Language.TAGALOG, "tl");  m.put(Language.SWAHILI, "sw");
-        m.put(Language.AFRIKAANS, "af"); m.put(Language.BASQUE, "eu");
-        m.put(Language.ICELANDIC, "is"); m.put(Language.IRISH, "ga");
-        m.put(Language.MAORI, "mi");    m.put(Language.MONGOLIAN, "mn");
-        m.put(Language.KAZAKH, "kk");   m.put(Language.SHONA, "sn");
-        m.put(Language.SOMALI, "so");   m.put(Language.SOTHO, "st");
-        m.put(Language.TSONGA, "ts");   m.put(Language.TSWANA, "tn");
-        m.put(Language.WELSH, "cy");    m.put(Language.XHOSA, "xh");
-        m.put(Language.YORUBA, "yo");   m.put(Language.ZULU, "zu");
-        m.put(Language.ESPERANTO, "eo"); m.put(Language.NYNORSK, "nn");
-        m.put(Language.BOKMAL, "no");   m.put(Language.AZERBAIJANI, "az");
-        m.put(Language.GUJARATI, "gu");
+        m.put(DataLanguage.ENGLISH, "en");  m.put(DataLanguage.FRENCH, "fr");
+        m.put(DataLanguage.GERMAN, "de");   m.put(DataLanguage.SPANISH, "es");
+        m.put(DataLanguage.ITALIAN, "it");  m.put(DataLanguage.PORTUGUESE, "pt");
+        m.put(DataLanguage.RUSSIAN, "ru");  m.put(DataLanguage.JAPANESE, "ja");
+        m.put(DataLanguage.CHINESE, "zh");  m.put(DataLanguage.ARABIC, "ar");
+        m.put(DataLanguage.TURKISH, "tr");  m.put(DataLanguage.UKRAINIAN, "uk");
+        m.put(DataLanguage.VIETNAMESE, "vi"); m.put(DataLanguage.POLISH, "pl");
+        m.put(DataLanguage.CZECH, "cs");    m.put(DataLanguage.DUTCH, "nl");
+        m.put(DataLanguage.GREEK, "el");    m.put(DataLanguage.ROMANIAN, "ro");
+        m.put(DataLanguage.HUNGARIAN, "hu"); m.put(DataLanguage.FINNISH, "fi");
+        m.put(DataLanguage.SWEDISH, "sv");  m.put(DataLanguage.DANISH, "da");
+        m.put(DataLanguage.HEBREW, "he");   m.put(DataLanguage.HINDI, "hi");
+        m.put(DataLanguage.INDONESIAN, "id"); m.put(DataLanguage.KOREAN, "ko");
+        m.put(DataLanguage.THAI, "th");     m.put(DataLanguage.CATALAN, "ca");
+        m.put(DataLanguage.BULGARIAN, "bg"); m.put(DataLanguage.SLOVAK, "sk");
+        m.put(DataLanguage.SLOVENE, "sl");  m.put(DataLanguage.LITHUANIAN, "lt");
+        m.put(DataLanguage.LATVIAN, "lv");  m.put(DataLanguage.ESTONIAN, "et");
+        m.put(DataLanguage.CROATIAN, "hr"); m.put(DataLanguage.SERBIAN, "sr");
+        m.put(DataLanguage.BOSNIAN, "bs");  m.put(DataLanguage.MACEDONIAN, "mk");
+        m.put(DataLanguage.ALBANIAN, "sq"); m.put(DataLanguage.ARMENIAN, "hy");
+        m.put(DataLanguage.GEORGIAN, "ka"); m.put(DataLanguage.BELARUSIAN, "be");
+        m.put(DataLanguage.PERSIAN, "fa");  m.put(DataLanguage.URDU, "ur");
+        m.put(DataLanguage.BENGALI, "bn");  m.put(DataLanguage.TAMIL, "ta");
+        m.put(DataLanguage.TELUGU, "te");   m.put(DataLanguage.MALAY, "ms");
+        m.put(DataLanguage.TAGALOG, "tl");  m.put(DataLanguage.SWAHILI, "sw");
+        m.put(DataLanguage.AFRIKAANS, "af"); m.put(DataLanguage.BASQUE, "eu");
+        m.put(DataLanguage.ICELANDIC, "is"); m.put(DataLanguage.IRISH, "ga");
+        m.put(DataLanguage.MAORI, "mi");    m.put(DataLanguage.MONGOLIAN, "mn");
+        m.put(DataLanguage.KAZAKH, "kk");   m.put(DataLanguage.SHONA, "sn");
+        m.put(DataLanguage.SOMALI, "so");   m.put(DataLanguage.SOTHO, "st");
+        m.put(DataLanguage.TSONGA, "ts");   m.put(DataLanguage.TSWANA, "tn");
+        m.put(DataLanguage.WELSH, "cy");    m.put(DataLanguage.XHOSA, "xh");
+        m.put(DataLanguage.YORUBA, "yo");   m.put(DataLanguage.ZULU, "zu");
+        m.put(DataLanguage.ESPERANTO, "eo"); m.put(DataLanguage.NYNORSK, "nn");
+        m.put(DataLanguage.BOKMAL, "no");   m.put(DataLanguage.AZERBAIJANI, "az");
+        m.put(DataLanguage.GUJARATI, "gu");
         // langues présentes dans MyMemory mapper:
-        m.put(Language.LATIN, "la");
-        m.put(Language.MARATHI, "mr");
-        m.put(Language.PUNJABI, "pa");
-        m.put(Language.GANDA, "lg");
+        m.put(DataLanguage.LATIN, "la");
+        m.put(DataLanguage.MARATHI, "mr");
+        m.put(DataLanguage.PUNJABI, "pa");
+        m.put(DataLanguage.GANDA, "lg");
         this.l2iso = Collections.unmodifiableMap(m);
 
-        Map<String, Language> tmp = new HashMap<>();
-        for (Language lang : Language.values()) {
+        Map<String, DataLanguage> tmp = new HashMap<>();
+        for (DataLanguage lang : DataLanguage.values()) {
             tmp.put(toIso(lang), lang);
         }
         this.iso2lang = Collections.unmodifiableMap(tmp);
     }
 
-    /** Language → ISO-639-1 */
-    public String toIso(Language language) {
-        return l2iso.get(language);
+    /** DataLanguage → ISO-639-1 */
+    public String toIso(DataLanguage dataLanguage) {
+        return l2iso.get(dataLanguage);
     }
 
-    /** ISO-639-1 -> Language */
-    public Language toLanguage(String code) {
-        if (code == null) return Language.UNKNOWN;
+    /** ISO-639-1 -> DataLanguage */
+    public DataLanguage toLanguage(String code) {
+        if (code == null) return DataLanguage.UNKNOWN;
         return iso2lang.get(code);
     }
 }

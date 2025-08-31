@@ -5,10 +5,10 @@ import static com.tgourouza.library_backend.util.utils.*;
 
 import java.util.HashSet;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
-import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.service.AuthorService;
 import com.tgourouza.library_backend.service.LibreTranslateService;
@@ -29,7 +29,7 @@ public class BookCreateRequestMapper {
         this.libreTranslateService = libreTranslateService;
     }
 
-    public BookCreateRequest mapToBookCreateRequest(JsonNode doc, JsonNode work, Language dataLanguage) {
+    public BookCreateRequest mapToBookCreateRequest(JsonNode doc, JsonNode work, DataLanguage dataLanguage) {
         String originalTitle = text(work, "title");
         if (originalTitle.isBlank()) {
             originalTitle = text(doc, "title");

@@ -1,5 +1,6 @@
 package com.tgourouza.library_backend.controller;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,7 +9,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.tgourouza.library_backend.constant.Language;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
 import com.tgourouza.library_backend.service.OpenLibraryService;
@@ -31,10 +31,10 @@ public class OpenLibraryController {
             @RequestParam String title,
             @RequestParam(required = false) String author,
             @RequestParam(required = false, defaultValue = "1") int resultNumber,
-            @RequestParam(required = false, defaultValue = "ENGLISH") Language language
+            @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage
     ) {
         BookCreateRequest bookCreateRequest = openLibraryService.getBookCreateRequest(
-                title, author, resultNumber, language);
+                title, author, resultNumber, dataLanguage);
         if (bookCreateRequest == null) {
             return ResponseEntity.notFound().build();
         }
