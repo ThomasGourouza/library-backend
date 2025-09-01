@@ -1,6 +1,6 @@
 -- UUIDs via gen_random_uuid()
 CREATE EXTENSION IF NOT EXISTS pgcrypto;
--- TODO: add _english where needed
+
 -- ---------- AUTHOR ----------
 CREATE TABLE IF NOT EXISTS author (
     id                          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
@@ -27,18 +27,18 @@ CREATE TABLE IF NOT EXISTS author (
     short_description_japanese  TEXT,
 
     birth_date                  DATE,
-    birth_city                  TEXT,
-    birth_country               TEXT,
+    birth_city_english          TEXT,
+    birth_country_english       TEXT,
 
     death_date                  DATE,
-    death_city                  TEXT,
-    death_country               TEXT,
+    death_city_english          TEXT,
+    death_country_english       TEXT,
 
-    citizenships                TEXT,
+    citizenships_english         TEXT,
 
-    occupations                 TEXT,
+    occupations_english          TEXT,
 
-    languages                   TEXT,
+    languages_english            TEXT,
 
     wikipedia_link_french       TEXT,
     wikipedia_link_spanish      TEXT,
@@ -58,7 +58,7 @@ CREATE INDEX IF NOT EXISTS idx_author_ol_key ON author (ol_key);
 CREATE TABLE IF NOT EXISTS book (
     id                          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     original_title              TEXT       NOT NULL,
-    language                    TEXT,
+    original_title_language_english TEXT,
 
     author_id                   UUID       NOT NULL REFERENCES author(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
 
@@ -87,16 +87,16 @@ CREATE TABLE IF NOT EXISTS book (
     description_russian         TEXT,
     description_japanese        TEXT,
 
-    tags                        TEXT,
+    tags_english                TEXT,
 
     wikipedia_link              TEXT,
 
     personal_notes              TEXT,
-    status                      TEXT,
+    status_english              TEXT,
     favorite                    BOOLEAN
 );
 
 -- Helpful indexes
 CREATE INDEX IF NOT EXISTS idx_book_author_id         ON book (author_id);
-CREATE INDEX IF NOT EXISTS idx_book_status            ON book (status);
+CREATE INDEX IF NOT EXISTS idx_book_status_english     ON book (status_english);
 CREATE INDEX IF NOT EXISTS idx_book_publication_year  ON book (publication_year);

@@ -1,7 +1,7 @@
 -- ---------- CITY ----------
 CREATE TABLE IF NOT EXISTS city (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    english     TEXT,
+    english     TEXT NOT NULL,
     french      TEXT,
     spanish     TEXT,
     italian     TEXT,
@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS city (
 -- ---------- COUNTRY ----------
 CREATE TABLE IF NOT EXISTS country (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    english     TEXT,
+    english     TEXT NOT NULL,
     french      TEXT,
     spanish     TEXT,
     italian     TEXT,
@@ -27,7 +27,7 @@ CREATE TABLE IF NOT EXISTS country (
 -- ---------- LANGUAGE ----------
 CREATE TABLE IF NOT EXISTS language (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    english     TEXT,
+    english     TEXT NOT NULL,
     french      TEXT,
     spanish     TEXT,
     italian     TEXT,
@@ -40,7 +40,7 @@ CREATE TABLE IF NOT EXISTS language (
 -- ---------- BOOK_TAG ----------
 CREATE TABLE IF NOT EXISTS book_tag (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    english     TEXT,
+    english     TEXT NOT NULL,
     french      TEXT,
     spanish     TEXT,
     italian     TEXT,
@@ -53,7 +53,7 @@ CREATE TABLE IF NOT EXISTS book_tag (
 -- ---------- AUTHOR_TAG ----------
 CREATE TABLE IF NOT EXISTS author_tag (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    english     TEXT,
+    english     TEXT NOT NULL,
     french      TEXT,
     spanish     TEXT,
     italian     TEXT,
@@ -66,7 +66,7 @@ CREATE TABLE IF NOT EXISTS author_tag (
 -- ---------- STATUS ----------
 CREATE TABLE IF NOT EXISTS status (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    english     TEXT,
+    english     TEXT NOT NULL,
     french      TEXT,
     spanish     TEXT,
     italian     TEXT,
