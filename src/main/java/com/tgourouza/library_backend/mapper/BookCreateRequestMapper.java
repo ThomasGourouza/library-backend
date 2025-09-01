@@ -1,14 +1,19 @@
 package com.tgourouza.library_backend.mapper;
 
-import static com.tgourouza.library_backend.util.openLibraryUtils.*;
-import static com.tgourouza.library_backend.util.utils.*;
+import static com.tgourouza.library_backend.util.openLibraryUtils.coverImage;
+import static com.tgourouza.library_backend.util.openLibraryUtils.mergeJsonArraysToSet;
+import static com.tgourouza.library_backend.util.openLibraryUtils.parseYear;
+import static com.tgourouza.library_backend.util.openLibraryUtils.readDescription;
+import static com.tgourouza.library_backend.util.openLibraryUtils.readWikipediaLink;
+import static com.tgourouza.library_backend.util.openLibraryUtils.text;
+import static com.tgourouza.library_backend.util.utils.cleanText;
 
-import java.util.HashSet;
+import java.util.List;
 
-import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.JsonNode;
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.service.AuthorService;
 import com.tgourouza.library_backend.service.LibreTranslateService;
@@ -82,10 +87,10 @@ public class BookCreateRequestMapper {
             publicationYear = parseYear(fpd);
         }
 
-        HashSet<String> tags = mergeJsonArraysToSet(
+        List<String> tags = mergeJsonArraysToSet(
                 doc.path("subject_facet"),
                 doc.path("subject"),
-                work.path("subjects"));
+                work.path("subjects")).stream().toList();
 
         String description = cleanText(readDescription(work));
 
@@ -99,7 +104,7 @@ public class BookCreateRequestMapper {
                 coverUrl,
                 numberOfPages,
                 libreTranslateService.translateText(cleanText(description), dataLanguage),
-                tagsMapper.fromSet(tags),
+                tagsMapper.fromList(tags),
                 wikipedia,
                 authorService.getAuthorEntityId(authorOLKey),
                 dataLanguage);

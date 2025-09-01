@@ -1,10 +1,12 @@
 package com.tgourouza.library_backend.mapper;
 
-import static com.tgourouza.library_backend.util.utils.*;
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtDeathOrCurrent;
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
+import static com.tgourouza.library_backend.util.utils.toCsv;
+import static com.tgourouza.library_backend.util.utils.toList;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Component;
 
@@ -94,7 +96,7 @@ public class AuthorMapper {
         if (books == null) {
             return Collections.emptyList();
         }
-        return books.stream().map(this::toDTOWithoutAuthor).collect(Collectors.toList());
+        return books.stream().map(this::toDTOWithoutAuthor).toList();
     }
 
     // TODO: duplicate code (BookMapper)

@@ -1,12 +1,13 @@
 package com.tgourouza.library_backend.mapper;
 
-import static com.tgourouza.library_backend.util.utils.*;
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtDeathOrCurrent;
+import static com.tgourouza.library_backend.util.utils.calculateAuthorAgeAtPublication;
+import static com.tgourouza.library_backend.util.utils.toCsv;
+import static com.tgourouza.library_backend.util.utils.toList;
 
-import java.util.stream.Collectors;
-
-import com.tgourouza.library_backend.constant.Status;
 import org.springframework.stereotype.Component;
 
+import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.TimePlace;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
@@ -50,7 +51,7 @@ public class BookMapper {
                 book.getCoverUrl(),
                 book.getNumberOfPages(),
                 multilingualMapper.toMultilingualDescription(book),
-                toList(book.getTagsEnglish()), // TODO: List<BookTag>
+                toList(book.getTagsEnglish()),
                 book.getWikipediaLink(),
                 book.getPersonalNotes(),
                 book.getStatusEnglish(),
@@ -63,7 +64,7 @@ public class BookMapper {
         }
 
         book.setOriginalTitle(request.getOriginalTitle());
-        book.setOriginalTitleLanguageEnglish(request.getOriginalTitleDataLanguage()); // TODO: rename originalTitleLanguage
+        book.setOriginalTitleLanguageEnglish(request.getOriginalTitleDataLanguage().getValue());
         book.setAuthor(author);
         book.setAuthorOLKey(request.getAuthorOLKey());
         book.setPublicationYear(request.getPublicationYear());
@@ -79,10 +80,11 @@ public class BookMapper {
         }
         book.setCoverUrl(request.getCoverUrl());
         book.setNumberOfPages(request.getNumberOfPages());
-        book.setTagsEnglish(toCsv(request.getBookTags().stream().map(Enum::name).collect(Collectors.toList())));
+        // TODO: translate
+        // book.setTagsEnglish(toCsv(request.getBookTags().stream().map(tag -> translate(tag, request.getDataLanguage())).toList()));
+        book.setTagsEnglish(toCsv(request.getBookTags()));
         book.setWikipediaLink(request.getWikipediaLink());
         book.setPersonalNotes("");
-        // TODO: translate or always in english ?
         book.setStatusEnglish(Status.UNREAD.getValue());
         book.setFavorite(false);
     }
@@ -102,15 +104,15 @@ public class BookMapper {
                 new TimePlace(
                         author.getBirthDate(),
                         author.getBirthCityEnglish(),
-                        author.getBirthCountryEnglish()), // TimePlace birth; TODO: Country
+                        author.getBirthCountryEnglish()), // TimePlace birth;
                 new TimePlace(
                         author.getDeathDate(),
                         author.getDeathCityEnglish(),
-                        author.getDeathCountryEnglish()), // TimePlace death; TODO: Country
+                        author.getDeathCountryEnglish()), // TimePlace death;
                 calculateAuthorAgeAtDeathOrCurrent(author), // Integer ageAtDeathOrCurrent;
-                toList(author.getCitizenshipsEnglish()), // List<String> citizenships; TODO: List<Country>
-                toList(author.getOccupationsEnglish()), // List<String> occupations; TODO: List<AuthorTag>
-                toList(author.getLanguagesEnglish()), // List<String> languages; TODO: List<DataLanguage>
+                toList(author.getCitizenshipsEnglish()), // List<String> citizenships;
+                toList(author.getOccupationsEnglish()), // List<String> occupations;
+                toList(author.getLanguagesEnglish()), // List<String> languages;
                 multilingualMapper.toMultilingualWikipediaLink(author), // Multilingual wikipediaLink;
                 null // List<BookDTO> books;
         );

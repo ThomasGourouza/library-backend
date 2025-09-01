@@ -8,8 +8,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestClientResponseException;
 
 import com.tgourouza.library_backend.dto.wikidata.AuthorWikidata;
 import com.tgourouza.library_backend.exception.WikidataUpstreamException;
@@ -46,12 +44,8 @@ public class WikidataService {
                     .body(String.class);
 
             return authorWikidataMapper.mapToAuthorWikiData(json, qid);
-        } catch (RestClientResponseException ex) {
-            throw new WikidataUpstreamException("POST", "/sparql", ex.getRawStatusCode());
-        } catch (RestClientException ex) {
+        } catch (Exception ex) {
             throw new WikidataUpstreamException("POST", "/sparql", ex);
-        } catch (Exception parse) {
-            throw new WikidataUpstreamException("POST", "/sparql", parse);
         }
     }
 

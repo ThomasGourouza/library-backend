@@ -1,6 +1,6 @@
 package com.tgourouza.library_backend.dto.book;
 
-import java.util.Set;
+import java.util.List;
 import java.util.UUID;
 
 import com.tgourouza.library_backend.constant.DataLanguage;
@@ -19,11 +19,10 @@ public class BookCreateRequest {
     private String coverUrl;
     private Integer numberOfPages;
     private String description;
-    private Set<String> bookTags;
+    private List<String> bookTags;
     private String wikipediaLink;
     private UUID authorId;
 
     // Data language
     private DataLanguage dataLanguage;
-
 }

@@ -28,9 +28,9 @@ public class AuthorCreateRequest {
     private TimePlace birth;
     private TimePlace death;
 
-    private List<String> citizenships; // TODO: translate
-    private List<String> occupations; // TODO: translate
-    private List<String> languages; // TODO: translate
+    private List<String> citizenships;
+    private List<String> occupations;
+    private List<String> languages;
 
     private Multilingual wikipediaLink;
 
