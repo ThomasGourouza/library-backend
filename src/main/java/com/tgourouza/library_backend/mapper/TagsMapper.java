@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.regex.Pattern;
 
 import org.springframework.stereotype.Component;
@@ -15,7 +16,7 @@ import com.tgourouza.library_backend.constant.BookTag;
 @Component
 public class TagsMapper {
 
-    private Map<String, List<String>> tagMap = new HashMap<>();
+    private Map<String, Set<String>> tagMap = new HashMap<>();
 
     private final List<String> SCIENCE_EXCLUSIONS = List.of(
             "science fiction",
@@ -31,7 +32,7 @@ public class TagsMapper {
                 "classica",
                 "literatura", "literario", "literaria", "canon", "canónico", "canónica", "clásico",
                 "clásica",
-                "literatur", "literarisch", "kanon", "kanonisch", "klassiker", "klassisch")).stream().toList());
+                "literatur", "literarisch", "kanon", "kanonisch", "klassiker", "klassisch")));
         tagMap.put(BookTag.PHILOSOPHY.getValue(), new HashSet<>(Arrays.asList(
                 "philosophic",
                 "philosophy", "philosophical", "metaphysics", "ethics", "logic", "epistemology",
@@ -40,7 +41,7 @@ public class TagsMapper {
                 "epistemologia",
                 "filosofía", "filosófico", "filosófica", "metafísica", "ética", "lógica",
                 "epistemología",
-                "philosophie", "philosophisch", "metaphysik", "ethik", "logik", "erkenntnistheorie")).stream().toList());
+                "philosophie", "philosophisch", "metaphysik", "ethik", "logik", "erkenntnistheorie")));
         tagMap.put(BookTag.RELIGION.getValue(), new HashSet<>(Arrays.asList(
                 "religion", "religious", "theology", "sacred", "scripture", "church", "faith",
                 "religion", "religieux", "religieuse", "théologie", "sacré", "sacrée", "écriture",
@@ -82,26 +83,26 @@ public class TagsMapper {
                 "christ", "christen", "christlich", "christentum",
                 "bibel", "evangelium", "neues testament", "altes testament", "apostel", "jünger",
                 //
-                "god", "gott", "dios", "deus", "dio", "dieu")).stream().toList());
+                "god", "gott", "dios", "deus", "dio", "dieu")));
         tagMap.put(BookTag.HISTORY.getValue(), new HashSet<>(Arrays.asList(
                 "histoire", "history", "historia", "storia", "geschichte", "medieval", "medievale",
                 "médiévale",
                 "médiéval",
                 "historique", "historic", "historical", "histórico", "storico", "histórica", "storica",
-                "historisch")).stream().toList());
+                "historisch")));
         tagMap.put(BookTag.GEOGRAPHY.getValue(), new HashSet<>(Arrays.asList(
                 "geography", "geographical", "cartography", "map", "mapping", "atlas",
                 "géographie", "géographique", "cartographie", "carte", "cartes", "atlas",
                 "geografia", "geografico", "geografica", "cartografia", "mappa", "mappe", "atlante",
                 "geografía", "geográfico", "geográfica", "cartografía", "mapa", "mapas", "atlas",
-                "geografie", "geographie", "geografisch", "kartografie", "karte", "karten", "atlas")).stream().toList());
+                "geografie", "geographie", "geografisch", "kartografie", "karte", "karten", "atlas")));
         tagMap.put(BookTag.SOCIAL.getValue(), new HashSet<>(Arrays.asList(
                 "social", "society", "solidarity", "sociable",
                 "social", "société", "communauté", "solidarité", "sociable",
                 "sociale", "società", "comunità", "solidarietà", "socievole",
                 "social", "sociedad", "comunidad", "solidaridad", "sociable",
                 "sozial", "gesellschaft", "gemeinschaft", "solidarität",
-                "gesellig")).stream().toList());
+                "gesellig")));
         tagMap.put(BookTag.CULTURE.getValue(), new HashSet<>(Arrays.asList(
                 "culture", "cultural", "civilization", "heritage", "tradition", "custom", "folklore",
                 "artistic",
@@ -115,7 +116,7 @@ public class TagsMapper {
                 "folclore", "artístico",
                 "artística",
                 "kultur", "kulturell", "zivilisation", "kulturerbe", "tradition", "brauch", "folklore",
-                "künstlerisch")).stream().toList());
+                "künstlerisch")));
         tagMap.put(BookTag.SOCIOLOGY.getValue(), new HashSet<>(Arrays.asList(
                 "sociologie", "sociology", "sociología", "sociologia", "soziologie",
                 "sociologique", "sociologic", "sociological", "sociológico", "sociológica",
@@ -131,7 +132,7 @@ public class TagsMapper {
                 "sociología", "sociológico", "sociológica", "ciencia social", "sociólogo", "socióloga",
                 // Deutsch
                 "soziologie", "soziologisch", "sozialwissenschaft", "gesellschaftlich", "soziologe",
-                "soziologin")).stream().toList());
+                "soziologin")));
         tagMap.put(BookTag.POLITICS.getValue(), new HashSet<>(Arrays.asList(
                 "politique", "politics", "político", "política", "politico", "politica", "politik",
                 "politic", "political", "politisch",
@@ -176,7 +177,7 @@ public class TagsMapper {
                 // Deutsch
                 "politik", "politisch", "politiker", "regierung", "staat",
                 "demokratie", "republik", "parlament",
-                "diplomatie", "diplomatisch", "diplomat")).stream().toList());
+                "diplomatie", "diplomatisch", "diplomat")));
         tagMap.put(BookTag.MYTHOLOGY.getValue(), new HashSet<>(Arrays.asList(
                 // English
                 "mythology", "mythological", "myth", "myths", "pantheon", "god", "gods", "hero",
@@ -197,7 +198,7 @@ public class TagsMapper {
                 // Deutsch
                 "mythologie", "mythologisch", "mythos", "mythen", "götterwelt", "gott", "götter",
                 "held", "helden",
-                "heldin", "gottheit", "divinität")).stream().toList());
+                "heldin", "gottheit", "divinität")));
 
         tagMap.put(BookTag.LEGEND.getValue(), new HashSet<>(Arrays.asList(
                 // English
@@ -211,7 +212,7 @@ public class TagsMapper {
                 "leyenda", "legendario", "legendaria", "folclore", "saga", "cuento", "heroico",
                 "heroica",
                 // Deutsch
-                "legende", "legendär", "folklore", "saga", "märchen", "heldenhaft")).stream().toList());
+                "legende", "legendär", "folklore", "saga", "märchen", "heldenhaft")));
 
         tagMap.put(BookTag.PSYCHOLOGY.getValue(), new HashSet<>(Arrays.asList(
                 // English
@@ -231,7 +232,7 @@ public class TagsMapper {
                 "comportamiento", "conductual",
                 // Deutsch
                 "psychologie", "psychologisch", "psyche", "psychisch", "kognitiv", "verhalten",
-                "verhaltensbezogen")).stream().toList());
+                "verhaltensbezogen")));
 
         tagMap.put(BookTag.TECHNOLOGY.getValue(), new HashSet<>(Arrays.asList(
                 // English
@@ -253,7 +254,7 @@ public class TagsMapper {
                 // Deutsch
                 "technologie", "technologisch", "technisch", "innovation", "ingenieurwesen", "maschine",
                 "digital",
-                "robotik", "automatisierung", "ki", "künstliche intelligenz")).stream().toList());
+                "robotik", "automatisierung", "ki", "künstliche intelligenz")));
         tagMap.put(BookTag.SCIENCE.getValue(), new HashSet<>(Arrays.asList(
                 "mathématiques", "mathematic", "mathematics", "matemáticas", "matematica", "mathematik",
                 "mathématique", "mathematical", "matemático", "matematico", "matemática",
@@ -270,7 +271,7 @@ public class TagsMapper {
                 "astronomie", "astronomy", "astronomía", "astronomia", "Astronomie",
                 "astronomique", "astronomical", "astronómico", "astronómica", "astronomico",
                 "astronomica",
-                "astronomisch")).stream().toList());
+                "astronomisch")));
         tagMap.put(BookTag.ECONOMICS.getValue(), new HashSet<>(Arrays.asList(
                 "economic", "ökonomisch",
                 // English
@@ -291,7 +292,7 @@ public class TagsMapper {
                 // Deutsch
                 "ökonomie", "wirtschaft", "wirtschaftlich", "volkswirtschaft", "betriebswirtschaft",
                 "markt", "handel",
-                "finanzen", "kapital")).stream().toList());
+                "finanzen", "kapital")));
         tagMap.put(BookTag.ART.getValue(), new HashSet<>(Arrays.asList(
                 "artiste", "artist", "artista", "künstler", "gemälde",
                 // English
@@ -310,7 +311,7 @@ public class TagsMapper {
                 "grabado",
                 // Deutsch
                 "kunst", "künstlerisch", "bildende kunst", "malerei", "skulptur", "zeichnung",
-                "grafik")).stream().toList());
+                "grafik")));
         tagMap.put(BookTag.MUSIC.getValue(), new HashSet<>(Arrays.asList(
                 // English
                 "music", "musical", "musician", "composer", "song", "melody", "harmony", "rhythm",
@@ -331,7 +332,7 @@ public class TagsMapper {
                 // Deutsch
                 "musik", "musikalisch", "musiker", "musikerin", "komponist", "komponistin", "lied",
                 "melodie",
-                "harmonie", "rhythmus", "orchester", "sinfonie", "oper")).stream().toList());
+                "harmonie", "rhythmus", "orchester", "sinfonie", "oper")));
         tagMap.put(BookTag.EDUCATION.getValue(), new HashSet<>(Arrays.asList(
                 "erziehung", "bildend",
                 // English
@@ -351,7 +352,7 @@ public class TagsMapper {
                 "currículo",
                 // Deutsch
                 "bildung", "pädagogisch", "schulisch", "unterricht", "lernen", "pädagogik", "didaktik",
-                "lehrplan")).stream().toList());
+                "lehrplan")));
         tagMap.put(BookTag.ROMAN.getValue(), new HashSet<>(Arrays.asList(
                 // English
                 "novel", "novels", "novelistic", "novelist",
@@ -363,7 +364,7 @@ public class TagsMapper {
                 // Español
                 "novela", "novelas", "novelesco", "novelesca", "novelista", "ficción",
                 // Deutsch
-                "roman", "romane", "romanhaft", "romanautor", "romanautorin", "fiktion")).stream().toList());
+                "roman", "romane", "romanhaft", "romanautor", "romanautorin", "fiktion")));
         tagMap.put(BookTag.ESSAY.getValue(), new HashSet<>(Arrays.asList(
                 // English
                 "essay", "essays", "essayistic", "essayist",
@@ -374,7 +375,7 @@ public class TagsMapper {
                 // Español
                 "ensayo", "ensayos", "ensayístico", "ensayística", "ensayista",
                 // Deutsch
-                "essay", "essays", "essayistisch", "essayist")).stream().toList());
+                "essay", "essays", "essayistisch", "essayist")));
         tagMap.put(BookTag.POETRY.getValue(), new HashSet<>(Arrays.asList(
                 "épique", "epopeya", "épico", "epopea", "epico", "episch",
                 "poetry", "poetical", "poetic", "poem", "poet",
@@ -391,7 +392,7 @@ public class TagsMapper {
                 "soneto", "oda", "haiku", "épica", "balada", "elegía",
                 "poesie", "dichtung", "poetisch", "gedicht", "dichter",
                 "vers", "strophe", "lyrik", "lyrisch",
-                "sonett", "ode", "haiku", "epos", "ballade", "elegie")).stream().toList());
+                "sonett", "ode", "haiku", "epos", "ballade", "elegie")));
         tagMap.put(BookTag.THEATER.getValue(), new HashSet<>(Arrays.asList(
                 "theater", "theatre", "theatrical", "drama", "dramatic",
                 "théâtre", "théâtral", "drame", "dramatique",
@@ -407,7 +408,7 @@ public class TagsMapper {
                 "obra de teatro", "dramaturgo",
                 "tragedia", "trágico", "trágica",
                 "theaterstück", "dramatiker",
-                "tragödie", "tragisch")).stream().toList());
+                "tragödie", "tragisch")));
         tagMap.put(BookTag.BIOGRAPHY.getValue(), new HashSet<>(Arrays.asList(
                 "biographie", "biographique", "biography", "biographical", "biografía", "biográfico",
                 "biografia",
@@ -417,19 +418,19 @@ public class TagsMapper {
                 "journal intime", "diary", "diario", "diarístico", "diaristico", "tagebuch",
                 "journal", "journalistique", "journalistic", "periódico", "periodístico", "giornale",
                 "giornalistico",
-                "zeitung", "journalistisch")).stream().toList());
+                "zeitung", "journalistisch")));
         tagMap.put(BookTag.LETTERS.getValue(), new HashSet<>(Arrays.asList(
                 "lettres", "épistolaire", "letters", "epistolary", "cartas", "epistolar", "lettere",
                 "epistolare",
                 "briefe", "epistolarisch",
-                "lettre", "letter", "carta", "lettera", "brief")).stream().toList());
+                "lettre", "letter", "carta", "lettera", "brief")));
         tagMap.put(BookTag.TALE.getValue(), new HashSet<>(Arrays.asList(
                 "conte", "contesque", "tale", "cuento", "racconto", "erzählung", "märchenhaft",
                 "conte de fées", "féerique", "fairy tale", "cuento de hadas", "de hadas", "fiaba",
                 "fiabesco",
                 "märchen",
                 "fable", "fabuleux", "fabular", "fábula", "fabuloso", "favola", "favolistico", "fabel",
-                "fabelhaft")).stream().toList());
+                "fabelhaft")));
         tagMap.put(BookTag.ENCYCLOPEDIA.getValue(), new HashSet<>(Arrays.asList(
                 "encyclopédie", "encyclopédique", "encyclopedia", "encyclopedic", "enciclopedia",
                 "enciclopédico",
@@ -440,13 +441,13 @@ public class TagsMapper {
                 "dictionnaire", "lexicographique", "dictionary", "lexicographic", "diccionario",
                 "lexicográfico",
                 "dizionario", "lessicografico",
-                "wörterbuch", "lexikographisch")).stream().toList());
+                "wörterbuch", "lexikographisch")));
         tagMap.put(BookTag.CLASSIC.getValue(), new HashSet<>(Arrays.asList(
                 "classic", "classical", "canon", "canonical",
                 "classique", "canon", "canonique",
                 "classico", "classica", "canonico", "canonica",
                 "clásico", "clásica", "canónico", "canónica",
-                "klassisch", "klassiker", "kanonisch")).stream().toList());
+                "klassisch", "klassiker", "kanonisch")));
 
         tagMap.put(BookTag.SCIENCE_FICTION.getValue(), new HashSet<>(Arrays.asList(
                 "science fiction", "sci-fi", "sf", "dystopia", "dystopian",
@@ -471,7 +472,7 @@ public class TagsMapper {
                 "science-fiction", "sci-fi", "sf", "dystopie", "dystopisch",
                 "utopie", "utopisch", "cyberpunk", "space opera", "weltraumoper",
                 "zeitreise", "postapokalyptisch", "apokalyptisch",
-                "spekulative fiktion")).stream().toList());
+                "spekulative fiktion")));
         tagMap.put(BookTag.CHILDREN.getValue(), new HashSet<>(Arrays.asList(
                 // English
                 "children", "child", "kid", "kids", "childhood", "juvenile", "youth", "toddler",
@@ -484,7 +485,7 @@ public class TagsMapper {
                 // Español
                 "niño", "niños", "niña", "niñas", "infancia", "juventud",
                 // Deutsch
-                "kind", "kinder", "kindheit", "jugend", "jugendlich", "junge")).stream().toList());
+                "kind", "kinder", "kindheit", "jugend", "jugendlich", "junge")));
     }
 
     public List<String> fromList(List<String> tags) {
