@@ -6,6 +6,7 @@ import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.entity.BookEntity;
 
+// TODO: remove?
 @Component
 public class MultilingualMapper {
 
