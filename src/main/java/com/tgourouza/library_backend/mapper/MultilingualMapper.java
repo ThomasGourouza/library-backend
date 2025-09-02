@@ -88,69 +88,69 @@ public class MultilingualMapper {
         if (ml == null || entity == null) {
             return;
         }
-        entity.setWikipediaLinkFrench(ml.getFrench());
-        entity.setWikipediaLinkSpanish(ml.getSpanish());
-        entity.setWikipediaLinkItalian(ml.getItalian());
-        entity.setWikipediaLinkPortuguese(ml.getPortuguese());
-        entity.setWikipediaLinkEnglish(ml.getEnglish());
-        entity.setWikipediaLinkGerman(ml.getGerman());
-        entity.setWikipediaLinkRussian(ml.getRussian());
-        entity.setWikipediaLinkJapanese(ml.getJapanese());
+        entity.setWikipediaLinkFrench(ml.french());
+        entity.setWikipediaLinkSpanish(ml.spanish());
+        entity.setWikipediaLinkItalian(ml.italian());
+        entity.setWikipediaLinkPortuguese(ml.portuguese());
+        entity.setWikipediaLinkEnglish(ml.english());
+        entity.setWikipediaLinkGerman(ml.german());
+        entity.setWikipediaLinkRussian(ml.russian());
+        entity.setWikipediaLinkJapanese(ml.japanese());
     }
 
     public void applyMultilingualDescription(Multilingual ml, AuthorEntity entity) {
         if (ml == null || entity == null) {
             return;
         }
-        entity.setDescriptionFrench(ml.getFrench());
-        entity.setDescriptionSpanish(ml.getSpanish());
-        entity.setDescriptionItalian(ml.getItalian());
-        entity.setDescriptionPortuguese(ml.getPortuguese());
-        entity.setDescriptionEnglish(ml.getEnglish());
-        entity.setDescriptionGerman(ml.getGerman());
-        entity.setDescriptionRussian(ml.getRussian());
-        entity.setDescriptionJapanese(ml.getJapanese());
+        entity.setDescriptionFrench(ml.french());
+        entity.setDescriptionSpanish(ml.spanish());
+        entity.setDescriptionItalian(ml.italian());
+        entity.setDescriptionPortuguese(ml.portuguese());
+        entity.setDescriptionEnglish(ml.english());
+        entity.setDescriptionGerman(ml.german());
+        entity.setDescriptionRussian(ml.russian());
+        entity.setDescriptionJapanese(ml.japanese());
     }
 
     public void applyMultilingualShortDescription(Multilingual ml, AuthorEntity entity) {
         if (ml == null || entity == null) {
             return;
         }
-        entity.setShortDescriptionFrench(ml.getFrench());
-        entity.setShortDescriptionSpanish(ml.getSpanish());
-        entity.setShortDescriptionItalian(ml.getItalian());
-        entity.setShortDescriptionPortuguese(ml.getPortuguese());
-        entity.setShortDescriptionEnglish(ml.getEnglish());
-        entity.setShortDescriptionGerman(ml.getGerman());
-        entity.setShortDescriptionRussian(ml.getRussian());
-        entity.setShortDescriptionJapanese(ml.getJapanese());
+        entity.setShortDescriptionFrench(ml.french());
+        entity.setShortDescriptionSpanish(ml.spanish());
+        entity.setShortDescriptionItalian(ml.italian());
+        entity.setShortDescriptionPortuguese(ml.portuguese());
+        entity.setShortDescriptionEnglish(ml.english());
+        entity.setShortDescriptionGerman(ml.german());
+        entity.setShortDescriptionRussian(ml.russian());
+        entity.setShortDescriptionJapanese(ml.japanese());
     }
 
     public void applyMultilingualTitle(Multilingual ml, BookEntity entity) {
         if (ml == null || entity == null) {
             return;
         }
-        entity.setTitleFrench(ml.getFrench());
-        entity.setTitleSpanish(ml.getSpanish());
-        entity.setTitleItalian(ml.getItalian());
-        entity.setTitlePortuguese(ml.getPortuguese());
-        entity.setTitleEnglish(ml.getEnglish());
-        entity.setTitleGerman(ml.getGerman());
-        entity.setTitleRussian(ml.getRussian());
-        entity.setTitleJapanese(ml.getJapanese());
+        entity.setTitleFrench(ml.french());
+        entity.setTitleSpanish(ml.spanish());
+        entity.setTitleItalian(ml.italian());
+        entity.setTitlePortuguese(ml.portuguese());
+        entity.setTitleEnglish(ml.english());
+        entity.setTitleGerman(ml.german());
+        entity.setTitleRussian(ml.russian());
+        entity.setTitleJapanese(ml.japanese());
     }
 
     public void applyMultilingualDescription(Multilingual ml, BookEntity entity) {
         if (ml == null || entity == null) {
             return;
         }
-        entity.setDescriptionFrench(ml.getFrench());
-        entity.setDescriptionSpanish(ml.getSpanish());
-        entity.setDescriptionItalian(ml.getItalian());
-        entity.setDescriptionPortuguese(ml.getPortuguese());
-        entity.setDescriptionEnglish(ml.getEnglish());
-        entity.setDescriptionGerman(ml.getGerman());
-        entity.setDescriptionRussian(ml.getRussian());
-        entity.setDescriptionJapanese(ml.getJapanese());
+        entity.setDescriptionFrench(ml.french());
+        entity.setDescriptionSpanish(ml.spanish());
+        entity.setDescriptionItalian(ml.italian());
+        entity.setDescriptionPortuguese(ml.portuguese());
+        entity.setDescriptionEnglish(ml.english());
+        entity.setDescriptionGerman(ml.german());
+        entity.setDescriptionRussian(ml.russian());
+        entity.setDescriptionJapanese(ml.japanese());
     }
 }

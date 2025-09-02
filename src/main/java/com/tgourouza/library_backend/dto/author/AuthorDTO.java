@@ -12,7 +12,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class AuthorDTO {
+public class AuthorDTO { // TODO: record
 
     private UUID id;
     private String oLKey;

@@ -11,7 +11,7 @@ import lombok.Data;
 
 @Data
 @AllArgsConstructor
-public class BookDTO {
+public class BookDTO { // TODO: record
 
     private UUID id;
     private String originalTitle;
