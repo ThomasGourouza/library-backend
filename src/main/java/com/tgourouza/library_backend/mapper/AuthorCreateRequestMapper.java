@@ -1,11 +1,10 @@
 package com.tgourouza.library_backend.mapper;
 
-import static com.tgourouza.library_backend.util.utils.*;
+import static com.tgourouza.library_backend.util.utils.cleanText;
 
-import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.stereotype.Component;
 
-import com.tgourouza.library_backend.dto.Multilingual;
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.TimePlace;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
@@ -40,15 +39,16 @@ public class AuthorCreateRequestMapper {
                 authorWikidata.citizenships(), // TODO: List<Country>
                 authorWikidata.occupations(), // TODO: List<AuthorTag>
                 authorWikidata.languages(), // TODO: List<DataLanguage>
-                new Multilingual(
-                        authorWikidata.wikipediaFr(),
-                        authorWikidata.wikipediaEs(),
-                        authorWikidata.wikipediaIt(),
-                        authorWikidata.wikipediaPt(),
-                        authorWikidata.wikipediaEn(),
-                        authorWikidata.wikipediaDe(),
-                        authorWikidata.wikipediaRu(),
-                        authorWikidata.wikipediaJa()),
+
+                authorWikidata.wikipediaFr(),
+                authorWikidata.wikipediaEs(),
+                authorWikidata.wikipediaIt(),
+                authorWikidata.wikipediaPt(),
+                authorWikidata.wikipediaEn(),
+                authorWikidata.wikipediaDe(),
+                authorWikidata.wikipediaRu(),
+                authorWikidata.wikipediaJa(),
+
                 dataLanguage);
     }
 }

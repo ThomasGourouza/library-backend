@@ -98,12 +98,6 @@
                     <source>${java.version}</source>
                     <target>${java.version}</target>
 
-                    <!-- Optional but handy: all @Mapper beans become Spring components -->
-                    <compilerArgs>
-                        <arg>-Amapstruct.defaultComponentModel=spring</arg>
-                        <arg>-Amapstruct.suppressGeneratorTimestamp=true</arg>
-                    </compilerArgs>
-
                     <!-- Processors for main sources -->
                     <annotationProcessorPaths>
                         <path>

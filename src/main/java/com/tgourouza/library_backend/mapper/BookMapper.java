@@ -7,6 +7,7 @@ import static com.tgourouza.library_backend.util.utils.toList;
 
 import org.springframework.stereotype.Component;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.TimePlace;
@@ -43,16 +44,17 @@ public class BookMapper {
                 book.getId(),
                 book.getOriginalTitle(),
                 book.getOriginalTitleLanguageEnglish(),
-                multilingualMapper.toMultilingualTitle(book),
+                multilingualMapper.toMultilingualTitle(book).english(), // TODO: Implement translation
                 authorDto,
                 book.getAuthorOLKey(),
                 calculateAuthorAgeAtPublication(book),
                 book.getPublicationYear(),
                 book.getCoverUrl(),
                 book.getNumberOfPages(),
-                multilingualMapper.toMultilingualDescription(book),
+                multilingualMapper.toMultilingualDescription(book).english(), // TODO: Implement translation
                 toList(book.getTagsEnglish()),
                 book.getWikipediaLink(),
+                "", // TODO: Implement translation dataLanguage
                 book.getPersonalNotes(),
                 book.getStatusEnglish(),
                 book.getFavorite());
@@ -63,27 +65,27 @@ public class BookMapper {
             return;
         }
 
-        book.setOriginalTitle(request.getOriginalTitle());
-        book.setOriginalTitleLanguageEnglish(request.getOriginalTitleDataLanguage().getValue());
+        book.setOriginalTitle(request.originalTitle());
+        book.setOriginalTitleLanguageEnglish(request.originalTitleDataLanguage().getValue());
         book.setAuthor(author);
-        book.setAuthorOLKey(request.getAuthorOLKey());
-        book.setPublicationYear(request.getPublicationYear());
-        if (request.getOriginalTitle() != null) {
+        book.setAuthorOLKey(request.authorOLKey());
+        book.setPublicationYear(request.publicationYear());
+        if (request.originalTitle() != null) {
             Multilingual title = mymemoryService.translateTitle(
-                    request.getOriginalTitle(), request.getOriginalTitleDataLanguage());
+                    request.originalTitle(), request.originalTitleDataLanguage());
             multilingualMapper.applyMultilingualTitle(title, book);
         }
-        if (request.getDescription() != null) {
-            Multilingual description = libreTranslateService.translateTextMultilingual(request.getDescription(),
-                    request.getDataLanguage());
+        if (request.description() != null) {
+            Multilingual description = libreTranslateService.translateTextMultilingual(request.description(),
+                    request.dataLanguage());
             multilingualMapper.applyMultilingualDescription(description, book);
         }
-        book.setCoverUrl(request.getCoverUrl());
-        book.setNumberOfPages(request.getNumberOfPages());
+        book.setCoverUrl(request.coverUrl());
+        book.setNumberOfPages(request.numberOfPages());
         // TODO: translate
         // book.setTagsEnglish(toCsv(request.getBookTags().stream().map(tag -> translate(tag, request.getDataLanguage())).toList()));
-        book.setTagsEnglish(toCsv(request.getBookTags()));
-        book.setWikipediaLink(request.getWikipediaLink());
+        book.setTagsEnglish(toCsv(request.bookTags()));
+        book.setWikipediaLink(request.wikipediaLink());
         book.setPersonalNotes("");
         book.setStatusEnglish(Status.UNREAD.getValue());
         book.setFavorite(false);
@@ -99,22 +101,23 @@ public class BookMapper {
                 author.getOLKey(), // String oLKey;
                 author.getName(), // String name;
                 author.getPictureUrl(), // String pictureUrl;
-                multilingualMapper.toMultilingualShortDescription(author), // Multilingual shortDescription;
-                multilingualMapper.toMultilingualDescription(author), // Multilingual description;
+                multilingualMapper.toMultilingualShortDescription(author).english(), // TODO: Implement translation
+                multilingualMapper.toMultilingualDescription(author).english(), // TODO: Implement translation
                 new TimePlace(
                         author.getBirthDate(),
                         author.getBirthCityEnglish(),
-                        author.getBirthCountryEnglish()), // TimePlace birth;
+                        author.getBirthCountryEnglish()), // TimePlace birth; TODO: Country
                 new TimePlace(
                         author.getDeathDate(),
                         author.getDeathCityEnglish(),
-                        author.getDeathCountryEnglish()), // TimePlace death;
+                        author.getDeathCountryEnglish()), // TimePlace death; TODO: Country
                 calculateAuthorAgeAtDeathOrCurrent(author), // Integer ageAtDeathOrCurrent;
-                toList(author.getCitizenshipsEnglish()), // List<String> citizenships;
-                toList(author.getOccupationsEnglish()), // List<String> occupations;
-                toList(author.getLanguagesEnglish()), // List<String> languages;
-                multilingualMapper.toMultilingualWikipediaLink(author), // Multilingual wikipediaLink;
-                null // List<BookDTO> books;
+                toList(author.getCitizenshipsEnglish()), // List<String> citizenships; TODO: List<Country>
+                toList(author.getOccupationsEnglish()), // List<String> occupations; TODO: List<AuthorTag>
+                toList(author.getLanguagesEnglish()), // List<String> languages; TODO: List<DataLanguage>
+                multilingualMapper.toMultilingualWikipediaLink(author).english(), // TODO: Implement translation
+                null,
+                DataLanguage.ENGLISH.getValue() // TODO: Implement language
         );
     }
 }

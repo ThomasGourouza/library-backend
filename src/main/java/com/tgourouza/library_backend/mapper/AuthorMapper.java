@@ -10,6 +10,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.TimePlace;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
@@ -39,8 +40,8 @@ public class AuthorMapper {
                 author.getOLKey(), // String oLKey;
                 author.getName(), // String name;
                 author.getPictureUrl(), // String pictureUrl;
-                multilingualMapper.toMultilingualShortDescription(author), // Multilingual shortDescription;
-                multilingualMapper.toMultilingualDescription(author), // Multilingual description;
+                multilingualMapper.toMultilingualShortDescription(author).english(), // TODO: Implement translation
+                multilingualMapper.toMultilingualDescription(author).english(), // TODO: Implement translation
                 new TimePlace(
                         author.getBirthDate(),
                         author.getBirthCityEnglish(),
@@ -53,8 +54,9 @@ public class AuthorMapper {
                 toList(author.getCitizenshipsEnglish()), // List<String> citizenships; TODO: List<Country>
                 toList(author.getOccupationsEnglish()), // List<String> occupations; TODO: List<AuthorTag>
                 toList(author.getLanguagesEnglish()), // List<String> languages; TODO: List<DataLanguage>
-                multilingualMapper.toMultilingualWikipediaLink(author), // Multilingual wikipediaLink;
-                toDTOsWithoutAuthor(author.getBooks()) // List<BookDTO> books;
+                multilingualMapper.toMultilingualWikipediaLink(author).english(), // TODO: Implement translation
+                toDTOsWithoutAuthor(author.getBooks()), // List<BookDTO> books;
+                DataLanguage.ENGLISH.getValue() // TODO: Implement language
         );
     }
 
@@ -63,33 +65,44 @@ public class AuthorMapper {
             return;
         }
 
-        author.setName(request.getName());
-        author.setOLKey(request.getOLKey());
-        author.setPictureUrl(request.getPictureUrl());
-        if (request.getDescription() != null) {
-            Multilingual description = libreTranslateService.translateTextMultilingual(request.getDescription(),
-                    request.getDataLanguage());
+        author.setName(request.name());
+        author.setOLKey(request.oLKey());
+        author.setPictureUrl(request.pictureUrl());
+        if (request.description() != null) {
+            Multilingual description = libreTranslateService.translateTextMultilingual(request.description(),
+                    request.dataLanguage());
             multilingualMapper.applyMultilingualDescription(description, author);
         }
-        if (request.getShortDescription() != null) {
-            Multilingual shortDescription = libreTranslateService.translateTextMultilingual(request.getShortDescription(),
-                    request.getDataLanguage());
+        if (request.shortDescription() != null) {
+            Multilingual shortDescription = libreTranslateService.translateTextMultilingual(request.shortDescription(),
+                    request.dataLanguage());
             multilingualMapper.applyMultilingualShortDescription(shortDescription, author);
         }
-        if (request.getBirth() != null) {
-            author.setBirthDate(request.getBirth().getDate());
-            author.setBirthCityEnglish(request.getBirth().getCity());
-            author.setBirthCountryEnglish(request.getBirth().getCountry());
+        if (request.birth() != null) {
+            author.setBirthDate(request.birth().date());
+            author.setBirthCityEnglish(request.birth().city());
+            author.setBirthCountryEnglish(request.birth().country());
         }
-        if (request.getDeath() != null) {
-            author.setDeathDate(request.getDeath().getDate());
-            author.setDeathCityEnglish(request.getDeath().getCity());
-            author.setDeathCountryEnglish(request.getDeath().getCountry());
+        if (request.death() != null) {
+            author.setDeathDate(request.death().date());
+            author.setDeathCityEnglish(request.death().city());
+            author.setDeathCountryEnglish(request.death().country());
         }
-        author.setCitizenshipsEnglish(toCsv(request.getCitizenships()));
-        author.setOccupationsEnglish(toCsv(request.getOccupations()));
-        author.setLanguagesEnglish(toCsv(request.getLanguages()));
-        multilingualMapper.applyMultilingualWikipediaLink(request.getWikipediaLink(), author);
+        author.setCitizenshipsEnglish(toCsv(request.citizenships()));
+        author.setOccupationsEnglish(toCsv(request.occupations()));
+        author.setLanguagesEnglish(toCsv(request.languages()));
+        multilingualMapper.applyMultilingualWikipediaLink(
+        new Multilingual(
+            request.wikipediaLinkFrench(),
+            request.wikipediaLinkSpanish(),
+            request.wikipediaLinkItalian(),
+            request.wikipediaLinkPortuguese(),
+            request.wikipediaLinkEnglish(),
+            request.wikipediaLinkGerman(),
+            request.wikipediaLinkRussian(),
+            request.wikipediaLinkJapanese() // TODO: Implement translation
+        )
+        , author); // TODO: Implement translation
     }
 
     private List<BookDTO> toDTOsWithoutAuthor(List<BookEntity> books) {
@@ -108,16 +121,17 @@ public class AuthorMapper {
                 book.getId(),
                 book.getOriginalTitle(),
                 book.getOriginalTitleLanguageEnglish(),
-                multilingualMapper.toMultilingualTitle(book),
+                multilingualMapper.toMultilingualTitle(book).english(), // TODO: Implement translation
                 null,
                 book.getAuthorOLKey(),
                 calculateAuthorAgeAtPublication(book),
                 book.getPublicationYear(),
                 book.getCoverUrl(),
                 book.getNumberOfPages(),
-                multilingualMapper.toMultilingualDescription(book),
+                multilingualMapper.toMultilingualDescription(book).english(), // TODO: Implement translation
                 toList(book.getTagsEnglish()),
                 book.getWikipediaLink(),
+                "", // TODO: Implement translation dataLanguage
                 book.getPersonalNotes(),
                 book.getStatusEnglish(),
                 book.getFavorite());

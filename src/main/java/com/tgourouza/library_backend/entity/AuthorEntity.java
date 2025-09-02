@@ -36,7 +36,7 @@ public class AuthorEntity {
     private String oLKey;
     private String pictureUrl;
 
-    // private Multilingual description;
+    // private String description;
     private String descriptionFrench;
     private String descriptionSpanish;
     private String descriptionItalian;
@@ -46,7 +46,7 @@ public class AuthorEntity {
     private String descriptionRussian;
     private String descriptionJapanese;
 
-    // private Multilingual shortDescription;
+    // private String shortDescription;
     private String shortDescriptionFrench;
     private String shortDescriptionSpanish;
     private String shortDescriptionItalian;
@@ -73,7 +73,7 @@ public class AuthorEntity {
 
     private String languagesEnglish;
 
-    // private Multilingual wikipediaLink;
+    // private String wikipediaLink;
     private String wikipediaLinkFrench;
     private String wikipediaLinkSpanish;
     private String wikipediaLinkItalian;

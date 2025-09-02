@@ -4,10 +4,21 @@ import java.net.URI;
 import java.util.List;
 import java.util.UUID;
 
-import com.tgourouza.library_backend.dto.book.*;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
+import com.tgourouza.library_backend.dto.book.BookCreateRequest;
+import com.tgourouza.library_backend.dto.book.BookDTO;
+import com.tgourouza.library_backend.dto.book.FavoriteUpdateRequest;
+import com.tgourouza.library_backend.dto.book.PersonalNotesUpdateRequest;
+import com.tgourouza.library_backend.dto.book.StatusUpdateRequest;
 import com.tgourouza.library_backend.service.BookService;
 
 import jakarta.validation.Valid;
@@ -34,7 +45,7 @@ public class BookController {
     @PostMapping
     public ResponseEntity<BookDTO> createBook(@Valid @RequestBody BookCreateRequest request) {
         BookDTO dto = bookService.createBook(request);
-        URI location = URI.create("/books/" + dto.getId());
+        URI location = URI.create("/books/" + dto.id());
         return ResponseEntity.created(location).body(dto);
     }
 

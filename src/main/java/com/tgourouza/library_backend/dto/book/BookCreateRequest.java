@@ -5,24 +5,19 @@ import java.util.UUID;
 
 import com.tgourouza.library_backend.constant.DataLanguage;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+public record BookCreateRequest(
+        String originalTitle,
+        DataLanguage originalTitleDataLanguage,
+        String authorOLKey,
+        Integer publicationYear,
+        String coverUrl,
+        Integer numberOfPages,
+        String description,
+        List<String> bookTags,
+        String wikipediaLink,
+        UUID authorId,
 
-@Data
-@AllArgsConstructor
-public class BookCreateRequest {
+        // Data language
+        DataLanguage dataLanguage) {
 
-    private String originalTitle;
-    private DataLanguage originalTitleDataLanguage;
-    private String authorOLKey;
-    private Integer publicationYear;
-    private String coverUrl;
-    private Integer numberOfPages;
-    private String description;
-    private List<String> bookTags;
-    private String wikipediaLink;
-    private UUID authorId;
-
-    // Data language
-    private DataLanguage dataLanguage;
 }

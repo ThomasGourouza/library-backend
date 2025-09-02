@@ -1,14 +1,9 @@
 package com.tgourouza.library_backend.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
 import java.time.LocalDateTime;
 
-@Data
-@AllArgsConstructor
-public class ErrorResponse {
-    private int status;
-    private String message;
-    private LocalDateTime timestamp;
+public record ErrorResponse(
+        int status,
+        String message,
+        LocalDateTime timestamp) {
 }

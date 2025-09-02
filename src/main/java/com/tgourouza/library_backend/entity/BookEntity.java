@@ -41,7 +41,7 @@ public class BookEntity {
     @Column(name = "author_ol_key")
     private String authorOLKey;
     private Integer publicationYear;
-    // private Multilingual title;
+
     private String titleFrench;
     private String titleSpanish;
     private String titleItalian;
@@ -53,7 +53,7 @@ public class BookEntity {
 
     private String coverUrl;
     private Integer numberOfPages;
-    // private Multilingual description;
+
     private String descriptionFrench;
     private String descriptionSpanish;
     private String descriptionItalian;

@@ -74,7 +74,7 @@ public class BookService {
         bookMapper.updateEntity(
                 bookEntity,
                 request,
-                getAuthorEntity(request.getAuthorId())
+                getAuthorEntity(request.authorId())
         );
         return bookMapper.toDTO(bookRepository.save(bookEntity));
     }
