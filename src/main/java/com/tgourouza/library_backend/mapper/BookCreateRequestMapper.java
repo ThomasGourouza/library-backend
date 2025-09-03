@@ -34,7 +34,7 @@ public class BookCreateRequestMapper {
         this.libreTranslateService = libreTranslateService;
     }
 
-    public BookCreateRequest mapToBookCreateRequest(JsonNode doc, JsonNode work, DataLanguage dataLanguage) {
+    public BookCreateRequest mapToBookCreateRequest(JsonNode doc, JsonNode work, DataLanguage originalTitleLanguage) {
         String originalTitle = text(work, "title");
         if (originalTitle.isBlank()) {
             originalTitle = text(doc, "title");
@@ -96,17 +96,19 @@ public class BookCreateRequestMapper {
 
         String wikipedia = readWikipediaLink(work);
 
+        DataLanguage language = originalTitleLanguage != null ? originalTitleLanguage
+                : libreTranslateService.detectLanguage(originalTitle);
+
         return new BookCreateRequest(
                 originalTitle,
-                libreTranslateService.detectLanguage(originalTitle),
+                language,
                 authorOLKey,
                 publicationYear,
                 coverUrl,
                 numberOfPages,
-                libreTranslateService.translateText(cleanText(description), dataLanguage),
+                libreTranslateService.translateTextToEnglish(cleanText(description)),
                 tagsMapper.fromList(tags),
                 wikipedia,
-                authorService.getAuthorEntityId(authorOLKey),
-                dataLanguage);
+                authorService.getAuthorEntityId(authorOLKey));
     }
 }

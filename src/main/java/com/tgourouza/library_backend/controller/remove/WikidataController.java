@@ -1,7 +1,10 @@
-package com.tgourouza.library_backend.controller;
+package com.tgourouza.library_backend.controller.remove;
 
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.tgourouza.library_backend.dto.wikidata.AuthorWikidata;
 import com.tgourouza.library_backend.service.WikidataService;

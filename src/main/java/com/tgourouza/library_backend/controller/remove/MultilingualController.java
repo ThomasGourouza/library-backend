@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.controller;
+package com.tgourouza.library_backend.controller.remove;
 
 import java.net.URI;
 import java.util.List;

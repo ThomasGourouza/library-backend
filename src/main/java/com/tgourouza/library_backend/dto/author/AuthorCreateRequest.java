@@ -2,7 +2,6 @@ package com.tgourouza.library_backend.dto.author;
 
 import java.util.List;
 
-import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.TimePlace;
 
 import jakarta.validation.constraints.NotBlank;
@@ -32,10 +31,7 @@ public record AuthorCreateRequest(
         String wikipediaLinkEnglish,
         String wikipediaLinkGerman,
         String wikipediaLinkRussian,
-        String wikipediaLinkJapanese,
-
-        // Data language
-        DataLanguage dataLanguage
+        String wikipediaLinkJapanese
 ) {
 
 }

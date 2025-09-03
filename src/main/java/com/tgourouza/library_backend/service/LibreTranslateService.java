@@ -3,7 +3,6 @@ package com.tgourouza.library_backend.service;
 import java.util.Arrays;
 import java.util.Objects;
 
-import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
@@ -11,6 +10,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.Multilingual;
 import com.tgourouza.library_backend.dto.libretranslate.DetectResult;
 import com.tgourouza.library_backend.dto.libretranslate.TranslateResponse;
@@ -75,10 +75,19 @@ public class LibreTranslateService {
         return translate(text, null, target).translatedText();
     }
 
+    public String translateTextToEnglish(String text) {
+        return translate(text, null, "en").translatedText();
+    }
+
     public String translateTextFromSource(String text, DataLanguage sourceLanguage, DataLanguage targetLanguage) {
         String target = isoLangMapper.toIso(targetLanguage);
         String source = isoLangMapper.toIso(sourceLanguage);
         return translate(text, source, target).translatedText();
+    }
+
+    public String translateTextFromEnglish(String text, DataLanguage targetLanguage) {
+        String target = isoLangMapper.toIso(targetLanguage);
+        return translate(text, "en", target).translatedText();
     }
 
     public Multilingual translateTextMultilingual(String text, DataLanguage source) {

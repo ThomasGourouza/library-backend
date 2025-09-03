@@ -1,17 +1,22 @@
-package com.tgourouza.library_backend.controller;
+package com.tgourouza.library_backend.controller.remove;
+
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestClientException;
+import org.springframework.web.client.RestClientResponseException;
 
 import com.tgourouza.library_backend.dto.libretranslate.DetectRequest;
 import com.tgourouza.library_backend.dto.libretranslate.DetectResult;
 import com.tgourouza.library_backend.dto.libretranslate.TranslateRequest;
 import com.tgourouza.library_backend.dto.libretranslate.TranslateResponse;
 import com.tgourouza.library_backend.service.LibreTranslateService;
+
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import org.springframework.web.client.RestClientException;
-import org.springframework.web.client.RestClientResponseException;
 
 @Slf4j
 @RestController
@@ -34,7 +39,7 @@ public class LibreTranslateController {
             return ResponseEntity.ok(result);
         } catch (RestClientResponseException e) {
             log.error("libretranslate /detect failed: status={} body={} text_snippet={}",
-                    e.getRawStatusCode(), e.getResponseBodyAsString(), snippet(req.q(), 200), e);
+                    e.getStatusCode().value(), e.getResponseBodyAsString(), snippet(req.q(), 200), e);
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
         } catch (RestClientException e) {
             log.error("libretranslate /detect call error: text_snippet={}", snippet(req.q(), 200), e);
@@ -56,7 +61,7 @@ public class LibreTranslateController {
             return ResponseEntity.ok(resp);
         } catch (RestClientResponseException e) {
             log.error("libretranslate /translate failed: status={} body={} text_snippet={} src={} tgt={}",
-                    e.getRawStatusCode(), e.getResponseBodyAsString(),
+                    e.getStatusCode().value(), e.getResponseBodyAsString(),
                     snippet(req.q(), 200), req.source(), req.target(), e);
             return ResponseEntity.status(HttpStatus.BAD_GATEWAY).build();
         } catch (RestClientException e) {

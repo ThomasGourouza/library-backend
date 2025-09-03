@@ -1,10 +1,12 @@
 package com.tgourouza.library_backend.controller;
 
-import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
@@ -17,14 +19,14 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/openlibrary-wikidata")
-public class OpenLibraryWikiDataController {
+@RequestMapping("/author-info")
+public class AuthorInfoController {
 
     private final OpenLibraryService openLibraryService;
     private final WikidataService wikidataService;
     private final AuthorCreateRequestMapper authorCreateRequestMapper;
 
-    public OpenLibraryWikiDataController(
+    public AuthorInfoController(
             OpenLibraryService openLibraryService,
             WikidataService wikidataService,
             AuthorCreateRequestMapper authorCreateRequestMapper) {
@@ -33,9 +35,9 @@ public class OpenLibraryWikiDataController {
         this.authorCreateRequestMapper = authorCreateRequestMapper;
     }
 
-    @GetMapping(value = "/author-info/{authorKey}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/{authorKey}", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<AuthorCreateRequest> getAuthorCreateRequest(
-            @PathVariable String authorKey, @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+            @PathVariable String authorKey) {
         if (authorKey == null || authorKey.isBlank()) {
             return ResponseEntity.badRequest().build();
         }
@@ -50,6 +52,6 @@ public class OpenLibraryWikiDataController {
         if (authorWikidata == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(authorCreateRequestMapper.mapToAuthorCreateRequest(authorOpenLibrary, authorWikidata, dataLanguage));
+        return ResponseEntity.ok(authorCreateRequestMapper.mapToAuthorCreateRequest(authorOpenLibrary, authorWikidata));
     }
 }

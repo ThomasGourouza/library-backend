@@ -1,8 +1,6 @@
 package com.tgourouza.library_backend.util;
 
-import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Map;
 
 import com.fasterxml.jackson.databind.JsonNode;
 
@@ -109,54 +107,5 @@ public class openLibraryUtils {
     public static String authorImage(int id, char size) {
         // a/id/{id}-{S|M|L}.jpg
         return "https://covers.openlibrary.org/a/id/" + id + "-" + size + ".jpg";
-    }
-
-    /**
-     * Map common language names/synonyms → Wikipedia subdomain (ISO 639-1).
-     * Covers ~30 most spoken languages globally.
-     */
-    private static final Map<String, String> LANGUAGE_TO_WIKI = createWikipediaLangMap();
-
-    private static Map<String, String> createWikipediaLangMap() {
-        Map<String, String> m = new HashMap<>();
-
-        m.put("english", "en");
-        m.put("chinese", "zh");
-        m.put("mandarin", "zh");
-        m.put("hindi", "hi");
-        m.put("spanish", "es");
-        m.put("french", "fr");
-        m.put("arabic", "ar");
-        m.put("bengali", "bn");
-        m.put("portuguese", "pt");
-        m.put("russian", "ru");
-
-        m.put("urdu", "ur");
-        m.put("indonesian", "id");
-        m.put("bahasa indonesia", "id");
-        m.put("german", "de");
-        m.put("japanese", "ja");
-        m.put("swahili", "sw");
-        m.put("marathi", "mr");
-        m.put("telugu", "te");
-        m.put("turkish", "tr");
-        m.put("korean", "ko");
-
-        m.put("vietnamese", "vi");
-        m.put("tamil", "ta");
-        m.put("italian", "it");
-        m.put("persian", "fa");
-        m.put("farsi", "fa");
-        m.put("punjabi", "pa");
-        m.put("gujarati", "gu");
-        m.put("polish", "pl");
-        m.put("ukrainian", "uk");
-        m.put("dutch", "nl");
-        m.put("thai", "th");
-
-        m.put("tagalog", "tl");
-        m.put("filipino", "tl");
-
-        return m;
     }
 }

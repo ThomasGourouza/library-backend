@@ -15,9 +15,6 @@ public record BookCreateRequest(
         String description,
         List<String> bookTags,
         String wikipediaLink,
-        UUID authorId,
-
-        // Data language
-        DataLanguage dataLanguage) {
+        UUID authorId) {
 
 }

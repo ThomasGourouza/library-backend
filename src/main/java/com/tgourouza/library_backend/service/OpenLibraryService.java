@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import com.tgourouza.library_backend.constant.DataLanguage;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
@@ -14,6 +13,7 @@ import org.springframework.web.client.RestClientResponseException;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.openLibrary.AuthorOpenLibrary;
 import com.tgourouza.library_backend.exception.OpenLibraryUpstreamException;
@@ -36,9 +36,9 @@ public class OpenLibraryService {
         this.authorOpenLibraryMapper = authorOpenLibraryMapper;
     }
 
-    public BookCreateRequest getBookCreateRequest(String title, String author, int resultNumber, DataLanguage dataLanguage) {
+    public BookCreateRequest getBookCreateRequest(String originalTitle, DataLanguage originalTitleLanguage, String author, int resultNumber) {
         // 1) Search works
-        Optional<JsonNode> bestDoc = searchBestWorkDoc(title, author, resultNumber);
+        Optional<JsonNode> bestDoc = searchBestWorkDoc(originalTitle, author, resultNumber);
         if (bestDoc.isEmpty()) {
             return null;
         }
@@ -54,7 +54,7 @@ public class OpenLibraryService {
         JsonNode work = getJson("/works/" + workId + ".json");
 
         // 4) Map to BookCreateRequest and return
-        return bookCreateRequestMapper.mapToBookCreateRequest(doc, work, dataLanguage);
+        return bookCreateRequestMapper.mapToBookCreateRequest(doc, work, originalTitleLanguage);
     }
 
     public AuthorOpenLibrary getAuthorOpenLibrary(String authorKey) {
@@ -114,7 +114,7 @@ public class OpenLibraryService {
 
             return Optional.of(works.get(idx));
         } catch (RestClientResponseException ex) {
-            int status = ex.getRawStatusCode();
+            int status = ex.getStatusCode().value();
             if (status == 404) {
                 return null;
             }
@@ -135,7 +135,7 @@ public class OpenLibraryService {
                     .body(String.class);
             return read(json);
         } catch (RestClientResponseException ex) {
-            int status = ex.getRawStatusCode();
+            int status = ex.getStatusCode().value();
             if (status == 404) {
                 return null;
             }
