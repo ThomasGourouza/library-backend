@@ -42,14 +42,14 @@ public class MultilingualController {
         return ResponseEntity.ok(multilingualService.getAll(Type.CITY));
     }
 
-    @GetMapping("/city")
+    @GetMapping("/cities")
     public ResponseEntity<Multilingual> findCity(@RequestParam(required = false) String english) {
         return multilingualService.findByEnglishIgnoreCase(Type.CITY, english)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/city/translate")
+    @GetMapping("/cities/translate")
     public ResponseEntity<String> translateCity(
             @RequestParam("en") String englishValue,
             @RequestParam("target") String targetLanguage) {
@@ -80,14 +80,14 @@ public class MultilingualController {
         return ResponseEntity.ok(multilingualService.getAll(Type.COUNTRY));
     }
 
-    @GetMapping("/country")
+    @GetMapping("/countries")
     public ResponseEntity<Multilingual> findCountry(@RequestParam(required = false) String english) {
         return multilingualService.findByEnglishIgnoreCase(Type.COUNTRY, english)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/country/translate")
+    @GetMapping("/countries/translate")
     public ResponseEntity<String> translateCountry(
             @RequestParam("en") String englishValue,
             @RequestParam("target") String targetLanguage) {
@@ -118,14 +118,14 @@ public class MultilingualController {
         return ResponseEntity.ok(multilingualService.getAll(Type.LANGUAGE));
     }
 
-    @GetMapping("/language")
+    @GetMapping("/languages")
     public ResponseEntity<Multilingual> findLanguage(@RequestParam(required = false) String english) {
         return multilingualService.findByEnglishIgnoreCase(Type.LANGUAGE, english)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/language/translate")
+    @GetMapping("/languages/translate")
     public ResponseEntity<String> translateLanguage(
             @RequestParam("en") String englishValue,
             @RequestParam("target") String targetLanguage) {
@@ -143,15 +143,15 @@ public class MultilingualController {
     }
 
     // Status
-    @PostMapping("/statuses")
+    @PostMapping("/status")
     public ResponseEntity<Multilingual> createStatus(@Valid @RequestBody Multilingual request) {
         Multilingual created = multilingualService.create(Type.STATUS, request);
         return ResponseEntity
-                .created(URI.create("/multilingual/statuses"))
+                .created(URI.create("/multilingual/status"))
                 .body(created);
     }
 
-    @GetMapping("/statuses")
+    @GetMapping("/status")
     public ResponseEntity<List<Multilingual>> getAllStatuses() {
         return ResponseEntity.ok(multilingualService.getAll(Type.STATUS));
     }
@@ -172,7 +172,7 @@ public class MultilingualController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/statuses")
+    @DeleteMapping("/status")
     public ResponseEntity<Void> deleteStatus(@RequestParam(required = false) String english) {
         long deleted = multilingualService.deleteByEnglishIgnoreCase(Type.STATUS, english);
         return (deleted > 0)
@@ -181,15 +181,15 @@ public class MultilingualController {
     }
 
     // BookTags
-    @PostMapping("/book-tags")
+    @PostMapping("/book_tags")
     public ResponseEntity<Multilingual> createBookTag(@Valid @RequestBody Multilingual request) {
         Multilingual created = multilingualService.create(Type.BOOK_TAG, request);
         return ResponseEntity
-                .created(URI.create("/multilingual/book-tags"))
+                .created(URI.create("/multilingual/book_tags"))
                 .body(created);
     }
 
-    @GetMapping("/book-tags")
+    @GetMapping("/book_tags")
     public ResponseEntity<List<Multilingual>> getAllBookTags() {
         return ResponseEntity.ok(multilingualService.getAll(Type.BOOK_TAG));
     }
@@ -210,7 +210,7 @@ public class MultilingualController {
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @DeleteMapping("/book-tags")
+    @DeleteMapping("/book_tags")
     public ResponseEntity<Void> deleteBookTag(@RequestParam(required = false) String english) {
         long deleted = multilingualService.deleteByEnglishIgnoreCase(Type.BOOK_TAG, english);
         return (deleted > 0)
@@ -232,14 +232,14 @@ public class MultilingualController {
         return ResponseEntity.ok(multilingualService.getAll(Type.OCCUPATION));
     }
 
-    @GetMapping("/occupation")
+    @GetMapping("/occupations")
     public ResponseEntity<Multilingual> findOccupation(@RequestParam(required = false) String english) {
         return multilingualService.findByEnglishIgnoreCase(Type.OCCUPATION, english)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/occupation/translate")
+    @GetMapping("/occupations/translate")
     public ResponseEntity<String> translateOccupation(
             @RequestParam("en") String englishValue,
             @RequestParam("target") String targetLanguage) {
