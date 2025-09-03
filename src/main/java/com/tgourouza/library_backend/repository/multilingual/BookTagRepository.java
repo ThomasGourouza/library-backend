@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.repository;
+package com.tgourouza.library_backend.repository.multilingual;
 
 import java.util.Optional;
 import java.util.UUID;
@@ -7,11 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
-import com.tgourouza.library_backend.entity.CityEntity;
+import com.tgourouza.library_backend.entity.multilingual.BookTagEntity;
 
-public interface CityRepository extends JpaRepository<CityEntity, UUID> {
+public interface BookTagRepository extends JpaRepository<BookTagEntity, UUID> {
 
-    Optional<CityEntity> findByEnglishIgnoreCase(String english);
+    Optional<BookTagEntity> findByEnglishIgnoreCase(String english);
 
     long deleteByEnglishIgnoreCase(String english);
 
@@ -28,7 +28,7 @@ public interface CityRepository extends JpaRepository<CityEntity, UUID> {
             when 'ja' then c.japanese
             else null
           end
-        from CityEntity c
+        from BookTagEntity c
         where
           lower(c.english) = lower(:englishValue)
         """)

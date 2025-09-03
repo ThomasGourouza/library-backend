@@ -50,8 +50,8 @@ CREATE TABLE IF NOT EXISTS book_tag (
     japanese    TEXT
 );
 
--- ---------- AUTHOR_TAG ----------
-CREATE TABLE IF NOT EXISTS author_tag (
+-- ---------- OCCUPATION ----------
+CREATE TABLE IF NOT EXISTS occupation (
     id          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     english     TEXT NOT NULL,
     french      TEXT,

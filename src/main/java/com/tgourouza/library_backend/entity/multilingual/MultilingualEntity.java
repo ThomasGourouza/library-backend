@@ -1,4 +1,4 @@
-package com.tgourouza.library_backend.entity;
+package com.tgourouza.library_backend.entity.multilingual;
 
 import java.util.UUID;
 
