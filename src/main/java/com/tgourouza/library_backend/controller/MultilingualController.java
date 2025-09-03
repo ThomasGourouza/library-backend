@@ -42,7 +42,7 @@ public class MultilingualController {
         return ResponseEntity.ok(multilingualService.getAll(Type.CITY));
     }
 
-    @GetMapping("/cities")
+    @GetMapping("/cities/find")
     public ResponseEntity<Multilingual> findCity(@RequestParam(required = false) String english) {
         return multilingualService.findByEnglishIgnoreCase(Type.CITY, english)
                 .map(ResponseEntity::ok)
@@ -80,7 +80,7 @@ public class MultilingualController {
         return ResponseEntity.ok(multilingualService.getAll(Type.COUNTRY));
     }
 
-    @GetMapping("/countries")
+    @GetMapping("/countries/find")
     public ResponseEntity<Multilingual> findCountry(@RequestParam(required = false) String english) {
         return multilingualService.findByEnglishIgnoreCase(Type.COUNTRY, english)
                 .map(ResponseEntity::ok)
@@ -118,7 +118,7 @@ public class MultilingualController {
         return ResponseEntity.ok(multilingualService.getAll(Type.LANGUAGE));
     }
 
-    @GetMapping("/languages")
+    @GetMapping("/languages/find")
     public ResponseEntity<Multilingual> findLanguage(@RequestParam(required = false) String english) {
         return multilingualService.findByEnglishIgnoreCase(Type.LANGUAGE, english)
                 .map(ResponseEntity::ok)
@@ -156,7 +156,7 @@ public class MultilingualController {
         return ResponseEntity.ok(multilingualService.getAll(Type.STATUS));
     }
 
-    @GetMapping("/status")
+    @GetMapping("/status/find")
     public ResponseEntity<Multilingual> findStatus(@RequestParam(required = false) String english) {
         return multilingualService.findByEnglishIgnoreCase(Type.STATUS, english)
                 .map(ResponseEntity::ok)
@@ -194,14 +194,14 @@ public class MultilingualController {
         return ResponseEntity.ok(multilingualService.getAll(Type.BOOK_TAG));
     }
 
-    @GetMapping("/book-tag")
+    @GetMapping("/book_tags/find")
     public ResponseEntity<Multilingual> findBookTag(@RequestParam(required = false) String english) {
         return multilingualService.findByEnglishIgnoreCase(Type.BOOK_TAG, english)
                 .map(ResponseEntity::ok)
                 .orElse(ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/book-tag/translate")
+    @GetMapping("/book_tags/translate")
     public ResponseEntity<String> translateBookTag(
             @RequestParam("en") String englishValue,
             @RequestParam("target") String targetLanguage) {
@@ -232,7 +232,7 @@ public class MultilingualController {
         return ResponseEntity.ok(multilingualService.getAll(Type.OCCUPATION));
     }
 
-    @GetMapping("/occupations")
+    @GetMapping("/occupations/find")
     public ResponseEntity<Multilingual> findOccupation(@RequestParam(required = false) String english) {
         return multilingualService.findByEnglishIgnoreCase(Type.OCCUPATION, english)
                 .map(ResponseEntity::ok)
