@@ -60,8 +60,7 @@ public class BookMapper {
             book.setTitleJapanese(title.japanese());
         }
         if (request.description() != null) {
-            Multilingual description = libreTranslateService.translateTextMultilingual(request.description(),
-                    request.dataLanguage());
+            Multilingual description = libreTranslateService.translateTextMultilingual(request.description());
             book.setDescriptionFrench(description.french());
             book.setDescriptionSpanish(description.spanish());
             book.setDescriptionItalian(description.italian());

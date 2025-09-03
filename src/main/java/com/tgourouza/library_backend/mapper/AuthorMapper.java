@@ -40,8 +40,7 @@ public class AuthorMapper {
         author.setOLKey(request.oLKey());
         author.setPictureUrl(request.pictureUrl());
         if (request.description() != null) {
-            Multilingual description = libreTranslateService.translateTextMultilingual(request.description(),
-                    request.dataLanguage());
+            Multilingual description = libreTranslateService.translateTextMultilingual(request.description());
             author.setDescriptionFrench(description.french());
             author.setDescriptionSpanish(description.spanish());
             author.setDescriptionItalian(description.italian());
@@ -52,8 +51,7 @@ public class AuthorMapper {
             author.setDescriptionJapanese(description.japanese());
         }
         if (request.shortDescription() != null) {
-            Multilingual shortDescription = libreTranslateService.translateTextMultilingual(request.shortDescription(),
-                    request.dataLanguage());
+            Multilingual shortDescription = libreTranslateService.translateTextMultilingual(request.shortDescription());
             author.setShortDescriptionFrench(shortDescription.french());
             author.setShortDescriptionSpanish(shortDescription.spanish());
             author.setShortDescriptionItalian(shortDescription.italian());

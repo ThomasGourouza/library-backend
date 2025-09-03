@@ -70,15 +70,18 @@ public class LibreTranslateService {
                 .body(TranslateResponse.class);
     }
 
+    // TODO: used ?
     public String translateText(String text, DataLanguage targetLanguage) {
         String target = isoLangMapper.toIso(targetLanguage);
         return translate(text, null, target).translatedText();
     }
 
+    // TODO: used ?
     public String translateTextToEnglish(String text) {
         return translate(text, null, "en").translatedText();
     }
 
+    // TODO: used ?
     public String translateTextFromSource(String text, DataLanguage sourceLanguage, DataLanguage targetLanguage) {
         String target = isoLangMapper.toIso(targetLanguage);
         String source = isoLangMapper.toIso(sourceLanguage);
@@ -90,15 +93,15 @@ public class LibreTranslateService {
         return translate(text, "en", target).translatedText();
     }
 
-    public Multilingual translateTextMultilingual(String text, DataLanguage source) {
+    public Multilingual translateTextMultilingual(String text) {
         return new Multilingual(
-                translateTextFromSource(text, source, DataLanguage.FRENCH),
-                translateTextFromSource(text, source, DataLanguage.SPANISH),
-                translateTextFromSource(text, source, DataLanguage.ITALIAN),
-                translateTextFromSource(text, source, DataLanguage.PORTUGUESE),
-                translateTextFromSource(text, source, DataLanguage.ENGLISH),
-                translateTextFromSource(text, source, DataLanguage.GERMAN),
-                translateTextFromSource(text, source, DataLanguage.RUSSIAN),
-                translateTextFromSource(text, source, DataLanguage.JAPANESE));
+                translateTextFromEnglish(text, DataLanguage.FRENCH),
+                translateTextFromEnglish(text, DataLanguage.SPANISH),
+                translateTextFromEnglish(text, DataLanguage.ITALIAN),
+                translateTextFromEnglish(text, DataLanguage.PORTUGUESE),
+                translateTextFromEnglish(text, DataLanguage.ENGLISH),
+                translateTextFromEnglish(text, DataLanguage.GERMAN),
+                translateTextFromEnglish(text, DataLanguage.RUSSIAN),
+                translateTextFromEnglish(text, DataLanguage.JAPANESE));
     }
 }
