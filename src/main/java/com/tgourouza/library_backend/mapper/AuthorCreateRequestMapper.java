@@ -30,15 +30,15 @@ public class AuthorCreateRequestMapper {
                 libreTranslateService.translateTextFromSource(cleanText(authorWikidata.shortDescription()), DataLanguage.ENGLISH, dataLanguage),
                 new TimePlace(
                         authorWikidata.birthDate(),
-                        authorWikidata.birthCity(), // TODO: City
-                        authorWikidata.birthCountry()), // TODO: Country
+                        authorWikidata.birthCity(),
+                        authorWikidata.birthCountry()),
                 new TimePlace(
                         authorWikidata.deathDate(),
-                        authorWikidata.deathCity(), // TODO: Country
-                        authorWikidata.deathCountry()), // TODO: Country
-                authorWikidata.citizenships(), // TODO: List<Country>
-                authorWikidata.occupations(), // TODO: List<AuthorTag>
-                authorWikidata.languages(), // TODO: List<DataLanguage>
+                        authorWikidata.deathCity(),
+                        authorWikidata.deathCountry()),
+                authorWikidata.citizenships(),
+                authorWikidata.occupations(),
+                authorWikidata.languages(),
 
                 authorWikidata.wikipediaFr(),
                 authorWikidata.wikipediaEs(),
