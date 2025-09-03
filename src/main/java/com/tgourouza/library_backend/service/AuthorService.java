@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
@@ -26,15 +27,15 @@ public class AuthorService {
         this.authorMapper = authorMapper;
     }
 
-    public List<AuthorDTO> getAll() {
+    public List<AuthorDTO> getAll(DataLanguage dataLanguage) {
         return authorRepository.findAll()
                 .stream()
-                .map(authorMapper::toDTO)
+                .map(author -> authorMapper.toDTO(author, dataLanguage))
                 .toList();
     }
 
-    public AuthorDTO getById(UUID authorId) {
-        return authorMapper.toDTO(getAuthorEntity(authorId));
+    public AuthorDTO getById(UUID authorId, DataLanguage dataLanguage) {
+        return authorMapper.toDTO(getAuthorEntity(authorId), dataLanguage);
     }
 
     public AuthorDTO create(AuthorCreateRequest request) {
@@ -53,7 +54,8 @@ public class AuthorService {
 
     private AuthorDTO updateEntityAndSave(AuthorCreateRequest request, AuthorEntity author) {
         authorMapper.updateEntity(author, request);
-        return authorMapper.toDTO(authorRepository.save(author));
+        // TODO: not always DataLanguage.ENGLISH
+        return authorMapper.toDTO(authorRepository.save(author), DataLanguage.ENGLISH);
     }
 
     private AuthorEntity getAuthorEntity(UUID authorId) {

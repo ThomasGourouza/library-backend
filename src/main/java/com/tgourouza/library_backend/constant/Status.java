@@ -1,8 +1,9 @@
 package com.tgourouza.library_backend.constant;
 
-import lombok.RequiredArgsConstructor;
 import lombok.Getter;
+import lombok.RequiredArgsConstructor;
 
+// TODO: remove ? -> frontend only
 @RequiredArgsConstructor
 public enum Status {
     UNREAD("Unread"),

@@ -12,8 +12,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.dto.book.FavoriteUpdateRequest;
@@ -33,13 +35,14 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookDTO>> getBooks() {
-        return ResponseEntity.ok(bookService.getAllBooks());
+    public ResponseEntity<List<BookDTO>> getBooks(@RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+        return ResponseEntity.ok(bookService.getAllBooks(dataLanguage));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<BookDTO> getBookById(@PathVariable UUID id) {
-        return ResponseEntity.ok(bookService.getBookById(id));
+    public ResponseEntity<BookDTO> getBookById(@PathVariable UUID id,
+            @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+        return ResponseEntity.ok(bookService.getBookById(id, dataLanguage));
     }
 
     @PostMapping
@@ -52,32 +55,30 @@ public class BookController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteBook(@PathVariable UUID id) {
         bookService.deleteBook(id);
-        return ResponseEntity.noContent().build(); // HTTP 204
+        return ResponseEntity.noContent().build();
     }
 
-     @PatchMapping("/{id}/status")
-     public ResponseEntity<BookDTO> updateStatus(
-             @PathVariable UUID id,
-             @Valid @RequestBody StatusUpdateRequest updateRequest
-     ) {
-         return ResponseEntity.ok(bookService.updateStatus(id, updateRequest.getStatus()));
-     }
+    // TODO
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<BookDTO> updateStatus(
+            @PathVariable UUID id,
+            @Valid @RequestBody StatusUpdateRequest updateRequest) {
+        return ResponseEntity.ok(bookService.updateStatus(id, updateRequest.getStatus()));
+    }
 
-     @PatchMapping("/{id}/favorite")
-     public ResponseEntity<BookDTO> updateFavorite(
-             @PathVariable UUID id,
-             @Valid @RequestBody FavoriteUpdateRequest request
-     ) {
-         BookDTO dto = bookService.updateFavorite(id, request.getFavorite());
-         return ResponseEntity.ok(dto);
-     }
+    @PatchMapping("/{id}/favorite")
+    public ResponseEntity<BookDTO> updateFavorite(
+            @PathVariable UUID id,
+            @Valid @RequestBody FavoriteUpdateRequest request) {
+        BookDTO dto = bookService.updateFavorite(id, request.getFavorite());
+        return ResponseEntity.ok(dto);
+    }
 
-     @PatchMapping("/{id}/personal_notes")
-     public ResponseEntity<BookDTO> updatePersonalNotes(
-             @PathVariable UUID id,
-             @Valid @RequestBody PersonalNotesUpdateRequest request
-     ) {
-         BookDTO dto = bookService.updatePersonalNotes(id, request.getPersonalNotes());
-         return ResponseEntity.ok(dto);
-     }
+    @PatchMapping("/{id}/personal_notes")
+    public ResponseEntity<BookDTO> updatePersonalNotes(
+            @PathVariable UUID id,
+            @Valid @RequestBody PersonalNotesUpdateRequest request) {
+        BookDTO dto = bookService.updatePersonalNotes(id, request.getPersonalNotes());
+        return ResponseEntity.ok(dto);
+    }
 }

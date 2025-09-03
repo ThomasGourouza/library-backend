@@ -19,7 +19,7 @@ public class AuthorMapperHelper {
     public AuthorMapperHelper() {
     }
 
-    public AuthorDTO toDTO(AuthorEntity author, List<BookDTO> books) {
+    public AuthorDTO toDTO(AuthorEntity author, List<BookDTO> books, DataLanguage dataLanguage) {
         if (author == null) {
             return null;
         }

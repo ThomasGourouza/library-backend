@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.service.AuthorService;
@@ -30,13 +32,13 @@ public class AuthorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AuthorDTO>> getAllAuthors() {
-        return ResponseEntity.ok(authorService.getAll());
+    public ResponseEntity<List<AuthorDTO>> getAllAuthors(@RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+        return ResponseEntity.ok(authorService.getAll(dataLanguage));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable UUID id) {
-        return ResponseEntity.ok(authorService.getById(id));
+    public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable UUID id, @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+        return ResponseEntity.ok(authorService.getById(id, dataLanguage));
     }
 
     @PostMapping

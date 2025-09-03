@@ -5,6 +5,7 @@ import java.util.UUID;
 
 import org.springframework.stereotype.Service;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
@@ -31,14 +32,14 @@ public class BookService {
         this.bookMapper = bookMapper;
     }
 
-    public List<BookDTO> getAllBooks() {
+    public List<BookDTO> getAllBooks(DataLanguage dataLanguage) {
         return bookRepository.findAll().stream()
-                .map(bookMapper::toDTO)
+                .map(book -> bookMapper.toDTO(book, dataLanguage))
                 .toList();
     }
 
-    public BookDTO getBookById(UUID bookId) {
-        return bookMapper.toDTO(getBookEntity(bookId));
+    public BookDTO getBookById(UUID bookId, DataLanguage dataLanguage) {
+        return bookMapper.toDTO(getBookEntity(bookId), dataLanguage);
     }
 
     public BookDTO createBook(BookCreateRequest request) {
@@ -55,19 +56,22 @@ public class BookService {
     public BookDTO updateStatus(UUID bookId, String status) {
         BookEntity book = getBookEntity(bookId);
         book.setStatusEnglish(status);
-        return bookMapper.toDTO(bookRepository.save(book));
+        // TODO: not always DataLanguage.ENGLISH
+        return bookMapper.toDTO(bookRepository.save(book), DataLanguage.ENGLISH);
     }
 
     public BookDTO updateFavorite(UUID bookId, Boolean favorite) {
         BookEntity book = getBookEntity(bookId);
         book.setFavorite(favorite);
-        return bookMapper.toDTO(bookRepository.save(book));
+        // TODO: not always DataLanguage.ENGLISH
+        return bookMapper.toDTO(bookRepository.save(book), DataLanguage.ENGLISH);
     }
 
     public BookDTO updatePersonalNotes(UUID bookId, String notes) {
         BookEntity book = getBookEntity(bookId);
         book.setPersonalNotes(notes);
-        return bookMapper.toDTO(bookRepository.save(book));
+        // TODO: not always DataLanguage.ENGLISH
+        return bookMapper.toDTO(bookRepository.save(book), DataLanguage.ENGLISH);
     }
 
     private BookDTO updateEntityAndSave(BookCreateRequest request, BookEntity bookEntity) {
@@ -76,7 +80,8 @@ public class BookService {
                 request,
                 getAuthorEntity(request.authorId())
         );
-        return bookMapper.toDTO(bookRepository.save(bookEntity));
+        // TODO: not always DataLanguage.ENGLISH
+        return bookMapper.toDTO(bookRepository.save(bookEntity), DataLanguage.ENGLISH);
     }
 
     private BookEntity getBookEntity(UUID bookId) {

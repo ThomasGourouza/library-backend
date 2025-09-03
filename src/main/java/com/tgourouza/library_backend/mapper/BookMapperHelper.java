@@ -8,6 +8,7 @@ import java.util.List;
 
 import org.springframework.stereotype.Component;
 
+import com.tgourouza.library_backend.constant.DataLanguage;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.BookEntity;
@@ -18,7 +19,7 @@ public class BookMapperHelper {
     public BookMapperHelper() {
     }
 
-    public BookDTO toDTO(BookEntity book, AuthorDTO authorDto) {
+    public BookDTO toDTO(BookEntity book, AuthorDTO authorDto, DataLanguage dataLanguage) {
         if (book == null) {
             return null;
         }
@@ -42,10 +43,10 @@ public class BookMapperHelper {
                 book.getFavorite());
     }
 
-    public List<BookDTO> toDTOsWithoutAuthor(List<BookEntity> books) {
+    public List<BookDTO> toDTOsWithoutAuthor(List<BookEntity> books, DataLanguage dataLanguage) {
         if (books == null) {
             return Collections.emptyList();
         }
-        return books.stream().map(book -> toDTO(book, null)).toList();
+        return books.stream().map(book -> toDTO(book, null, dataLanguage)).toList();
     }
 }

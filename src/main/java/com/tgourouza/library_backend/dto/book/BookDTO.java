@@ -11,6 +11,7 @@ public record BookDTO(
         String originalTitleLanguage,
         String title,
         AuthorDTO author,
+        // TODO: remove ?
         String authorOLKey,
         Integer authorAgeAtPublication,
         Integer publicationYear,
