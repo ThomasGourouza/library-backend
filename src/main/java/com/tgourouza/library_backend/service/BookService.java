@@ -42,8 +42,8 @@ public class BookService {
         return bookMapper.toDTO(getBookEntity(bookId), dataLanguage);
     }
 
-    public BookDTO createBook(BookCreateRequest request) {
-        return updateEntityAndSave(request, new BookEntity());
+    public BookDTO createBook(BookCreateRequest request, DataLanguage dataLanguage) {
+        return updateEntityAndSave(request, new BookEntity(), dataLanguage);
     }
 
     public void deleteBook(UUID bookId) {
@@ -53,35 +53,31 @@ public class BookService {
         bookRepository.deleteById(bookId);
     }
 
-    public BookDTO updateStatus(UUID bookId, String status) {
+    public BookDTO updateStatus(UUID bookId, String status, DataLanguage dataLanguage) {
         BookEntity book = getBookEntity(bookId);
         book.setStatusEnglish(status);
-        // TODO: not always DataLanguage.ENGLISH
-        return bookMapper.toDTO(bookRepository.save(book), DataLanguage.ENGLISH);
+        return bookMapper.toDTO(bookRepository.save(book), dataLanguage);
     }
 
-    public BookDTO updateFavorite(UUID bookId, Boolean favorite) {
+    public BookDTO updateFavorite(UUID bookId, Boolean favorite, DataLanguage dataLanguage) {
         BookEntity book = getBookEntity(bookId);
         book.setFavorite(favorite);
-        // TODO: not always DataLanguage.ENGLISH
-        return bookMapper.toDTO(bookRepository.save(book), DataLanguage.ENGLISH);
+        return bookMapper.toDTO(bookRepository.save(book), dataLanguage);
     }
 
-    public BookDTO updatePersonalNotes(UUID bookId, String notes) {
+    public BookDTO updatePersonalNotes(UUID bookId, String notes, DataLanguage dataLanguage) {
         BookEntity book = getBookEntity(bookId);
         book.setPersonalNotes(notes);
-        // TODO: not always DataLanguage.ENGLISH
-        return bookMapper.toDTO(bookRepository.save(book), DataLanguage.ENGLISH);
+        return bookMapper.toDTO(bookRepository.save(book), dataLanguage);
     }
 
-    private BookDTO updateEntityAndSave(BookCreateRequest request, BookEntity bookEntity) {
+    private BookDTO updateEntityAndSave(BookCreateRequest request, BookEntity bookEntity, DataLanguage dataLanguage) {
         bookMapper.updateEntity(
                 bookEntity,
                 request,
                 getAuthorEntity(request.authorId())
         );
-        // TODO: not always DataLanguage.ENGLISH
-        return bookMapper.toDTO(bookRepository.save(bookEntity), DataLanguage.ENGLISH);
+        return bookMapper.toDTO(bookRepository.save(bookEntity), dataLanguage);
     }
 
     private BookEntity getBookEntity(UUID bookId) {

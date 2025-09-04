@@ -8,15 +8,20 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.tgourouza.library_backend.constant.DataLanguage;
+import com.tgourouza.library_backend.constant.Type;
 import com.tgourouza.library_backend.dto.TimePlace;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
+import com.tgourouza.library_backend.service.LocalTranslateService;
 
 @Component
 public class AuthorMapperHelper {
 
-    public AuthorMapperHelper() {
+    private final LocalTranslateService localTranslateService;
+
+    public AuthorMapperHelper(LocalTranslateService localTranslateService) {
+        this.localTranslateService = localTranslateService;
     }
 
     public AuthorDTO toDTO(AuthorEntity author, List<BookDTO> books, DataLanguage dataLanguage) {
@@ -24,27 +29,27 @@ public class AuthorMapperHelper {
             return null;
         }
         return new AuthorDTO(
-                author.getId(), // UUID id;
-                author.getOLKey(), // String oLKey;
-                author.getName(), // String name;
-                author.getPictureUrl(), // String pictureUrl;
-                author.getShortDescriptionEnglish(), // TODO: Implement translation
-                author.getDescriptionEnglish(), // TODO: Implement translation
+                author.getId(),
+                author.getOLKey(),
+                author.getName(),
+                author.getPictureUrl(),
+                localTranslateService.translateAuthorShortDescription(author, dataLanguage),
+                localTranslateService.translateAuthorDescription(author, dataLanguage),
                 new TimePlace(
                         author.getBirthDate(),
-                        author.getBirthCityEnglish(),
-                        author.getBirthCountryEnglish()), // TimePlace birth; TODO: Country
+                        localTranslateService.translateFromEnglish(Type.CITY, author.getBirthCityEnglish(), dataLanguage),
+                        localTranslateService.translateFromEnglish(Type.COUNTRY, author.getBirthCountryEnglish(), dataLanguage)),
                 new TimePlace(
                         author.getDeathDate(),
-                        author.getDeathCityEnglish(),
-                        author.getDeathCountryEnglish()), // TimePlace death; TODO: Country
-                calculateAuthorAgeAtDeathOrCurrent(author), // Integer ageAtDeathOrCurrent;
-                toList(author.getCitizenshipsEnglish()), // List<String> citizenships; TODO: List<Country>
-                toList(author.getOccupationsEnglish()), // List<String> occupations; TODO: List<AuthorTag>
-                toList(author.getLanguagesEnglish()), // List<String> languages; TODO: List<DataLanguage>
-                author.getWikipediaLinkEnglish(), // TODO: Implement translation
-                books, // List<BookDTO> books;
-                DataLanguage.ENGLISH.getValue() // TODO: Implement language
+                        localTranslateService.translateFromEnglish(Type.CITY, author.getDeathCityEnglish(), dataLanguage),
+                        localTranslateService.translateFromEnglish(Type.COUNTRY, author.getDeathCountryEnglish(), dataLanguage)),
+                calculateAuthorAgeAtDeathOrCurrent(author),
+                localTranslateService.translateListFromEnglish(Type.COUNTRY, toList(author.getCitizenshipsEnglish()), dataLanguage),
+                localTranslateService.translateListFromEnglish(Type.OCCUPATION, toList(author.getOccupationsEnglish()), dataLanguage),
+                localTranslateService.translateListFromEnglish(Type.LANGUAGE, toList(author.getLanguagesEnglish()), dataLanguage),
+                localTranslateService.translateAuthorWikipediaLink(author, dataLanguage),
+                books,
+                localTranslateService.translateFromEnglish(Type.LANGUAGE, dataLanguage.toString(), dataLanguage)
         );
     }
 }

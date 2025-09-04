@@ -9,14 +9,19 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.tgourouza.library_backend.constant.DataLanguage;
+import com.tgourouza.library_backend.constant.Type;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.BookEntity;
+import com.tgourouza.library_backend.service.LocalTranslateService;
 
 @Component
 public class BookMapperHelper {
 
-    public BookMapperHelper() {
+    private final LocalTranslateService localTranslateService;
+
+    public BookMapperHelper(LocalTranslateService localTranslateService) {
+        this.localTranslateService = localTranslateService;
     }
 
     public BookDTO toDTO(BookEntity book, AuthorDTO authorDto, DataLanguage dataLanguage) {
@@ -26,20 +31,20 @@ public class BookMapperHelper {
         return new BookDTO(
                 book.getId(),
                 book.getOriginalTitle(),
-                book.getOriginalTitleLanguageEnglish(),
-                book.getTitleEnglish(), // TODO: Implement translation
+                localTranslateService.translateFromEnglish(Type.LANGUAGE, book.getOriginalTitleLanguageEnglish(), dataLanguage),
+                localTranslateService.translateBookTitle(book, dataLanguage),
                 authorDto,
                 book.getAuthorOLKey(),
                 calculateAuthorAgeAtPublication(book),
                 book.getPublicationYear(),
                 book.getCoverUrl(),
                 book.getNumberOfPages(),
-                book.getDescriptionEnglish(), // TODO: Implement translation
-                toList(book.getTagsEnglish()),
+                localTranslateService.translateBookDescription(book, dataLanguage),
+                localTranslateService.translateListFromEnglish(Type.BOOK_TAG, toList(book.getTagsEnglish()), dataLanguage),
                 book.getWikipediaLink(),
-                "", // TODO: Implement translation dataLanguage
+                localTranslateService.translateFromEnglish(Type.LANGUAGE, dataLanguage.toString(), dataLanguage),
                 book.getPersonalNotes(),
-                book.getStatusEnglish(),
+                localTranslateService.translateFromEnglish(Type.STATUS, book.getStatusEnglish(), dataLanguage),
                 book.getFavorite());
     }
 

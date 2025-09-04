@@ -86,12 +86,12 @@ public class MultilingualService {
         checkValues(english, isoTargetLanguage);
         String value = english.trim();
         return switch (type) {
-            case CITY -> cityRepository.translate(value, isoTargetLanguage);
-            case BOOK_TAG -> bookTagRepository.translate(value, isoTargetLanguage);
-            case OCCUPATION -> occupationRepository.translate(value, isoTargetLanguage);
-            case STATUS -> statusRepository.translate(value, isoTargetLanguage);
-            case LANGUAGE -> languageRepository.translate(value, isoTargetLanguage);
-            case COUNTRY -> countryRepository.translate(value, isoTargetLanguage);
+            case CITY -> cityRepository.translateIgnoreCase(value, isoTargetLanguage);
+            case BOOK_TAG -> bookTagRepository.translateIgnoreCase(value, isoTargetLanguage);
+            case OCCUPATION -> occupationRepository.translateIgnoreCase(value, isoTargetLanguage);
+            case STATUS -> statusRepository.translateIgnoreCase(value, isoTargetLanguage);
+            case LANGUAGE -> languageRepository.translateIgnoreCase(value, isoTargetLanguage);
+            case COUNTRY -> countryRepository.translateIgnoreCase(value, isoTargetLanguage);
         };
     }
 

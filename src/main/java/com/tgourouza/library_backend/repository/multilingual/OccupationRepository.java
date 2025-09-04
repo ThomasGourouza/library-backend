@@ -32,7 +32,7 @@ public interface OccupationRepository extends JpaRepository<OccupationEntity, UU
         where
           lower(c.english) = lower(:englishValue)
         """)
-    Optional<String> translate(
+    Optional<String> translateIgnoreCase(
         @Param("englishValue") String englishValue,
         @Param("targetLang") String targetLanguage
     );

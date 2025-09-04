@@ -32,7 +32,7 @@ public interface CityRepository extends JpaRepository<CityEntity, UUID> {
         where
           lower(c.english) = lower(:englishValue)
         """)
-    Optional<String> translate(
+    Optional<String> translateIgnoreCase(
         @Param("englishValue") String englishValue,
         @Param("targetLang") String targetLanguage
     );

@@ -38,10 +38,11 @@ public class AuthorService {
         return authorMapper.toDTO(getAuthorEntity(authorId), dataLanguage);
     }
 
-    public AuthorDTO create(AuthorCreateRequest request) {
+    public AuthorDTO create(AuthorCreateRequest request, DataLanguage dataLanguage) {
         return updateEntityAndSave(
                 request,
-                new AuthorEntity()
+                new AuthorEntity(),
+                dataLanguage
         );
     }
 
@@ -52,10 +53,9 @@ public class AuthorService {
         authorRepository.deleteById(authorId);
     }
 
-    private AuthorDTO updateEntityAndSave(AuthorCreateRequest request, AuthorEntity author) {
+    private AuthorDTO updateEntityAndSave(AuthorCreateRequest request, AuthorEntity author, DataLanguage dataLanguage) {
         authorMapper.updateEntity(author, request);
-        // TODO: not always DataLanguage.ENGLISH
-        return authorMapper.toDTO(authorRepository.save(author), DataLanguage.ENGLISH);
+        return authorMapper.toDTO(authorRepository.save(author), dataLanguage);
     }
 
     private AuthorEntity getAuthorEntity(UUID authorId) {

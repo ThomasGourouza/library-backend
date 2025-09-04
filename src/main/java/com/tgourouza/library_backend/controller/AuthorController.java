@@ -42,8 +42,9 @@ public class AuthorController {
     }
 
     @PostMapping
-    public ResponseEntity<AuthorDTO> createAuthor(@Valid @RequestBody AuthorCreateRequest request) {
-        AuthorDTO created = authorService.create(request);
+    public ResponseEntity<AuthorDTO> createAuthor(@Valid @RequestBody AuthorCreateRequest request,
+    @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+        AuthorDTO created = authorService.create(request, dataLanguage);
         URI location = URI.create("/authors/" + created.id());
         return ResponseEntity.created(location).body(created);
     }
