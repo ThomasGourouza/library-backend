@@ -8,6 +8,7 @@ import com.tgourouza.library_backend.dto.book.BookDTO;
 
 public record AuthorDTO(
         UUID id,
+        // TODO: remove
         String oLKey,
         String name,
         String pictureUrl,
@@ -21,6 +22,6 @@ public record AuthorDTO(
         List<String> languages,
         String wikipediaLink,
         List<BookDTO> books,
-
+        // TODO: remove
         String dataLanguage) {
 }

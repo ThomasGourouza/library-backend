@@ -38,16 +38,4 @@ public class BookInfoController {
         }
         return ResponseEntity.ok(bookCreateRequest);
     }
-
-    // @GetMapping(value = "/author/{authorKey}", produces = MediaType.APPLICATION_JSON_VALUE)
-    // public ResponseEntity<AuthorOpenLibrary> getAuthorOpenLibrary(@PathVariable String authorKey) {
-    //     if (authorKey == null || authorKey.isBlank()) {
-    //         return ResponseEntity.badRequest().build();
-    //     }
-    //     AuthorOpenLibrary authorOpenLibrary = openLibraryService.getAuthorOpenLibrary(authorKey); // may throw 502-mapped exceptions
-    //     if (authorOpenLibrary == null) {
-    //         return ResponseEntity.notFound().build();
-    //     }
-    //     return ResponseEntity.ok(authorOpenLibrary);
-    // }
 }

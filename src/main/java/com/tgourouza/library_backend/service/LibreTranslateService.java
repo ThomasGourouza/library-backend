@@ -70,25 +70,11 @@ public class LibreTranslateService {
                 .body(TranslateResponse.class);
     }
 
-    // TODO: used ?
-    public String translateText(String text, DataLanguage targetLanguage) {
-        String target = isoLangMapper.toIso(targetLanguage);
-        return translate(text, null, target).translatedText();
-    }
-
-    // TODO: used ?
     public String translateTextToEnglish(String text) {
         return translate(text, null, "en").translatedText();
     }
 
-    // TODO: used ?
-    public String translateTextFromSource(String text, DataLanguage sourceLanguage, DataLanguage targetLanguage) {
-        String target = isoLangMapper.toIso(targetLanguage);
-        String source = isoLangMapper.toIso(sourceLanguage);
-        return translate(text, source, target).translatedText();
-    }
-
-    public String translateTextFromEnglish(String text, DataLanguage targetLanguage) {
+    private String translateTextFromEnglish(String text, DataLanguage targetLanguage) {
         String target = isoLangMapper.toIso(targetLanguage);
         return translate(text, "en", target).translatedText();
     }

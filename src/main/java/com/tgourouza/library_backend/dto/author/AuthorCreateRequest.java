@@ -9,6 +9,7 @@ import jakarta.validation.constraints.Size;
 
 public record AuthorCreateRequest(
         // Open Library fields
+        // TODO: remove
         String oLKey,
         @NotBlank(message = "Name is required") @Size(max = 255)
         String name,

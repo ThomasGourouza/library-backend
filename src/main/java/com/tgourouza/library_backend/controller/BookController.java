@@ -35,19 +35,19 @@ public class BookController {
     }
 
     @GetMapping
-    public ResponseEntity<List<BookDTO>> getBooks(@RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+    public ResponseEntity<List<BookDTO>> getBooks(@RequestParam(name = "language", required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
         return ResponseEntity.ok(bookService.getAllBooks(dataLanguage));
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<BookDTO> getBookById(@PathVariable UUID id,
-            @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+            @RequestParam(name = "language", required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
         return ResponseEntity.ok(bookService.getBookById(id, dataLanguage));
     }
 
     @PostMapping
     public ResponseEntity<BookDTO> createBook(@Valid @RequestBody BookCreateRequest request,
-            @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+            @RequestParam(name = "language", required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
         BookDTO dto = bookService.createBook(request, dataLanguage);
         URI location = URI.create("/books/" + dto.id());
         return ResponseEntity.created(location).body(dto);
@@ -64,7 +64,7 @@ public class BookController {
     public ResponseEntity<BookDTO> updateStatus(
             @PathVariable UUID id,
             @Valid @RequestBody StatusUpdateRequest updateRequest,
-            @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+            @RequestParam(name = "language", required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
         return ResponseEntity.ok(bookService.updateStatus(id, updateRequest.getStatus(), dataLanguage));
     }
 
@@ -72,7 +72,7 @@ public class BookController {
     public ResponseEntity<BookDTO> updateFavorite(
             @PathVariable UUID id,
             @Valid @RequestBody FavoriteUpdateRequest request,
-            @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+            @RequestParam(name = "language", required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
         BookDTO dto = bookService.updateFavorite(id, request.getFavorite(), dataLanguage);
         return ResponseEntity.ok(dto);
     }
@@ -81,7 +81,7 @@ public class BookController {
     public ResponseEntity<BookDTO> updatePersonalNotes(
             @PathVariable UUID id,
             @Valid @RequestBody PersonalNotesUpdateRequest request,
-            @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+            @RequestParam(name = "language", required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
         BookDTO dto = bookService.updatePersonalNotes(id, request.getPersonalNotes(), dataLanguage);
         return ResponseEntity.ok(dto);
     }

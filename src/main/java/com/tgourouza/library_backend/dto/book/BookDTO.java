@@ -11,7 +11,7 @@ public record BookDTO(
         String originalTitleLanguage,
         String title,
         AuthorDTO author,
-        // TODO: remove ?
+        // TODO: remove
         String authorOLKey,
         Integer authorAgeAtPublication,
         Integer publicationYear,
@@ -21,6 +21,7 @@ public record BookDTO(
         List<String> bookTags,
         String wikipediaLink,
 
+        // TODO: remove
         String dataLanguage,
 
         // Editable fields

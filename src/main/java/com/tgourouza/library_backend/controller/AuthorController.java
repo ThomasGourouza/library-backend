@@ -32,18 +32,18 @@ public class AuthorController {
     }
 
     @GetMapping
-    public ResponseEntity<List<AuthorDTO>> getAllAuthors(@RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+    public ResponseEntity<List<AuthorDTO>> getAllAuthors(@RequestParam(name = "language", required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
         return ResponseEntity.ok(authorService.getAll(dataLanguage));
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable UUID id, @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+    public ResponseEntity<AuthorDTO> getAuthorById(@PathVariable UUID id, @RequestParam(name = "language", required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
         return ResponseEntity.ok(authorService.getById(id, dataLanguage));
     }
 
     @PostMapping
     public ResponseEntity<AuthorDTO> createAuthor(@Valid @RequestBody AuthorCreateRequest request,
-    @RequestParam(required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
+    @RequestParam(name = "language", required = false, defaultValue = "ENGLISH") DataLanguage dataLanguage) {
         AuthorDTO created = authorService.create(request, dataLanguage);
         URI location = URI.create("/authors/" + created.id());
         return ResponseEntity.created(location).body(created);
