@@ -42,7 +42,7 @@ public class BookMapperHelper {
                 localTranslateService.translateBookDescription(book, dataLanguage),
                 localTranslateService.translateListFromEnglish(Type.BOOK_TAG, toList(book.getTagsEnglish()), dataLanguage),
                 book.getWikipediaLink(),
-                localTranslateService.translateFromEnglish(Type.LANGUAGE, dataLanguage.toString(), dataLanguage),
+                localTranslateService.translateFromEnglish(Type.LANGUAGE, dataLanguage.getValue(), dataLanguage),
                 book.getPersonalNotes(),
                 localTranslateService.translateFromEnglish(Type.STATUS, book.getStatusEnglish(), dataLanguage),
                 book.getFavorite());

@@ -49,7 +49,7 @@ public class AuthorMapperHelper {
                 localTranslateService.translateListFromEnglish(Type.LANGUAGE, toList(author.getLanguagesEnglish()), dataLanguage),
                 localTranslateService.translateAuthorWikipediaLink(author, dataLanguage),
                 books,
-                localTranslateService.translateFromEnglish(Type.LANGUAGE, dataLanguage.toString(), dataLanguage)
+                localTranslateService.translateFromEnglish(Type.LANGUAGE, dataLanguage.getValue(), dataLanguage)
         );
     }
 }
