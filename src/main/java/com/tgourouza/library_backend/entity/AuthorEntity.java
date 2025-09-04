@@ -32,7 +32,7 @@ public class AuthorEntity {
     @NotNull
     private String name;
 
-    @Column(name = "ol_key")
+    @Column(name = "ol_key") // TODO: unique
     private String oLKey;
     private String pictureUrl;
 
