@@ -12,5 +12,5 @@ import com.tgourouza.library_backend.entity.AuthorEntity;
 public interface AuthorRepository extends JpaRepository<AuthorEntity, UUID> {
 
     Optional<AuthorEntity> findByoLKey(String oLKey);
-    boolean existsByOlKey(String olKey);
+    boolean existsByoLKey(String oLKey);
 }
