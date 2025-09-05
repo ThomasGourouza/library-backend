@@ -59,7 +59,6 @@ public class BookController {
         return ResponseEntity.noContent().build();
     }
 
-    // TODO
     @PatchMapping("/{id}/status")
     public ResponseEntity<BookDTO> updateStatus(
             @PathVariable UUID id,

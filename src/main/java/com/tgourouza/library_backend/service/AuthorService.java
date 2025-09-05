@@ -10,6 +10,7 @@ import com.tgourouza.library_backend.dto.author.AuthorCreateRequest;
 import com.tgourouza.library_backend.dto.author.AuthorDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
 import com.tgourouza.library_backend.exception.DataNotFoundException;
+import com.tgourouza.library_backend.exception.DuplicateAuthorException;
 import com.tgourouza.library_backend.mapper.AuthorMapper;
 import com.tgourouza.library_backend.repository.AuthorRepository;
 
@@ -55,6 +56,9 @@ public class AuthorService {
 
     private AuthorDTO updateEntityAndSave(AuthorCreateRequest request, AuthorEntity author, DataLanguage dataLanguage) {
         authorMapper.updateEntity(author, request);
+        if (authorRepository.existsByOlKey(author.getOLKey())) {
+            throw new DuplicateAuthorException("Author with ol_key " + author.getOLKey() + " already exists");
+        }
         return authorMapper.toDTO(authorRepository.save(author), dataLanguage);
     }
 

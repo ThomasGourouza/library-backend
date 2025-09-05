@@ -6,6 +6,7 @@ import java.util.UUID;
 import org.springframework.stereotype.Service;
 
 import com.tgourouza.library_backend.constant.DataLanguage;
+import com.tgourouza.library_backend.constant.Status;
 import com.tgourouza.library_backend.dto.book.BookCreateRequest;
 import com.tgourouza.library_backend.dto.book.BookDTO;
 import com.tgourouza.library_backend.entity.AuthorEntity;
@@ -53,9 +54,9 @@ public class BookService {
         bookRepository.deleteById(bookId);
     }
 
-    public BookDTO updateStatus(UUID bookId, String status, DataLanguage dataLanguage) {
+    public BookDTO updateStatus(UUID bookId, Status status, DataLanguage dataLanguage) {
         BookEntity book = getBookEntity(bookId);
-        book.setStatusEnglish(status);
+        book.setStatusEnglish(status.getValue());
         return bookMapper.toDTO(bookRepository.save(book), dataLanguage);
     }
 

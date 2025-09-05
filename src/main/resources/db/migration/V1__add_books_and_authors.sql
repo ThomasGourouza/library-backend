@@ -4,8 +4,8 @@ CREATE EXTENSION IF NOT EXISTS pgcrypto;
 -- ---------- AUTHOR ----------
 CREATE TABLE IF NOT EXISTS author (
     id                          UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-    name                        TEXT        NOT NULL,
-    ol_key                     TEXT,
+    name                        TEXT NOT NULL,
+    ol_key                      TEXT UNIQUE,
     picture_url                 TEXT,
 
     description_french          TEXT,
@@ -63,7 +63,6 @@ CREATE TABLE IF NOT EXISTS book (
     author_id                   UUID       NOT NULL REFERENCES author(id) ON UPDATE RESTRICT ON DELETE RESTRICT,
 
     author_age_at_publication   INTEGER,
-    author_ol_key               TEXT,
     publication_year            INTEGER,
 
     title_french                TEXT,

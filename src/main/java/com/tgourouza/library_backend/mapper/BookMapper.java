@@ -58,7 +58,6 @@ public class BookMapper {
             multilingualService.create(Type.LANGUAGE, language);
         }
         book.setAuthor(author);
-        book.setAuthorOLKey(request.authorOLKey());
         book.setPublicationYear(request.publicationYear());
         Multilingual title = mymemoryService.translateTitle(
                 request.originalTitle(), request.originalTitleDataLanguage());

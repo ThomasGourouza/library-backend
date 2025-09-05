@@ -30,7 +30,6 @@ public class AuthorMapperHelper {
         }
         return new AuthorDTO(
                 author.getId(),
-                author.getOLKey(),
                 author.getName(),
                 author.getPictureUrl(),
                 localTranslateService.translateAuthorShortDescription(author, dataLanguage),
@@ -48,8 +47,7 @@ public class AuthorMapperHelper {
                 localTranslateService.translateListFromEnglish(Type.OCCUPATION, toList(author.getOccupationsEnglish()), dataLanguage),
                 localTranslateService.translateListFromEnglish(Type.LANGUAGE, toList(author.getLanguagesEnglish()), dataLanguage),
                 localTranslateService.translateAuthorWikipediaLink(author, dataLanguage),
-                books,
-                localTranslateService.translateFromEnglish(Type.LANGUAGE, dataLanguage.getValue(), dataLanguage)
+                books
         );
     }
 }

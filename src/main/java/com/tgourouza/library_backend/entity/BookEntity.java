@@ -38,9 +38,6 @@ public class BookEntity {
     @JsonBackReference
     private AuthorEntity author;
 
-    // TODO: remove
-    @Column(name = "author_ol_key")
-    private String authorOLKey;
     private Integer publicationYear;
 
     private String titleFrench;
