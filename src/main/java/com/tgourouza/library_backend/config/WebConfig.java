@@ -1,12 +1,5 @@
 package com.tgourouza.library_backend.config;
 
-import java.io.InputStream;
-import java.net.http.HttpClient;
-import java.security.KeyStore;
-
-import javax.net.ssl.SSLContext;
-import javax.net.ssl.TrustManagerFactory;
-
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -14,7 +7,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import org.springframework.http.client.JdkClientHttpRequestFactory;
 import org.springframework.web.client.RestClient;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -43,30 +35,37 @@ public class WebConfig {
             @Value("${openlibrary.user-agent}") String userAgent,
             @Value("${openlibrary.truststore.path}") Resource tsResource,
             @Value("${openlibrary.truststore.password}") String tsPass) throws Exception {
-
-        JdkClientHttpRequestFactory requestFactory = null;
-        if (tsResource != null && tsResource.exists()) {
-            KeyStore ks = KeyStore.getInstance(KeyStore.getDefaultType());
-            try (var in = tsResource.getInputStream()) {
-                ks.load(in, (tsPass == null ? "" : tsPass).toCharArray());
-            }
-            var tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-            tmf.init(ks);
-            var ssl = SSLContext.getInstance("TLS");
-            ssl.init(null, tmf.getTrustManagers(), null);
-            requestFactory = new JdkClientHttpRequestFactory(HttpClient.newBuilder().sslContext(ssl).build());
-        }
-
-        var b = RestClient.builder()
+        var builder = RestClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
                 .defaultHeader(HttpHeaders.USER_AGENT, userAgent);
+        // dev
+        javax.net.ssl.TrustManager[] trustAll = new javax.net.ssl.TrustManager[] {
+                new javax.net.ssl.X509TrustManager() {
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return new java.security.cert.X509Certificate[0];
+                    }
 
-        if (requestFactory != null) {
-            b = b.requestFactory(requestFactory);
-        }
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] c, String a) {
+                    }
 
-        return b.build();
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] c, String a) {
+                    }
+                }
+        };
+        javax.net.ssl.SSLContext ssl = javax.net.ssl.SSLContext.getInstance("TLS");
+        ssl.init(null, trustAll, new java.security.SecureRandom());
+        javax.net.ssl.SSLParameters params = new javax.net.ssl.SSLParameters();
+        params.setEndpointIdentificationAlgorithm(null);
+        java.net.http.HttpClient insecureHttpClient = java.net.http.HttpClient.newBuilder()
+                .sslContext(ssl)
+                .sslParameters(params)
+                .version(java.net.http.HttpClient.Version.HTTP_1_1) // proxy-friendly
+                .followRedirects(java.net.http.HttpClient.Redirect.NORMAL)
+                .build();
+        builder = builder.requestFactory(
+                new org.springframework.http.client.JdkClientHttpRequestFactory(insecureHttpClient));
+        return builder.build();
     }
 
     @Bean
@@ -76,25 +75,37 @@ public class WebConfig {
             @Value("${mymemory.user-agent}") String userAgent,
             @Value("${mymemory.truststore.path}") Resource truststore,
             @Value("${mymemory.truststore.password}") String truststorePassword) throws Exception {
-
-        KeyStore ts = KeyStore.getInstance(KeyStore.getDefaultType());
-        try (InputStream is = truststore.getInputStream()) {
-            ts.load(is, truststorePassword.toCharArray());
-        }
-        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        tmf.init(ts);
-
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, tmf.getTrustManagers(), null);
-
-        HttpClient httpClient = HttpClient.newBuilder().sslContext(sslContext).build();
-        var requestFactory = new JdkClientHttpRequestFactory(httpClient);
-
-        return RestClient.builder()
+        var builder = RestClient.builder()
                 .baseUrl(baseUrl)
-                .requestFactory(requestFactory)
-                .defaultHeader(HttpHeaders.USER_AGENT, userAgent)
+                .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
+                .defaultHeader(HttpHeaders.USER_AGENT, userAgent);
+        // dev
+        javax.net.ssl.TrustManager[] trustAll = new javax.net.ssl.TrustManager[] {
+                new javax.net.ssl.X509TrustManager() {
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return new java.security.cert.X509Certificate[0];
+                    }
+
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] c, String a) {
+                    }
+
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] c, String a) {
+                    }
+                }
+        };
+        javax.net.ssl.SSLContext ssl = javax.net.ssl.SSLContext.getInstance("TLS");
+        ssl.init(null, trustAll, new java.security.SecureRandom());
+        javax.net.ssl.SSLParameters params = new javax.net.ssl.SSLParameters();
+        params.setEndpointIdentificationAlgorithm(null);
+        java.net.http.HttpClient insecureHttpClient = java.net.http.HttpClient.newBuilder()
+                .sslContext(ssl)
+                .sslParameters(params)
+                .version(java.net.http.HttpClient.Version.HTTP_1_1)
+                .followRedirects(java.net.http.HttpClient.Redirect.NORMAL)
                 .build();
+        builder = builder
+                .requestFactory(new org.springframework.http.client.JdkClientHttpRequestFactory(insecureHttpClient));
+        return builder.build();
     }
 
     @Bean
@@ -104,35 +115,35 @@ public class WebConfig {
             @Value("${wikidata.user-agent}") String userAgent,
             @Value("${wikidata.truststore.path}") Resource truststore,
             @Value("${wikidata.truststore.password}") String truststorePassword) throws Exception {
-
-        // Load truststore (JKS by default)
-        KeyStore ts = KeyStore.getInstance(KeyStore.getDefaultType());
-        try (InputStream is = truststore.getInputStream()) {
-            ts.load(is, truststorePassword.toCharArray());
-        }
-
-        // Init TMF from truststore
-        TrustManagerFactory tmf = TrustManagerFactory.getInstance(TrustManagerFactory.getDefaultAlgorithm());
-        tmf.init(ts);
-
-        // Build SSLContext
-        SSLContext sslContext = SSLContext.getInstance("TLS");
-        sslContext.init(null, tmf.getTrustManagers(), null);
-
-        // JDK HttpClient with our SSL
-        HttpClient httpClient = HttpClient.newBuilder()
-                .sslContext(sslContext)
-                .build();
-
-        var requestFactory = new JdkClientHttpRequestFactory(httpClient);
-
-        // RestClient configured for WDQS
-        return RestClient.builder()
+        var builder = RestClient.builder()
                 .baseUrl(baseUrl)
-                .requestFactory(requestFactory)
                 .defaultHeader(HttpHeaders.ACCEPT, "application/sparql-results+json")
-                .defaultHeader(HttpHeaders.USER_AGENT, userAgent)
+                .defaultHeader(HttpHeaders.USER_AGENT, userAgent);
+        // dev
+        javax.net.ssl.TrustManager[] trustAll = new javax.net.ssl.TrustManager[] {
+                new javax.net.ssl.X509TrustManager() {
+                    public java.security.cert.X509Certificate[] getAcceptedIssuers() {
+                        return new java.security.cert.X509Certificate[0];
+                    }
+                    public void checkClientTrusted(java.security.cert.X509Certificate[] c, String a) {
+                    }
+                    public void checkServerTrusted(java.security.cert.X509Certificate[] c, String a) {
+                    }
+                }
+        };
+        javax.net.ssl.SSLContext ssl = javax.net.ssl.SSLContext.getInstance("TLS");
+        ssl.init(null, trustAll, new java.security.SecureRandom());
+        javax.net.ssl.SSLParameters params = new javax.net.ssl.SSLParameters();
+        params.setEndpointIdentificationAlgorithm(null); // disable hostname verification
+        java.net.http.HttpClient insecureHttpClient = java.net.http.HttpClient.newBuilder()
+                .sslContext(ssl)
+                .sslParameters(params)
+                .version(java.net.http.HttpClient.Version.HTTP_1_1)
+                .followRedirects(java.net.http.HttpClient.Redirect.NORMAL)
                 .build();
+        builder = builder
+                .requestFactory(new org.springframework.http.client.JdkClientHttpRequestFactory(insecureHttpClient));
+        return builder.build();
     }
 
     @Bean
