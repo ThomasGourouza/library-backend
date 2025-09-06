@@ -56,7 +56,7 @@ public class AuthorService {
 
     private AuthorDTO updateEntityAndSave(AuthorCreateRequest request, AuthorEntity author, DataLanguage dataLanguage) {
         authorMapper.updateEntity(author, request);
-        if (authorRepository.existsByOlKey(author.getOLKey())) {
+        if (authorRepository.existsByoLKey(author.getOLKey())) {
             throw new DuplicateAuthorException("Author with ol_key " + author.getOLKey() + " already exists");
         }
         return authorMapper.toDTO(authorRepository.save(author), dataLanguage);
