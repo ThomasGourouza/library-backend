@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.io.Resource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.web.client.RestClient;
@@ -32,9 +31,7 @@ public class WebConfig {
     @Qualifier("openLibraryRestClient")
     public RestClient openLibraryRestClient(
             @Value("${openlibrary.base-url}") String baseUrl,
-            @Value("${openlibrary.user-agent}") String userAgent,
-            @Value("${openlibrary.truststore.path}") Resource tsResource,
-            @Value("${openlibrary.truststore.password}") String tsPass) throws Exception {
+            @Value("${openlibrary.user-agent}") String userAgent) throws Exception {
         var builder = RestClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
@@ -72,9 +69,7 @@ public class WebConfig {
     @Qualifier("mymemoryRestClient")
     public RestClient mymemoryRestClient(
             @Value("${mymemory.base-url}") String baseUrl,
-            @Value("${mymemory.user-agent}") String userAgent,
-            @Value("${mymemory.truststore.path}") Resource truststore,
-            @Value("${mymemory.truststore.password}") String truststorePassword) throws Exception {
+            @Value("${mymemory.user-agent}") String userAgent) throws Exception {
         var builder = RestClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE)
@@ -112,9 +107,7 @@ public class WebConfig {
     @Qualifier("wikidataRestClient")
     public RestClient wikidataRestClient(
             @Value("${wikidata.base-url}") String baseUrl,
-            @Value("${wikidata.user-agent}") String userAgent,
-            @Value("${wikidata.truststore.path}") Resource truststore,
-            @Value("${wikidata.truststore.password}") String truststorePassword) throws Exception {
+            @Value("${wikidata.user-agent}") String userAgent) throws Exception {
         var builder = RestClient.builder()
                 .baseUrl(baseUrl)
                 .defaultHeader(HttpHeaders.ACCEPT, "application/sparql-results+json")

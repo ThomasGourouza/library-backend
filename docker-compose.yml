@@ -10,7 +10,11 @@ services:
       POSTGRES_PASSWORD: admin123
       POSTGRES_DB: library_db
     healthcheck:
-      test: [ "CMD-SHELL", "PGPASSWORD=$$POSTGRES_PASSWORD psql -U $$POSTGRES_USER -d $$POSTGRES_DB -h 127.0.0.1 -p 5432 -c 'SELECT 1' >/dev/null 2>&1" ]
+      test:
+        [
+          "CMD-SHELL",
+          "PGPASSWORD=$$POSTGRES_PASSWORD psql -U $$POSTGRES_USER -d $$POSTGRES_DB -h 127.0.0.1 -p 5432 -c 'SELECT 1' >/dev/null 2>&1",
+        ]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -20,8 +24,13 @@ services:
 
   lt-fix-perms:
     image: libretranslate/libretranslate:v1.7.2
-    user: "0:0"  # root, pour changer les droits
-    entrypoint: [ "sh", "-lc", "mkdir -p /models/packages && chown -R libretranslate:libretranslate /models" ]
+    user: "0:0" # root, pour changer les droits
+    entrypoint:
+      [
+        "sh",
+        "-lc",
+        "mkdir -p /models/packages && chown -R libretranslate:libretranslate /models",
+      ]
     volumes:
       - lt-models:/models
     restart: "no"
@@ -40,29 +49,32 @@ services:
     volumes:
       - lt-models:/home/libretranslate/.local/share/argos-translate
     healthcheck:
-      test: ["CMD", "python", "-c",
-        "import urllib.request,sys; \
-           sys.exit(0) if urllib.request.urlopen('http://127.0.0.1:5000/languages').status==200 else sys.exit(1)"
-      ]
+      test: [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request,sys; \
+          sys.exit(0) if urllib.request.urlopen('http://127.0.0.1:5000/languages').status==200 else sys.exit(1)",
+        ]
       interval: 30s
       timeout: 5s
       retries: 5
-      start_period: 120s   # laisse 2 min au 1er démarrage
+      start_period: 120s # laisse 2 min au 1er démarrage
 
-  # (Optional) Your Spring app
-  # app:
-  #   build:
-  #     context: ./app           # your Spring Boot Docker context
-  #   container_name: app
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - postgres
-  #   environment:
-  #     SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/library_db
-  #     SPRING_DATASOURCE_USERNAME: admin
-  #     SPRING_DATASOURCE_PASSWORD: admin123
-  #   ports:
-  #     - "8080:8080"
+  app:
+    build: .
+    container_name: library-backend
+    image: library-backend:dev
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      SPRING_PROFILES_ACTIVE: dev
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/library_db
+      SPRING_DATASOURCE_USERNAME: admin
+      SPRING_DATASOURCE_PASSWORD: admin123
+    ports:
+      - "8080:8080"
 
 volumes:
   pgdata:
