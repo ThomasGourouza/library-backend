@@ -74,15 +74,20 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      libretranslate:
+        condition: service_healthy
     environment:
       SPRING_PROFILES_ACTIVE: dev
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/library_db
       SPRING_DATASOURCE_USERNAME: admin
       SPRING_DATASOURCE_PASSWORD: admin123
+
+      LIBRETRANSLATE_BASE_URL: http://libretranslate:5000
+      SERVER_PORT: 8081
     ports:
-      - "8080:8080"
+      - "8080:8081"
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8080/actuator/health"]
+      test: ["CMD", "curl", "-f", "http://localhost:8081/actuator/health"]
       interval: 30s
       timeout: 10s
       retries: 5

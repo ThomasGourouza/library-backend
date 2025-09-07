@@ -15,6 +15,6 @@ ENV TZ=Europe/Paris \
 RUN useradd -u 10001 -r -s /sbin/nologin appuser
 WORKDIR /app
 COPY --from=build /app/target/*.jar /app/app.jar
-EXPOSE 8080
+EXPOSE 8081
 USER appuser
 ENTRYPOINT ["java","-jar","/app/app.jar"]
