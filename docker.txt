@@ -1,11 +1,15 @@
-export USER=<YOUR_USER>
+export USER=thomasgourouza
 export VERSION=0.0.1
+
+---
+
+docker login -u $USER
 
 ---
 
 # local: docker compose
 
-docker compose up --build
+docker compose up --build -d
 
 docker tag library-backend:dev $USER/library-backend:dev
 docker push $USER/library-backend:dev
