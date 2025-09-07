@@ -62,9 +62,15 @@ services:
       start_period: 120s # laisse 2 min au 1er démarrage
 
   app:
-    build: .
+    # --- local ---
+    # build: .
+    # image: library-backend:dev
+
+    # --- dockerhub ---
+    image: thomasgourouza/library-backend:0.0.1
+    pull_policy: always
+
     container_name: library-backend
-    image: library-backend:dev
     depends_on:
       postgres:
         condition: service_healthy
