@@ -1,0 +1,15 @@
+docker compose up --build
+
+---
+
+export USER=<YOUR_USER>
+export VERSION=0.0.1
+
+docker build -t $USER/library-backend:$VERSION -t $USER/library-backend:latest .
+docker push $USER/library-backend:$VERSION
+docker push $USER/library-backend:latest
+
+---
+
+docker tag library-backend:dev $USER/library-backend:dev
+docker push $USER/library-backend:dev
