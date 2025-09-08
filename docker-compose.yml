@@ -45,7 +45,7 @@ services:
       LT_HOST: "0.0.0.0"
       LT_PORT: "5000"
       LT_LOAD_ONLY: "en,fr,de,es,it,pt,ru,ja"
-      # LT_UPDATE_MODELS: "true"   # (optionnel) force la MAJ/téléchargement au démarrage
+      LT_UPDATE_MODELS: "true"   # (optionnel) force la MAJ/téléchargement au démarrage
     volumes:
       - lt-models:/home/libretranslate/.local/share/argos-translate
     healthcheck:
