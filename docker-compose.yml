@@ -68,6 +68,7 @@ services:
 
     # --- dockerhub ---
     image: thomasgourouza/library-backend:0.0.1
+    platform: linux/amd64
     pull_policy: always
 
     container_name: library-backend
